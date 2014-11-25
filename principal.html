@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)http://www.jquery4u.com/demos/mobileportfoliosite/ -->
+<html class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><!--<base href="http://www.jquery4u.com/demos/mobileportfoliosite/">--><base href=".">
+        <title>RS Super</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="RS Super, RS Super site">
+        <meta name="author" content="sam deering">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <script type="text/javascript" async="" src="./index_files/ga.js"></script><script src="./index_files/jquery-1.8.3.min.js"></script>
+        <script src="./index_files/jquery.mobile-1.2.0.min.js"></script>
+        <link href="css/jquery.mobile.structure-1.2.0.min.css" rel="stylesheet">
+        <link href="css/jquery.mobile.theme-1.2.0.min.css" rel="stylesheet">
+        <link href="css/jquery.mobile-1.2.0.min.css" rel="stylesheet">
+        <link href="css/photoswipe.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <script src="js/script.js"></script>
+        <script src="js/settings.js"></script>
+        <script src="js/klass.min.js"></script>
+        <script src="js/code.photoswipe.jquery-3.0.5.min.js"></script>
+		<script src="js/comunicacaoWebService.js"></script>
+      <!-- BuySellAds Ad Code -->
+      <link rel="stylesheet" href="http://www.jquery4u.com/demos/bsa_styles.css">
+      <script type="text/javascript" src="./index_files/bsa_script.js"></script>
+      <script type="text/javascript">
+      (function(){
+        var bsa = document.createElement('script');
+           bsa.type = 'text/javascript';
+           bsa.async = true;
+           bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+        (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+      })();
+      </script><script type="text/javascript" async="" src="./index_files/bsa.js"></script>
+      <!-- End BuySellAds Ad Code -->
+
+    <script type="text/javascript" id="_bsap_js_ea957971a5e1fed9f25dd8e7a8b9f59e" src=".js/s_ea957971a5e1fed9f25dd8e7a8b9f59e.js" async="async"></script></head>
+
+    <body class="ui-mobile-viewport ui-overlay-c">
+
+    <!-- BuySellAds Zone Code -->
+    <div id="bsap_1285666" class="bsap_1285666 bsap"></div>
+    <!-- End BuySellAds Zone Code -->
+
+        
+		<!-- homepage -->
+         <div data-role="page" id="inicio" data-title="Inicio" data-url="Inicio">
+            <div data-role="header" class="ui-header ui-bar-a" role="banner">
+                <h1 class="ui-title" role="heading" aria-level="1">RS Super</h1>
+            </div>
+            <div data-role="content" class="ui-content" role="main">
+				<div class="logo">
+								
+								</div>
+                    <div class="pt-menu">
+                        <a data-theme="d" data-corners="false" data-role="button" href="#perfil" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-up-d"><span class="ui-btn-inner"><span class="ui-btn-text">
+                            <img src="img/profile.png" alt="rss" width="50" style="display: block; margin: 0 auto; margin-bottom:10px;">
+                            Perfil
+                        </span></span></a>
+
+                        <a data-theme="d" data-corners="false" data-role="button" href="principal.html#estabelecimento" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-up-d"><span class="ui-btn-inner"><span class="ui-btn-text">
+                            <img src="img/estabelecimento.png" width="50" alt="rss" style="display: block; margin: 0 auto; margin-bottom: 10px;">
+                            Estabelecimentos
+                        </span></span></a>
+
+                        <a data-theme="d" data-corners="false" data-role="button" href="#listas" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-up-d"><span class="ui-btn-inner"><span class="ui-btn-text">
+                            <img src="img/lista.png" width="50" alt="mail" style="display: block; margin: 0 auto; margin-bottom:10px;">
+                            Lista(s)
+                        </span></span></a>
+						
+						<a data-theme="d" data-corners="false" data-role="button" href="#cadastrar_produto" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-up-d"><span class="ui-btn-inner"><span class="ui-btn-text">
+                            <img src="img/produtos.png" width="50" alt="mail" style="display: block; margin: 0 auto; margin-bottom:10px;">
+                            Cadastrar produto
+                        </span></span></a>
+
+
+                    </div>
+
+            </div>
+            <div data-role="footer" class="ui-footer ui-bar-a" role="contentinfo">
+                <h2 class="ui-title" role="heading" aria-level="1">RS Super</h2>
+                <p class="copyright">© Copyright 2013</p>
+            </div>
+        </div>
+
+        <!-- página perfil -->
+        <div data-role="page" id="perfil" data-title="profile" data-url="profile">
+            <div data-role="header">
+                <h1>Meu perfil</h1>
+                <a href="#inicio"><img src="img/home.png" width="30"></a>
+            </div>
+            <div data-role="content">
+
+                <!-- profile image -->
+                <img src="img/m_10.png" alt="mee">
+
+                <!-- my profile -->
+                <div data-role="collapsible-set">
+
+                    <div data-role="collapsible" data-corners="false" class="ui-corner-none" data-collapsed="false">
+                        <h2 class="ui-collapsible-heading"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                            <span class="ui-btn-text">Dados pessoais</span>
+                        </a></h2>
+                        <div class="ui-body ui-body-d ui-textalign-left">
+
+                            <!-- profile fields -->
+                            <div class="tablerow">
+                                <div class="left-table">Nome:</div>
+                                <div class="right-table">Joe Bloggs</div>
+                            </div>
+                            <div class="tablerow">
+                                <div class="left-table">Idade:</div>
+                                <div class="right-table">27</div>
+                            </div>
+                            <div class="tablerow">
+                                <div class="left-table">Sexo:</div>
+                                <div class="right-table">Masculino</div>
+                            </div>
+                            <div class="tablerow">
+                                <div class="left-table">Cidade:</div>
+                                <div class="right-table">Natal</div>
+                            </div>
+                            <div class="tablerow">
+                                <div class="left-table">Trabalho:</div>
+                                <div class="right-table">Desenvolvedor</div>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+
+                    <!-- my skills -->
+                    <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                        <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                            <span class="ui-btn-text">Minhas listas</span>
+                        </a></h2>
+                        <div class="ui-body ui-body-d ui-textalign-left">
+
+                            <div data-role="collapsible-set">
+
+                                <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                                    <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                                        <span class="ui-btn-text">Semanal</span>
+                                    </a></h2>
+                                    <div class="ui-body ui-textalign-left">
+                                        JavaScript (sometimes abbreviated as JS) is a scripting language commonly implemented as part of a web browser in order to create enhanced user interfaces and dynamic websites. <a href="http://en.wikipedia.org/wiki/JavaScript">Wiki</a>
+                                    </div>
+                                </div>
+
+                                <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                                    <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                                        <span class="ui-btn-text">Mensal</span>
+                                    </a></h2>
+                                    <div class="ui-body ui-textalign-left">
+                                        jQuery is a multi-browser JavaScript library designed to simplify the client-side scripting of HTML.[1] It was released in January 2006 at BarCamp NYC by John Resig. It is currently developed by a team of developers led by Dave Methvin. Used by over 55% of the 10,000 most visited websites, jQuery is the most popular JavaScript library in use today.[2][3] <a href="http://en.wikipedia.org/wiki/jQuery">Wiki</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- my employment -->
+                    <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                        <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                            <span class="ui-btn-text">Histórico de compras</span>
+                        </a></h2>
+                        <div class="ui-body ui-body-d ui-textalign-left ui-corner-none" data-corners="false">
+
+                            <div data-role="collapsible-set" class="ui-corner-none" data-corners="false">
+
+                                <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                                    <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                                        <span class="ui-btn-text">2012 - 2013: Nordestão</span>
+                                    </a></h2>
+                                    <div class="ui-body ui-textalign-left">
+                                        Microsoft Corporation is an American multinational software corporation headquartered in Redmond, Washington that develops, manufactures, licenses and supports a wide range of products and services related to computing. The company was founded by Bill Gates and Paul Allen on April 4, 1975. Microsoft is the world's largest software maker measured by revenues.[3] It is also one of the world's most valuable companies.[4] <a href="http://en.wikipedia.org/wiki/Microsoft">Wiki</a>
+                                    </div>
+                                </div>
+
+                                <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                                    <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                                        <span class="ui-btn-text">2010 - 2012: Hiper</span>
+                                    </a></h2>
+                                    <div class="ui-body ui-textalign-left">
+                                         Google Inc. (NASDAQ: GOOG) is an American multinational corporation that provides Internet-related products and services, including internet search, cloud computing, software and advertising technologies.[6] Advertising revenues from AdWords generate almost all of the company's profits.[7][8] <a href="http://en.wikipedia.org/wiki/Google">Wiki</a>
+                                    </div>
+                                </div>
+
+                                <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                                    <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                                        <span class="ui-btn-text">2008 - 2010: Nordestão</span>
+                                    </a></h2>
+                                    <div class="ui-body ui-textalign-left">
+                                         Intel Corporation (NASDAQ: INTC) is an American multinational semiconductor chip maker corporation headquartered in Santa Clara, California. Intel is the world's largest and highest valued semiconductor chip maker, based on revenue.[3] It is the inventor of the x86 series of microprocessors, the processors found in most personal computers. <a href="http://en.wikipedia.org/wiki/Intel">Wiki</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div data-role="footer">
+                <h2>RS Super</h2>
+                <p class="copyright">© Copyright 2014</p>
+            </div>
+        </div>
+
+        <!-- estabelecimento page -->
+        <div data-role="page" id="estabelecimento" data-title="portfolio" data-url="portfolio">
+            <div data-role="header">
+                <h1>Estabelecimentos</h1>
+                <a href="#inicio"><img src="img/home.png" width="30"></a>
+            </div>
+            <div data-role="content">
+
+                <ul data-inset="true" data-role="listview" class="ui-listview ui-listview-inset ui-corner-all ui-shadow ui-corner-none">
+
+                    <!-- portfolio item 1 -->
+                    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="false" data-iconpos="right" data-theme="c" class="portfolio-item ui-btn ui-btn-icon-right ui-li ui-li-has-alt ui-li-has-thumb ui-first-child ui-btn-up-c ui-corner-none"><div class="ui-btn-inner ui-li ui-li-has-alt">
+                        <div class="ui-btn-text">
+                            <a href="#" class="ui-link-inherit ui-corner-none">
+                                <img src="img/1_1.jpg" class="ui-li-thumb ui-corner-none">
+                                <h3 class="ui-li-heading">Estabelecimento 1</h3>
+                                <p class="ui-li-desc">Produtos cadastrados aqui.</p>
+                            </a>
+                        </div>
+                    </div>
+                    <a href="#" title="Purchase album" class="ui-li-link-alt ui-btn ui-btn-icon-notext ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-icon="false" data-iconpos="notext" data-theme="c"><span class="ui-btn-inner"><span class="ui-btn-text"></span><span data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="arrow-r" data-iconpos="notext" data-theme="b" title="" class="ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all ui-btn-icon-notext"><span class="ui-btn-inner"><span class="ui-btn-text"></span><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></span></span></span></a></li>
+
+                    <!-- portfolio item 2 -->
+                    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="false" data-iconpos="right" data-theme="c" class="portfolio-item ui-btn ui-btn-icon-right ui-li ui-li-has-alt ui-li-has-thumb ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li ui-li-has-alt">
+                        <div class="ui-btn-text">
+                            <a href="#" class="ui-link-inherit">
+                                <img src="img/2_1.jpg" class="ui-li-thumb">
+                                <h3 class="ui-li-heading">Estabelecimento 2</h3>
+                                <p class="ui-li-desc">Produtos cadastrados aqui.</p>
+                            </a>
+                        </div>
+                    </div>
+                    <a href="#" title="Purchase album" class="ui-li-link-alt ui-btn ui-btn-icon-notext ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-icon="false" data-iconpos="notext" data-theme="c"><span class="ui-btn-inner"><span class="ui-btn-text"></span><span data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="arrow-r" data-iconpos="notext" data-theme="b" title="" class="ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all ui-btn-icon-notext"><span class="ui-btn-inner"><span class="ui-btn-text"></span><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></span></span></span>
+                    </a></li>
+
+                    <!-- portfolio item 3 -->
+                    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="false" data-iconpos="right" data-theme="c" class="portfolio-item ui-btn ui-btn-icon-right ui-li ui-li-has-alt ui-li-has-thumb ui-btn-up-c"><div class="ui-btn-inner ui-li ui-li-has-alt"><div class="ui-btn-text"><a href="http://www.jquery4u.com/demos/mobileportfoliosite/#portfolio3" class="ui-link-inherit">
+                    <img src="img/4_1.jpg" class="ui-li-thumb">
+                    <h3 class="ui-li-heading">Estabelecimento 3</h3>
+                    <p class="ui-li-desc">Produtos cadastrados aqui.</p></a>
+
+                    </div></div><a href="#" title="Purchase album" class="ui-li-link-alt ui-btn ui-btn-icon-notext ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-icon="false" data-iconpos="notext" data-theme="c"><span class="ui-btn-inner"><span class="ui-btn-text"></span><span data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="arrow-r" data-iconpos="notext" data-theme="b" title="" class="ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all ui-btn-icon-notext"><span class="ui-btn-inner"><span class="ui-btn-text"></span><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></span></span></span></a></li>
+
+                    <!-- portfolio item 4 -->
+                    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="false" data-iconpos="right" data-theme="c" class="portfolio-item ui-btn ui-btn-icon-right ui-li ui-li-has-alt ui-li-has-thumb ui-btn-up-c ui-corner-none"><div class="ui-btn-inner ui-li ui-li-has-alt"><div class="ui-btn-text"><a href="http://www.jquery4u.com/demos/mobileportfoliosite/#portfolio4" class="ui-link-inherit">
+                    <img src="img/3_1.jpg" class="ui-li-thumb ui-corner-none">
+                    <h3 class="ui-li-heading">Estabelecimento 4</h3>
+                    <p class="ui-li-desc">Produtos cadastrados aqui.</p></a>
+
+                    </div></div><a href="#" title="Purchase album" class="ui-li-link-alt ui-btn ui-btn-icon-notext ui-btn-up-d" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="span" data-icon="false" data-iconpos="notext" data-theme="c"><span class="ui-btn-inner"><span class="ui-btn-text"></span><span data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="arrow-r" data-iconpos="notext" data-theme="d" title="" class="ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all ui-btn-icon-notext"><span class="ui-btn-inner"><span class="ui-btn-text"></span><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></span></span></span></a></li>
+
+                </ul>
+
+                <div>
+                   
+				   <!-- next page link -->
+                    <a class="next-btn" data-theme="c" data-corners="false" data-role="button" data-inline="true" data-icon="arrow-r" data-iconpos="right" href="#cadastrar_produto">
+                        <img src="img/produtos.png" width="50" alt="rss" style="display: block; margin: 0 auto; margin-bottom:10px;">
+                        Cadastrar produtos
+                    </a>
+                </div>
+
+            </div>
+            <div data-role="footer">
+                <h2>RS Super</h2>
+                <p class="copyright">© Copyright 2013</p>
+            </div>
+        </div>
+		
+		<!-- página listas -->
+        <div data-role="page" id="listas" data-title="Listas de compras" data-url="Listas de compras">
+            <div data-role="header">
+                <h1>Minha(s) lista(s)</h1>
+                <a href="#inicio"><img src="img/home.png" width="30"></a>
+            </div>
+            <div data-role="content">
+
+                <!-- profile image -->
+                <img src="img/lista.png" width="60" alt="mee">
+
+                <!-- my profile -->
+                <div data-role="collapsible-set">
+
+                    <!-- minhas listas -->
+                    <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                        <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                            <span class="ui-btn-text">Minhas listas</span>
+                        </a></h2>
+                        <div class="ui-body ui-body-d ui-textalign-left">
+
+                            <div data-role="collapsible-set">
+
+                                <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                                    <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                                        <span class="ui-btn-text">Semanal</span>
+                                    </a></h2>
+                                    <div class="ui-body ui-textalign-left">
+                                        JavaScript (sometimes abbreviated as JS) is a scripting language commonly implemented as part of a web browser in order to create enhanced user interfaces and dynamic websites. <a href="http://en.wikipedia.org/wiki/JavaScript">Wiki</a>
+                                    </div>
+                                </div>
+
+                                <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                                    <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                                        <span class="ui-btn-text">Mensal</span>
+                                    </a></h2>
+                                    <div class="ui-body ui-textalign-left">
+                                        jQuery is a multi-browser JavaScript library designed to simplify the client-side scripting of HTML.[1] It was released in January 2006 at BarCamp NYC by John Resig. It is currently developed by a team of developers led by Dave Methvin. Used by over 55% of the 10,000 most visited websites, jQuery is the most popular JavaScript library in use today.[2][3] <a href="http://en.wikipedia.org/wiki/jQuery">Wiki</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- my employment -->
+                    <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                        <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                            <span class="ui-btn-text">Histórico de compras</span>
+                        </a></h2>
+                        <div class="ui-body ui-body-d ui-textalign-left ui-corner-none" data-corners="false">
+
+                            <div data-role="collapsible-set" class="ui-corner-none" data-corners="false">
+
+                                <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                                    <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                                        <span class="ui-btn-text">2012 - 2013: Nordestão</span>
+                                    </a></h2>
+                                    <div class="ui-body ui-textalign-left">
+                                        Microsoft Corporation is an American multinational software corporation headquartered in Redmond, Washington that develops, manufactures, licenses and supports a wide range of products and services related to computing. The company was founded by Bill Gates and Paul Allen on April 4, 1975. Microsoft is the world's largest software maker measured by revenues.[3] It is also one of the world's most valuable companies.[4] <a href="http://en.wikipedia.org/wiki/Microsoft">Wiki</a>
+                                    </div>
+                                </div>
+
+                                <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                                    <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                                        <span class="ui-btn-text">2010 - 2012: Hiper</span>
+                                    </a></h2>
+                                    <div class="ui-body ui-textalign-left">
+                                         Google Inc. (NASDAQ: GOOG) is an American multinational corporation that provides Internet-related products and services, including internet search, cloud computing, software and advertising technologies.[6] Advertising revenues from AdWords generate almost all of the company's profits.[7][8] <a href="http://en.wikipedia.org/wiki/Google">Wiki</a>
+                                    </div>
+                                </div>
+
+                                <div data-role="collapsible" data-corners="false" class="ui-corner-none">
+                                    <h2 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-up-d" href="http://www.jquery4u.com/demos/mobileportfoliosite/#" data-corners="false" data-shadow="false" data-iconshadow="true" data-icon="plus" data-iconpos="left" data-theme="d">
+                                        <span class="ui-btn-text">2008 - 2010: Nordestão</span>
+                                    </a></h2>
+                                    <div class="ui-body ui-textalign-left">
+                                         Intel Corporation (NASDAQ: INTC) is an American multinational semiconductor chip maker corporation headquartered in Santa Clara, California. Intel is the world's largest and highest valued semiconductor chip maker, based on revenue.[3] It is the inventor of the x86 series of microprocessors, the processors found in most personal computers. <a href="http://en.wikipedia.org/wiki/Intel">Wiki</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div data-role="footer">
+                <h2>RS Super</h2>
+                <p class="copyright">© Copyright 2014</p>
+            </div>
+        </div>
+
+        <!-- Cadastrar produto page -->
+        <div data-role="page" id="cadastrar_produto" data-title="Cadastrar produtos" data-url="Cadastrar produtos">
+            <div data-role="header" style="height: 60px;">
+                <h1 style="padding-top: 11px;">Cadastrar produto</h1>
+				<div id="deviceready" class="blink">
+					<p class="event listening"></p>
+					<p class="event received"></p>
+				</div>
+				<a href="#inicio" style="padding-top: 12px;"><img src="img/home.png" width="30"></a>
+            </div>
+            <div data-role="content">
+                <form method="POST" action="" id="contact" novalidate="novalidate">
+				<div id="deviceready" class="blink">
+					<p class="event listening"></p>
+					<p class="event received"></p>
+				</div> 
+				<p><a href="#" class="topcoat-button" id="scan"><img src="img/icon_codebar.png" width="40" style="float: right; position: absolute; top: 0px; right: 0px; padding: 15px;"></a></p> 
+				<!-- <p><a href="#" class="topcoat-button" id="encode">ENCODE</a></p>-->
+				<p id="info"></p>
+				
+                    <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                        <label for="name" class="ui-input-text">
+                            Cód. de barras*:
+                        </label>
+                        <input type="text" class="required ui-input-text ui-body-d ui-corner-none ui-shadow-inset" value="" name="name" id="cod_barra" data-corners="false">
+                    </div>
+					<div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                        <label for="name" class="ui-input-text">
+                            Formato: *:
+                        </label>
+                        <input type="text" class="required ui-input-text ui-body-d ui-corner-none ui-shadow-inset" value="" name="name" id="formato" data-corners="false">
+                    </div>
+					<div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                        <label for="name" class="ui-input-text">
+                            Nome do prod.: *:
+                        </label>
+                        <input type="text" class="required ui-input-text ui-body-d ui-corner-none ui-shadow-inset" value="" name="name" id="nome_produto" data-corners="false">
+                    </div>
+                    <button type="submit" data-theme="d" name="submit" value="button" onclick="cadastrarProduto();" class="ui-btn-hidden" aria-disabled="false" data-corners="false">Cadastrar</button>
+                </form>
+
+            </div>
+            <div data-role="footer">
+                <h2>RS Super</h2>
+                <p class="copyright">© Copyright 2013</p>
+            </div>
+        </div>
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="barcodescanner.js"></script>
+<script type="text/javascript" src="js/index.js"></script> 
+<script type="text/javascript">
+	app.initialize();
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-44788261-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div></body></html>
