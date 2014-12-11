@@ -25,6 +25,8 @@ function fazerLogin() {
 					else 
 					{
 						alert("Logado com sucesso!");
+						window.localStorage.UsuarioEmail=email;
+						window.localStorage.UsuarioToken=token;
 						window.location = "principal.html";
 						return;
 					}
@@ -39,6 +41,45 @@ function fazerLogin() {
     } else {
         alert("Email ou senha incorretos");
     }
+}
+//------Verificar se o usuario esta logado---------//
+function verificarLogin() {
+    var email = window.localStorage.UsuarioEmail;
+	var token = window.localStorage.UsuarioToken;
+     
+		 $.ajax({
+                type: 'POST'
+                , url: "http://localhost:52192/Servidor/Usuario.asmx/verificarLogin"
+				, crossDomain:true
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: "{email:'"+email+"',token:'"+token+"'}"
+                , success: function (data, status) {
+                    
+					var itens = $.parseJSON(data.d);
+					if(itens == "-1")
+                    
+					{
+						return;							
+					}
+					else 
+					{
+						window.location = "principal.html";
+						return;
+					}
+                }
+                , error: function (xmlHttpRequest, status, err) {
+                    $('.resultado').html('Ocorreu um erro');
+                }
+            });
+}
+
+//---------Logout-----///
+function logout() {
+    window.localStorage.UsuarioEmail='';
+	window.localStorage.UsuarioToken='';
+	window.localStorage.UsuarioNome='';
+	window.location = "index.html"
 }
 
 
@@ -105,6 +146,9 @@ function cadastrarUsuario() {
 					if(itens[0] == "0")
 					{
 						alert("Usuario cadastrado com sucesso!");
+						window.localStorage.UsuarioNome=nome;
+						window.localStorage.UsuarioEmail=email;
+						window.localStorage.UsuarioToken=token;
 						window.location = "principal.html";
 						return;
 					}
