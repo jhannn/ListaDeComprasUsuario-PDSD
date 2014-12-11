@@ -1,3 +1,6 @@
+var ID_USUARIO = 3;
+var TOKEN = "1245723423322";
+
 //____________________________________ FAZER LOGIN ______________________________________________//
 function fazerLogin() {
     var email = $("#email_logar").val();
@@ -24,7 +27,7 @@ function fazerLogin() {
 					}
 					else 
 					{
-						alert("Logado com sucesso!");
+						//alert("Logado com sucesso!");
 						window.localStorage.UsuarioEmail=email;
 						window.localStorage.UsuarioToken=token;
 						window.location = "principal.html";
@@ -46,25 +49,55 @@ function fazerLogin() {
 function verificarLogin() {
     var email = window.localStorage.UsuarioEmail;
 	var token = window.localStorage.UsuarioToken;
-     
-		 $.ajax({
+			$.ajax({
+					type: 'POST'
+					, url: "http://localhost:52192/Servidor/Usuario.asmx/verificarLogin"
+					, crossDomain:true
+					, contentType: 'application/json; charset=utf-8'
+					, dataType: 'json'
+					, data: "{email:'"+email+"',token:'"+token+"'}"
+					, success: function (data, status) {
+						
+						var itens = $.parseJSON(data.d);
+						if(itens == "-1")                    
+						{
+							return;							
+						}
+						else 
+						{
+							window.location = "principal.html";
+							return;
+						}
+					}
+					, error: function (xmlHttpRequest, status, err) {
+						$('.resultado').html('Ocorreu um erro');
+					}
+			});
+}
+
+//---------Logout-----///
+function logout() {
+	var email= window.localStorage.UsuarioEmail;
+			  $.ajax({
                 type: 'POST'
-                , url: "http://localhost:52192/Servidor/Usuario.asmx/verificarLogin"
+                , url: "http://localhost:52192/Servidor/Usuario.asmx/logout"
 				, crossDomain:true
                 , contentType: 'application/json; charset=utf-8'
                 , dataType: 'json'
-                , data: "{email:'"+email+"',token:'"+token+"'}"
+                , data: "{email:'"+email+"'}"
                 , success: function (data, status) {
                     
 					var itens = $.parseJSON(data.d);
-					if(itens == "-1")
-                    
+					if(itens == "0")                    
 					{
+						window.localStorage.UsuarioEmail='';
+						window.localStorage.UsuarioToken='';
+						window.localStorage.UsuarioNome='';
+						window.location = "index.html";
 						return;							
 					}
 					else 
 					{
-						window.location = "principal.html";
 						return;
 					}
                 }
@@ -73,15 +106,6 @@ function verificarLogin() {
                 }
             });
 }
-
-//---------Logout-----///
-function logout() {
-    window.localStorage.UsuarioEmail='';
-	window.localStorage.UsuarioToken='';
-	window.localStorage.UsuarioNome='';
-	window.location = "index.html"
-}
-
 
 //__________________________________ CADASTRAR PRODUTO ______________________________________//
 var listaDeProdutos = [];
@@ -124,7 +148,7 @@ function cadastrarUsuario() {
 		}
 	///////////teste senha///////////
 		if(senha.length<4){
-			alert("Senha deve ser maior que 3 caracteres.");
+			alert("Senha deve ter pelo menos 4 caracteres.");
 			window.location = "#";
 			return;
 		}
@@ -186,12 +210,74 @@ function cadastrarUsuario() {
 	//window.location = "principal.html#Inicio";
 }
 
+/////////////////Atualizar Senha Usuario//////////
+function atualizarSenhaUsuario() {
+	//Pegar os parametros
+	var email = window.localStorage.UsuarioEmail;
+	var senha = $("#senha").val();
+	var novaSenha = $("#novaSenha").val();
+	var confirmar = $("#confirmarSenha").val();
+    
+	if(email.trim()!='' && senha.trim()!='' && novaSenha.trim()!=''){ //checa se campos foram preenchidos
+	///////////teste senha///////////
+		if(novaSenha.length<4){
+			alert("Senha deve ter pelo menos 4 caracteres.");
+			window.location = "#";
+			return;
+		}
+	///// senha e confirmação de senha são iguais
+		if(novaSenha == confirmar){		
+			 $.ajax({
+                type: 'POST'
+                , url: "http://localhost:52192/Servidor/Usuario.asmx/atualizarSenhaUsuario"
+				, crossDomain:true
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: "{email:'"+email+"',senha:'"+senha+"',novaSenha:'"+novaSenha+"'}"
+                , success: function (data, status) {
+                    
+					var itens = $.parseJSON(data.d);
+                    
+					if(itens[0] == "0")
+					{
+						alert("Usuario atualizado com sucesso!");
+						window.location = "perfil.html";
+						return;
+					}
+					else
+					{
+						alert("Ocorreu algum erro, repita o processo novamente!");
+						return;
+					}
+                }
+                , error: function (xmlHttpRequest, status, err) {
+                    $('.resultado').html('Ocorreu um erro');
+                }
+            });
+
+			window.localStorage.UsuarioNome=nome;
+			window.localStorage.UsuarioEmail=email;
+			window.localStorage.UsuarioToken=token;
+		}else{ //senhas não conferem
+			alert("Senhas não conferem!");	
+			window.location = "#";
+			return;
+		}	
+	}
+	else //campos vazio
+	{  
+		alert("Campo vazio!");
+		window.location = "#cadastrarUsuario";
+		return;
+	}	
+}
+
 //___________________ CRIAR LISTA ________________________//
 function criarLista() {
 	//Pegar os parametros
 	var nomeLista = $("#nome_lista").val();
-	var idUsuario = 1;
-	var token = "187827";
+	var idUsuario = ID_USUARIO;
+	var token = TOKEN;
 	//pegar token
 	
     if (nomeLista != '') { 
@@ -289,6 +375,13 @@ function excluirLista(idLista,idUsuario) {
 //var produtos = [ "Todinho", "Feijao", "Macarão", "Carne" , "Arroz" , "Frango" ]; 
 //$("#nome_produto" ).autocomplete({ source: produtos}); 
 //});
+
+function teste()
+{
+	var json_string = '[{"first_name":"Andrews","last_name":"Medina"},{"first_name":"José","last_name":"Carlos"}]';
+	var person_list = eval(json_string);
+	alert(person_list[0].first_name);
+}
 
 
 //------------- Funções de navegação ----------------------//
