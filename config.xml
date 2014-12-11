@@ -6,7 +6,7 @@
     <name>Compra digital</name>
 
     <description>
-        Rede social de supermercados.
+        Compras Digital
     </description>
 
     <author href="http://phonegap.com" email="support@phonegap.com">
@@ -27,7 +27,7 @@
     <preference name="fullscreen"       value="false" />
     <preference name="webviewbounce"    value="false" />
 
-    <icon src="img/logo.png" />
+    <icon src="assets/img/logo.png" />
     
 
     <gap:splash src="res/screen/android/screen-ldpi-portrait.png"  gap:platform="android" gap:density="ldpi" />
