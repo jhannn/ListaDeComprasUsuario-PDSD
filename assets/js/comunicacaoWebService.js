@@ -1,6 +1,5 @@
 var ID_USUARIO = 1;
 var TOKEN = "124576453875";
-var ARRAY = [];
 
 //____________________________________ FAZER LOGIN ______________________________________________//
 function fazerLogin() {
@@ -407,11 +406,29 @@ function excluirLista(idLista,idUsuario) {
     return true;
 }
 
-//----------------- Função auto complete --------------------------// 
-//$(function() { 
-//var produtos = [ "Todinho", "Feijao", "Macarão", "Carne" , "Arroz" , "Frango" ]; 
-//$("#nome_produto" ).autocomplete({ source: produtos}); 
-//});
+//______________________________ AUTO COMPLETE _______________________________________// 
+$(function() 
+{	
+	$.ajax({
+                type: 'POST'
+                , url: "http://localhost:52192/Servidor/Produto.asmx/retornarProdutos"
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: "{}"
+                , success: function (data, status) {
+                    
+					var produtos = $.parseJSON(data.d); //salvando o nome dos produtos em um array
+					$("#div_da_label_aqui" ).autocomplete({ source: produtos }); 
+                }
+                , error: function (xmlHttpRequest, status, err) {
+                    $('.resultado').html('Ocorreu um erro');
+                }
+            });
+			
+ });
+ 
+
+
 
 
  
