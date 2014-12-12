@@ -46,7 +46,7 @@ function fazerLogin() {
         alert("Email ou senha incorretos");
     }
 }
-//------Verificar se o usuario esta logado---------//
+//_____________________________ VERIFICAR LOGIN _______________________________//
 function verificarLogin(lugar) {
     var email = window.localStorage.UsuarioEmail;
 	var token = window.localStorage.UsuarioToken;
@@ -80,7 +80,7 @@ function verificarLogin(lugar) {
 	});
 }
 
-//---------Logout-----///
+//_______________________________ LOGOUT ____________________________________________//
 function logout() {
 	var email= window.localStorage.UsuarioEmail;
 			  $.ajax({
@@ -215,7 +215,7 @@ function cadastrarUsuario() {
 	//window.location = "principal.html#Inicio";
 }
 
-/////////////////Atualizar Senha Usuario//////////
+//________________________________ ATUALIZAR SENHA USUARIO _______________________________________//
 function atualizarSenhaUsuario() {
 	//Pegar os parametros
 	var email = window.localStorage.UsuarioEmail;
@@ -277,6 +277,8 @@ function atualizarSenhaUsuario() {
 	}	
 }
 
+//############# LISTAS ##################
+
 //___________________ CRIAR LISTA ________________________//
 function criarLista() {
 	//Pegar os parametros
@@ -285,7 +287,7 @@ function criarLista() {
 	var token = TOKEN;
 	//pegar token
 	
-    if (nomeLista != '') { 
+    if (nomeLista != '') { //se campo nao for vazio
 	
 		 $.ajax({
                 type: 'POST'
@@ -296,9 +298,9 @@ function criarLista() {
                 , data: "{nomeLista:'"+nomeLista+"',idUsuario:'"+idUsuario+"',token:'"+token+"'}"
                 , success: function (data, status) {
                     
-					var itens = $.parseJSON(data.d);
+					var itens = $.parseJSON(data.d); //salvando retorno do metodo do servidor
                     
-					if(itens == "-1")
+					if(itens == "-1")//erro ao criar lista
                     
 					{
 						alert("Erro ao criar lista");
@@ -306,7 +308,7 @@ function criarLista() {
 					}
 					else 
 					{
-						alert("Lista criada com sucesso!");
+						alert("Lista criada com sucesso!"); //lista criada
 						window.location = "listas.html";
 						return;
 					}
@@ -323,37 +325,34 @@ function criarLista() {
 		window.location = "principal.html#criar_lista";
 		return false;
     }
-	//window.location = "principal.html#editar_lista"
-	//document.getElementById("exibirNomeDaLista").innerHTML = nomeLista;
-	//editarLista(1,1); 
 }
 
 //_____________________________________ RETORNAR LISTA _____________________________________//
 function retornarListas(){	
 	$.ajax({
                 type: 'POST'
-                , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarListas"
+                , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarListas" //chamando a função
 				, crossDomain:true
                 , contentType: 'application/json; charset=utf-8'
-                , dataType: 'json'
-                , data: "{idUsuario:'"+ID_USUARIO+"'}"
+                , dataType: 'json'						//tipos de dados de retorno
+                , data: "{idUsuario:'"+ID_USUARIO+"'}" //passando os parametros
                 , success: function (data, status) {
                     
-					var lista = $.parseJSON(data.d);
-					var idNome = 1;
-					var idLista = 0;
-						for(var i=0; i<lista.length ;i++)
+					var lista = $.parseJSON(data.d); 		    //pegando retorno do servidor
+					var idNome = 1;							   //indice para pegar o nome
+					var idLista = 0;						  //indice para pegar o id
+						for(var i=0; i<lista.length ;i++)	 //pecorre o tamanho da lista
 						{
-							var inp = document.createElement("div");
-							inp.setAttribute("id",lista[idLista]);
-							inp.setAttribute("type", "text");
-							inp.setAttribute("name", "listas");
-							inp.textContent = lista[idNome];
+							var inp = document.createElement("div"); 	//criadno uma nova div
+							inp.setAttribute("id",lista[idLista]); 	   //passando o id da lista como o id da div
+							inp.setAttribute("type", "text"); 		  //tipo da div
+							inp.setAttribute("name", "listas"); 	 //nome da div
+							inp.textContent = lista[idNome]; 		//valor a ser imprimido no HTML (nome das listas cadastradas)
 
-							var pai = document.getElementById("nomeLista");
-							pai.appendChild(inp);
-							idNome+=2;
-							idLista+=2;
+							var pai = document.getElementById("nomeLista"); //pega uma div pai como referencia
+							pai.appendChild(inp); 						   //adiciona a div criada abaixo da div pai
+							idNome+=2;								      //incrementa idNome
+							idLista+=2;									 //incrementa idLista
 						}
                 }
                 , error: function (xmlHttpRequest, status, err) {
@@ -363,9 +362,9 @@ function retornarListas(){
 }
 
 
-
-//_____________________________ EDITAR LISTA____________________________//
-function editarLista(idLista,idUsuario) {
+//_______________________________________ EDITAR LISTA_______________________________________//
+function editarLista(idLista,idUsuario) 
+{
 	//Pegar os parametros
 	var idLista = idLista;
 	var idUsuario = idUsuario;
@@ -390,7 +389,7 @@ function editarLista(idLista,idUsuario) {
 function excluirLista(idLista,idUsuario) {
 	//Pegar os parametros
 	var idLista = idLista;
-	var idUsuario = idUsuario;
+	var idUsuario = idUsuario;		
 
 	
     if (idLista != '' && idUsuario != '') { $.post("http://localhost:52192/Servidor/ListaDeProdutos.asmx/editarLista", { 
@@ -414,30 +413,5 @@ function excluirLista(idLista,idUsuario) {
 //$("#nome_produto" ).autocomplete({ source: produtos}); 
 //});
 
-function teste()
-{
-	var json_string = '[{"first_name":"Andrews","last_name":"Medina"},{"first_name":"José","last_name":"Carlos"}]';
-	var person_list = eval(json_string);
-	alert(person_list[0].first_name);
-}
 
-
-//------------- Funções de navegação ----------------------//
-function navegarCadastroUsuario()
- {
-	window.location = "principal.html#cadastrarUsuario";
- }
- 
- function navegarCadastrarProduto()
- {
-	//---- zerando os campos ----//
-	window.location = "principal.html#cadastrar_produto";
- }
- 
- 
- function voltarLogin()
- {
-	window.location = "index.html#login";
- }
- 
  
