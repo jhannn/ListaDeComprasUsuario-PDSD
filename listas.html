@@ -17,13 +17,13 @@
    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
    
    <script src="assets/js/comunicacaoWebService.js"></script>
-
-	<script type="text/javascript">
+   
+   	<script type="text/javascript">
 		window.onload = function(){
 			verificarLogin("listas");
+			retornarListas();
 		}
-	</script>  
-  
+	</script>   
    
 </head>
 <body>
@@ -74,57 +74,22 @@
         <!-- /. NAV SIDE  -->
 			<div id="page-wrapper" >
 				<div id="page-inner">
-					
-					  
-			<div class="row">
-				<h2 style="color: #000; font-size: 18px; font-weight: bold; padding: 0px 0px 12px 15px;">Listas:</h2>
-				
-				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="width: 97%; padding-left: 16px;">
-			  <div class="panel panel-default">
-				<div class="panel-heading" role="tab" id="headingOne">
-				  <h4 class="panel-title">
-					<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="color: #ffb503;">
-					  <img src="assets/img/detalhes.png" width="30px" style="margin-bottom: 3px;color: #ffb503;">Lista Semanal
-					</a>
-				  </h4>
+					<div class="row">
+						<h2 style="color: #000; font-size: 18px; font-weight: bold; padding: 0px 0px 12px 15px;">Listas:</h2>
+						
+					  <div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="headingOne">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="color: #ffb503;">
+										<img src="assets/img/detalhes.png" width="30px" style="margin-bottom: 3px;color: #ffb503;">
+										<p id="nomeLista"></p>
+									</a>
+								</h4>
+							</div>
+					   </div>
+					</div> 					 	
 				</div>
-				<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-				  <div class="panel-body">
-					<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#cadastrar_prduto_lista" style="background: #ffb503; font-size: 13px;border: none;">
-					  Adicionar um produto à lista
-					</button>
-					<br />
-					<br />
-					Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-				  </div>
-				</div>
-			  </div>
-			  <div class="panel panel-default">
-				<div class="panel-heading" role="tab" id="headingTwo">
-				  <h4 class="panel-title">
-					<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="color: #ffb503;">
-					  <img src="assets/img/detalhes.png" width="30px" style="margin-bottom: 3px;color: #ffb503;">Lista Mensal
-					</a>
-				  </h4>
-				</div>
-				<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-				  <div class="panel-body">
-					<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#cadastrar_prduto_lista" style="background: #ffb503; font-size: 13px;border: none;">
-					  Adicionar um produto à lista
-					</button>
-					<br />
-					<br />
-					Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-				  </div>
-				</div>
-			  </div>
-			  
-			</div>
-				 					 	
-			</div>
-                    
-                      
-        </div>           
+            </div>           
     </div>
              <!-- /. PAGE INNER  -->
             </div>

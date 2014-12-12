@@ -1,11 +1,12 @@
-var ID_USUARIO = 3;
-var TOKEN = "1245723423322";
+var ID_USUARIO = 1;
+var TOKEN = "124576453875";
+var ARRAY = [];
 
 //____________________________________ FAZER LOGIN ______________________________________________//
 function fazerLogin() {
     var email = $("#email_logar").val();
     var senha = $("#senha_logar").val();
-	var token = "1245723423322";
+	var token = TOKEN;
 	
     if (email != '' && senha != '') {
      
@@ -49,7 +50,7 @@ function fazerLogin() {
 function verificarLogin(lugar) {
     var email = window.localStorage.UsuarioEmail;
 	var token = window.localStorage.UsuarioToken;
-	$.ajax({
+		$.ajax({
 		type: 'POST'
 		, url: "http://localhost:52192/Servidor/Usuario.asmx/verificarLogin"
 		, crossDomain:true
@@ -94,9 +95,9 @@ function logout() {
 					var itens = $.parseJSON(data.d);
 					if(itens == "0")                    
 					{
-						window.localStorage.UsuarioEmail=null;
-						window.localStorage.UsuarioToken=null;
-						window.localStorage.UsuarioNome=null;
+						window.localStorage.UsuarioEmail='';
+						window.localStorage.UsuarioToken='';
+						window.localStorage.UsuarioNome='';
 						window.location = "index.html";
 						return;							
 					}
@@ -316,10 +317,7 @@ function criarLista() {
                 }
             });
 	
-	
-	
-	
-	
+
     } else {
         alert("Campo vazio.");
 		window.location = "principal.html#criar_lista";
@@ -330,7 +328,43 @@ function criarLista() {
 	//editarLista(1,1); 
 }
 
-//--------------- editar Lista ---------------------//
+//_____________________________________ RETORNAR LISTA _____________________________________//
+function retornarListas(){	
+	$.ajax({
+                type: 'POST'
+                , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarListas"
+				, crossDomain:true
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: "{idUsuario:'"+ID_USUARIO+"'}"
+                , success: function (data, status) {
+                    
+					var lista = $.parseJSON(data.d);
+					var idNome = 1;
+					var idLista = 0;
+						for(var i=0; i<lista.length ;i++)
+						{
+							var inp = document.createElement("div");
+							inp.setAttribute("id",lista[idLista]);
+							inp.setAttribute("type", "text");
+							inp.setAttribute("name", "listas");
+							inp.textContent = lista[idNome];
+
+							var pai = document.getElementById("nomeLista");
+							pai.appendChild(inp);
+							idNome+=2;
+							idLista+=2;
+						}
+                }
+                , error: function (xmlHttpRequest, status, err) {
+                    $('.resultado').html('Ocorreu um erro');
+                }
+            });
+}
+
+
+
+//_____________________________ EDITAR LISTA____________________________//
 function editarLista(idLista,idUsuario) {
 	//Pegar os parametros
 	var idLista = idLista;
@@ -352,7 +386,7 @@ function editarLista(idLista,idUsuario) {
     return true;
 }
 
-//--------------- excluir Lista ---------------------//
+//______________________________________ EXCLUIR LISTA _____________________________________________//
 function excluirLista(idLista,idUsuario) {
 	//Pegar os parametros
 	var idLista = idLista;
