@@ -307,7 +307,7 @@ function criarLista() {
 					else 
 					{
 						alert("Lista criada com sucesso!");
-						window.location = "listas.html";
+						window.location = "visualizar-lista.html?id="+itens;
 						return;
 					}
 				
@@ -344,17 +344,57 @@ function retornarListas(){
 					var idLista = 0;
 						for(var i=0; i<lista.length ;i++)
 						{
-							var inp = document.createElement("div");
-							inp.setAttribute("id",lista[idLista]);
-							inp.setAttribute("type", "text");
-							inp.setAttribute("name", "listas");
-							inp.textContent = lista[idNome];
-
+							if(lista[idLista] != undefined){
+								var inp = document.createElement("div");
+								var aTag = document.createElement('a');
+								aTag.setAttribute('href',"visualizar-lista.html?id="+lista[idLista]);
+								aTag.innerHTML = lista[idNome];
+								inp.setAttribute("id",lista[idLista]);
+								inp.setAttribute("class", "alert alert-warning");
+								inp.setAttribute("name", "listas");
+								inp.setAttribute("role", "alert");
+								//inp.textContent = lista[idNome];
+								inp.appendChild(aTag);
+							}
+							
 							var pai = document.getElementById("nomeLista");
 							pai.appendChild(inp);
 							idNome+=2;
 							idLista+=2;
+							
 						}
+                }
+                , error: function (xmlHttpRequest, status, err) {
+                    $('.resultado').html('Ocorreu um erro');
+                }
+            });
+}
+
+
+//_____________________________________ RETORNAR PRODUTOS DA LISTA (VISUALIZAR LISTA) _____________________________________//
+function retornarProdutosDaListas(){	
+	//Pegar id pela URR e mostrar produtos da lista 
+	var queries = {};
+	$.each(document.location.search.substr(1).split('&'), function(c,q){
+		var i = q.split('=');
+		queries[i[0].toString()] = i[1].toString();
+	});
+	alert(queries['id']);
+	$.ajax({
+                type: 'POST'
+                , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarListas"
+				, crossDomain:true
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: "{idUsuario:'"+ID_USUARIO+"'}"
+                , success: function (data, status) {
+                    
+					var lista = $.parseJSON(data.d);
+					var idNome = 1;
+					var idLista = 0;
+					
+					
+					
                 }
                 , error: function (xmlHttpRequest, status, err) {
                     $('.resultado').html('Ocorreu um erro');
