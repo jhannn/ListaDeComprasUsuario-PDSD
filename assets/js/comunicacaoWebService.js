@@ -46,33 +46,37 @@ function fazerLogin() {
     }
 }
 //------Verificar se o usuario esta logado---------//
-function verificarLogin() {
+function verificarLogin(lugar) {
     var email = window.localStorage.UsuarioEmail;
 	var token = window.localStorage.UsuarioToken;
-			$.ajax({
-					type: 'POST'
-					, url: "http://localhost:52192/Servidor/Usuario.asmx/verificarLogin"
-					, crossDomain:true
-					, contentType: 'application/json; charset=utf-8'
-					, dataType: 'json'
-					, data: "{email:'"+email+"',token:'"+token+"'}"
-					, success: function (data, status) {
-						
-						var itens = $.parseJSON(data.d);
-						if(itens == "-1")                    
-						{
-							return;							
-						}
-						else 
-						{
-							window.location = "principal.html";
-							return;
-						}
-					}
-					, error: function (xmlHttpRequest, status, err) {
-						$('.resultado').html('Ocorreu um erro');
-					}
-			});
+	$.ajax({
+		type: 'POST'
+		, url: "http://localhost:52192/Servidor/Usuario.asmx/verificarLogin"
+		, crossDomain:true
+		, contentType: 'application/json; charset=utf-8'
+		, dataType: 'json'
+		, data: "{email:'"+email+"',token:'"+token+"'}"
+		, success: function (data, status) {						
+			var itens = $.parseJSON(data.d);
+			if(itens == "-1" && lugar=="index")                
+			{
+				return;		
+			}
+			else if(itens == "0" && lugar=="index")
+			{
+				window.location = "principal.html";
+				return;
+			}
+			else if(itens == "-1")
+			{
+				window.location = "index.html";
+				return;
+			}
+		}
+		, error: function (xmlHttpRequest, status, err) {
+			$('.resultado').html('Ocorreu um erro');
+		}
+	});
 }
 
 //---------Logout-----///
@@ -90,9 +94,9 @@ function logout() {
 					var itens = $.parseJSON(data.d);
 					if(itens == "0")                    
 					{
-						window.localStorage.UsuarioEmail='';
-						window.localStorage.UsuarioToken='';
-						window.localStorage.UsuarioNome='';
+						window.localStorage.UsuarioEmail=null;
+						window.localStorage.UsuarioToken=null;
+						window.localStorage.UsuarioNome=null;
 						window.location = "index.html";
 						return;							
 					}
