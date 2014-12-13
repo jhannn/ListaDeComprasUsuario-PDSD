@@ -12,14 +12,13 @@ function fazerLogin() {
 		 $.ajax({
                 type: 'POST'
                 , url: "http://localhost:52192/Servidor/Usuario.asmx/fazerLogin"
-				, crossDomain:true
                 , contentType: 'application/json; charset=utf-8'
                 , dataType: 'json'
                 , data: "{email:'"+email+"',senha:'"+senha+"',token:'"+token+"'}"
                 , success: function (data, status) {
                     
-					var itens = $.parseJSON(data.d);
-					if(itens == "-1")
+					var retorno = $.parseJSON(data.d);
+					if(retorno == "-1")
                     
 					{
 						alert("Voce nao possui uma conta");
@@ -52,22 +51,21 @@ function verificarLogin(lugar) {
 		$.ajax({
 		type: 'POST'
 		, url: "http://localhost:52192/Servidor/Usuario.asmx/verificarLogin"
-		, crossDomain:true
 		, contentType: 'application/json; charset=utf-8'
 		, dataType: 'json'
 		, data: "{email:'"+email+"',token:'"+token+"'}"
 		, success: function (data, status) {						
-			var itens = $.parseJSON(data.d);
-			if(itens == "-1" && lugar=="index")                
+			var retorno = $.parseJSON(data.d);
+			if(retorno == "-1" && lugar=="index")                
 			{
 				return;		
 			}
-			else if(itens == "0" && lugar=="index")
+			else if(retorno == "0" && lugar=="index")
 			{
 				window.location = "principal.html";
 				return;
 			}
-			else if(itens == "-1")
+			else if(retorno == "-1")
 			{
 				window.location = "index.html";
 				return;
@@ -85,14 +83,13 @@ function logout() {
 			  $.ajax({
                 type: 'POST'
                 , url: "http://localhost:52192/Servidor/Usuario.asmx/logout"
-				, crossDomain:true
                 , contentType: 'application/json; charset=utf-8'
                 , dataType: 'json'
                 , data: "{email:'"+email+"'}"
                 , success: function (data, status) {
                     
-					var itens = $.parseJSON(data.d);
-					if(itens == "0")                    
+					var retorno = $.parseJSON(data.d);
+					if(retorno == "0")                    
 					{
 						window.localStorage.UsuarioEmail='';
 						window.localStorage.UsuarioToken='';
@@ -109,6 +106,43 @@ function logout() {
                     $('.resultado').html('Ocorreu um erro');
                 }
             });
+}
+
+//___________________________________ RECUPERAR SENHA _________________________________________//
+function recuperarSenha()
+{
+	var emailUsuario = $("#emailPraRecuperarSenha").val();
+	
+	$.ajax({
+                type: 'POST'
+                , url: "http://localhost:52192/Servidor/Usuario.asmx/recuperarSenha"
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: "{emailUsuario:'"+emailUsuario+"'}"
+                , success: function (data, status) {
+                    
+					var retorno = $.parseJSON(data.d);
+					if(retorno == "0")                    
+					{
+						alert("Email enviado, verifique sua caixa de menssagem!");
+						return;							
+					}
+					else if(retorno == "1")
+					{
+						alert("Voce nao possui uma conta cadastrada");
+						return;
+					}
+					else
+					{
+						alert("Ocorreu um erro!");
+						return;
+					}
+                }
+                , error: function (xmlHttpRequest, status, err) {
+                    $('.resultado').html('Ocorreu um erro');
+                }
+            });
+
 }
 
 //__________________________________ CADASTRAR PRODUTO ______________________________________//
@@ -345,6 +379,8 @@ function retornarListas(){
 							var inp = document.createElement("div"); 	//criadno uma nova div
 							inp.setAttribute("id",lista[idLista]); 	   //passando o id da lista como o id da div
 							inp.setAttribute("type", "text"); 		  //tipo da div
+							inp.setAttribute("class","list-group-item");
+							inp.setAttribute("style","font-size:20px");
 							inp.setAttribute("name", "listas"); 	 //nome da div
 							inp.textContent = lista[idNome]; 		//valor a ser imprimido no HTML (nome das listas cadastradas)
 
