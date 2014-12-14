@@ -21,8 +21,10 @@
    	<script type="text/javascript">
 		window.onload = function(){
 			verificarLogin("listas");
-			retornarListas();
+			retornarProdutosDaListas();
+			
 		}
+		
 	</script>   
    
 </head>
@@ -71,13 +73,13 @@
 			<div id="page-wrapper" >
 				<div id="page-inner">
 					<div class="row">
-						<h2 style="color: #000; font-size: 18px; font-weight: bold; padding: 0px 0px 12px 15px;">Listas:</h2>
+						<h2 style="color: #000; font-size: 18px; font-weight: bold; padding: 0px 0px 12px 15px;">Nome da lista....</h2>
 						
 						<p id="nomeLista" style="margin-left:15px">
 						</p>
-						
-						<button type="button" class="btn btn-primary" style="float: right;" data-toggle="modal" data-target="#cadastrar_lista">
-							Adicionar lista
+
+						<button type="button" class="btn btn-primary" style="float: right;" data-toggle="modal" data-target="#cadastrar_prduto_lista">
+							Cadastrar produto à lista
 						</button>
 						
 					</div> 					 	
@@ -112,8 +114,6 @@
 		  mes = "0"+mes;
 		var ano = data.getFullYear();  
 		$("#dataAtual").html("Data: "+dia+"/"+mes+"/"+ano); 
-		
-
    </script>
    
    
@@ -166,42 +166,6 @@
 	</div>
    
    
-   <!-- Modal para inserir uma nova lista -->
-   <!-- Modal -->
-   <div id="deviceready" class="blink">
-		<p class="event listening"></p>
-		<p class="event received"></p>
-	</div> 
-	<p id="info"></p>
-	<div class="modal fade" id="cadastrar_lista" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-		<div class="modal-content">
-		  <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
-			<h4 class="modal-title" id="myModalLabel">Adicionar lista</h4>
-		  </div>
-		  <div class="modal-body">
-			
-			<form class="form-horizontal" role="form">
-				  
-				  <div class="form-group" style="margin-bottom: 20px;">
-					<label for="inputPassword3" class="col-sm-2 control-label">Nome da lista:</label>
-					<div class="col-sm-10">
-					  <input class="form-control" type="text" placeholder="Nome da lista" id="nome_lista">
-					</div>
-				  </div>
-				  
-				  
-			</form>
-			
-		  </div>
-		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-			<button type="button" class="btn btn-primary" onclick="criarLista()">Cadastrar lista</button>
-		  </div>
-		</div>
-	  </div>
-	</div>
    
    <!-- Modal final para inserir uma nova lsita -->
 	<script type="text/javascript" src="cordova.js"></script>
