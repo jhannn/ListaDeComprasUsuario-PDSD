@@ -404,6 +404,61 @@ function retornarListas(){
 
 
 
+//_____________________________________ ADICIONAR PRODUTOS À LISTA _____________________________________//
+function adicionarProdutoALista()
+{
+	//Pegar os parametros
+	var nomeDoProduto = $("#nomeDoProduto").val();
+	var formatoDoCorido = $("#formato").val();
+	var codigoDeBarras = $("#cod_barra").val();
+	var quantidade = parseInt($("#quantidade").val());
+	var produtoJson = 	'{ "id":-1 , "nome":"' + nomeDoProduto + '" , codigoDeBarras:"' + codigoDeBarras + '" , tipoCodigo:"' + formatoDoCorido + '" , quantidade:' + quantidade + ' }';
+	var idLista = parseInt(0);
+	
+    if (nomeDoProduto.trim() != '')
+	{ //se campo nao for vazio
+	
+		 $.ajax({
+                type: 'POST'
+                , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/cadastrarProduto"
+				, crossDomain:true
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: "{produtoJson:'"+produtoJson+"',quantidade:'"+quantidade+"',idLista:'"+idLista+"'}"
+                , success: function (data, status) {
+                    
+					var itens = $.parseJSON(data.d); //salvando retorno do metodo do servidor
+                    
+					if(itens == "-1")//erro ao cadastrar o produto
+                    
+					{
+						alert("Erro ao cadastrar o produto");
+						return;							
+					}
+					else 
+					{
+						alert("Produto cadastrado com sucesso!");
+						window.location = "visualizar-lista.html?id="+idLista;
+						return;
+					}
+				
+                }
+                , error: function (xmlHttpRequest, status, err) {
+                    $('.resultado').html('Ocorreu um erro');
+                }
+            });
+	
+
+    }
+	/*else
+	{
+        alert("Campo de Nome vazio.");
+		return false;
+    }*/
+}
+
+
+
 //_____________________________________ RETORNAR PRODUTOS DA LISTA (VISUALIZAR LISTA) _____________________________________//
 function retornarProdutosDaListas(){	
 	//Pegar id pela URR e mostrar produtos da lista 
