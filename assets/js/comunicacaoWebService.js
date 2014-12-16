@@ -493,48 +493,72 @@ function retornarProdutosDaListas(){
 
 
 
-//_____________________________ EDITAR LISTA____________________________//
-function editarLista(idLista,idUsuario) {
+//_____________________________ EDITAR NOME LISTA____________________________//
+function editarNomeLista() {
 	//Pegar os parametros
-	var idLista = idLista;
-	var idUsuario = idUsuario;
-
-	
-    if (idLista != '' && idUsuario != '') { $.post("http://localhost:52192/Servidor/ListaDeProdutos.asmx/editarLista", { 
-		idLista: idLista,
-		idUsuario: idUsuario
-		 }, function () {
-		},
-        "json");
-    } else {
-        alert("Ocorreu um erro!");
-		window.location = "principal.html#criar_lista";
-		return false;
-    }
-	window.location = "principal.html#editar_lista"
-    return true;
+	var idLista = parseInt(window.localStorage.idListaClicada);
+	var idUsuario = ID_USUARIO;
+	var novoNomeDaLista = "YO MAN"; //$("#novoNomeDaLista").val();
+	var token = TOKEN;
+    $.ajax({
+                type: 'POST'
+                , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/editarNomeLista"
+				, crossDomain:true
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: "{idLista:'"+idLista+"',novoNomeDaLista:'"+novoNomeDaLista+"',idUsuario:'"+idUsuario+"',token:'"+token+"'}"
+                , success: function (data, status) {                    
+					var itens = $.parseJSON(data.d); //salvando retorno do metodo do servidor                    
+					if(itens == "-1")//erro ao cadastrar o produto                    
+					{
+						alert("Erro ao alterar o nome da lista.");
+						return;							
+					}
+					else 
+					{
+						alert("Nome da lista cadastrada com sucesso!");
+						window.location = "visualizar-lista.html?id="+idLista;
+						return;
+					}
+				
+                }
+                , error: function (xmlHttpRequest, status, err) {
+                    $('.resultado').html('Ocorreu um erro');
+                }
+            });
 }
 
 //______________________________________ EXCLUIR LISTA _____________________________________________//
-function excluirLista(idLista,idUsuario) {
-	//Pegar os parametros
-	var idLista = idLista;
-	var idUsuario = idUsuario;		
-
-	
-    if (idLista != '' && idUsuario != '') { $.post("http://localhost:52192/Servidor/ListaDeProdutos.asmx/editarLista", { 
-		idLista: idLista,
-		idUsuario: idUsuario
-		 }, function () {
-		},
-        "json");
-    } else {
-        alert("Ocorreu um erro!");
-		window.location = "principal.html#editar_lista";
-		return false;
-    }
-	window.location = "principal.html#criar_lista"
-    return true;
+function excluirLista() {
+	var idLista = parseInt(window.localStorage.idListaClicada);
+	var idUsuario = ID_USUARIO;
+	var token = TOKEN;
+    $.ajax({
+                type: 'POST'
+                , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/excluirLista"
+				, crossDomain:true
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: "{idLista:'"+idLista+"',idUsuario:'"+idUsuario+"',token:'"+token+"'}"
+                , success: function (data, status) {                    
+					var itens = $.parseJSON(data.d); //salvando retorno do metodo do servidor                    
+					if(itens == "-1")//erro ao cadastrar o produto                    
+					{
+						alert("Erro ao excluir a lista.");
+						return;							
+					}
+					else 
+					{
+						alert("Lista excluida com sucesso!");
+						window.location = "listas.html";
+						return;
+					}
+				
+                }
+                , error: function (xmlHttpRequest, status, err) {
+                    $('.resultado').html('Ocorreu um erro');
+                }
+            });
 }
 
 //______________________________ AUTO COMPLETE _______________________________________// 
