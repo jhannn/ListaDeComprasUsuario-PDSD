@@ -409,11 +409,10 @@ function adicionarProdutoALista()
 {
 	//Pegar os parametros
 	var nomeDoProduto = $("#nomeDoProduto").val();
-	var formatoDoCorido = $("#formato").val();
+	var formatoDoCodigo = $("#formato").val();
 	var codigoDeBarras = $("#cod_barra").val();
 	var quantidade = parseInt($("#quantidade").val());
-	var produtoJson = 	'{ "id":-1 , "nome":"' + nomeDoProduto + '" , codigoDeBarras:"' + codigoDeBarras + '" , tipoCodigo:"' + formatoDoCorido + '" , quantidade:' + quantidade + ' }';
-	var idLista = parseInt(0);
+	var idLista = parseInt(window.localStorage.idListaClicada);
 	
     if (nomeDoProduto.trim() != '')
 	{ //se campo nao for vazio
@@ -424,7 +423,7 @@ function adicionarProdutoALista()
 				, crossDomain:true
                 , contentType: 'application/json; charset=utf-8'
                 , dataType: 'json'
-                , data: "{produtoJson:'"+produtoJson+"',quantidade:'"+quantidade+"',idLista:'"+idLista+"'}"
+                , data: "{nomeDoProduto:'"+nomeDoProduto+"',CodigoDeBarras:'"+codigoDeBarras+"',tipoCodigo:'"+formatoDoCodigo+"',quantidade:'"+quantidade+"',idLista:'"+idLista+"'}"
                 , success: function (data, status) {
                     
 					var itens = $.parseJSON(data.d); //salvando retorno do metodo do servidor
@@ -467,7 +466,9 @@ function retornarProdutosDaListas(){
 		var i = q.split('=');
 		queries[i[0].toString()] = i[1].toString();
 	});
-	alert(queries['id']);
+	$("#nomeDaLista").html(queries['id']);
+	var idLista=queries['id'];
+	window.localStorage.idListaClicada=idLista;
 	$.ajax({
                 type: 'POST'
                 , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarListas"
