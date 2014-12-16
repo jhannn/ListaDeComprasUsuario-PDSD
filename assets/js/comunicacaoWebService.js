@@ -423,7 +423,7 @@ function adicionarProdutoALista()
 				, crossDomain:true
                 , contentType: 'application/json; charset=utf-8'
                 , dataType: 'json'
-                , data: "{nomeDoProduto:'"+nomeDoProduto+"',CodigoDeBarras:'"+codigoDeBarras+"',tipoCodigo:'"+formatoDoCodigo+"',quantidade:'"+quantidade+"',idLista:'"+idLista+"'}"
+                , data: "{nomeProduto:'"+nomeDoProduto+"',codigoDeBarras:'"+codigoDeBarras+"',tipoCodigo:'"+formatoDoCodigo+"',quantidade:'"+quantidade+"',idLista:'"+idLista+"'}"
                 , success: function (data, status) {
                     
 					var itens = $.parseJSON(data.d); //salvando retorno do metodo do servidor
