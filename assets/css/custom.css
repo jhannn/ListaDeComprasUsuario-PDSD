@@ -16,6 +16,29 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+.iconRemove {
+	background: url("../img/remove.png") no-repeat;
+	width: 28px;
+	height: 100px;
+	float: right;
+	background-size: 27px;
+	position: relative;
+	cursor:pointer;
+	/* left: 0px; */
+}
+
+.iconEdit {
+	cursor:pointer;
+	background: url("../img/edit.png") no-repeat;
+	width: 28px;
+	height: 100px;
+	right:10px;
+	float: right;
+	background-size: 27px;
+	position: relative;
+	/* left: 0px; */
+}
+
 .text-box {
 	float: left;
 }

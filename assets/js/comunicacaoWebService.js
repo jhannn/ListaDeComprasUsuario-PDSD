@@ -380,6 +380,12 @@ function retornarListas(){
 							if(lista[idLista] != undefined){
 								var inp = document.createElement("div");
 								var aTag = document.createElement('a');
+								var iconEdit = document.createElement('div');
+								iconEdit.setAttribute("class", "iconEdit");
+								iconEdit.setAttribute("onclick", "editarNomeLista();");
+								var iconRemove = document.createElement('div');
+								iconRemove.setAttribute("class", "iconRemove");
+								iconRemove.setAttribute("onclick", "excluirLista();");
 								aTag.setAttribute('href',"visualizar-lista.html?id="+lista[idLista]);
 								aTag.innerHTML = lista[idNome];
 								inp.setAttribute("id",lista[idLista]);
@@ -388,6 +394,9 @@ function retornarListas(){
 								inp.setAttribute("role", "alert");
 								//inp.textContent = lista[idNome];
 								inp.appendChild(aTag);
+								inp.appendChild(iconRemove);
+								inp.appendChild(iconEdit);
+								
 							}
 							
 							var pai = document.getElementById("nomeLista");
