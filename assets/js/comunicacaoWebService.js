@@ -382,7 +382,9 @@ function retornarListas(){
 								var aTag = document.createElement('a');
 								var iconEdit = document.createElement('div');
 								iconEdit.setAttribute("class", "iconEdit");
-								iconEdit.setAttribute("onclick", "editarNomeLista();");
+								//iconEdit.setAttribute("onclick", "editarNomeLista();");
+								iconEdit.setAttribute("data-target", "#editar_lista");
+								iconEdit.setAttribute("data-toggle", "modal");
 								var iconRemove = document.createElement('div');
 								iconRemove.setAttribute("class", "iconRemove");
 								iconRemove.setAttribute("onclick", "excluirLista();");
@@ -507,7 +509,7 @@ function editarNomeLista() {
 	//Pegar os parametros
 	var idLista = parseInt(window.localStorage.idListaClicada);
 	var idUsuario = ID_USUARIO;
-	var novoNomeDaLista = "YO MAN"; //$("#novoNomeDaLista").val();
+	var novoNomeDaLista = $("#novo_nome_lista").val();
 	var token = TOKEN;
     $.ajax({
                 type: 'POST'
