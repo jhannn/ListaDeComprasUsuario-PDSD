@@ -19,20 +19,22 @@ function cadastrarProduto(){
 }
 
 //______________________________ AUTO COMPLETE _______________________________________// 
-/*$(function(){	
+function teste(){
+	
+	var nomeProduto = $("#nomeDoProduto").val();
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Produto.asmx/retornarProdutos"
+        , url: "http://localhost:52192/Servidor/Produto.asmx/autocomplete"
+		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{}"
+        , data: "{nome: '"+nomeProduto+"'}"
 		, success: function (data, status){                    
 			var produtos = $.parseJSON(data.d); //salvando o nome dos produtos em um array
-			$("#div_da_label_aqui" ).autocomplete({ source: produtos }); 
+			$("#nomeDoProduto").autocomplete({ source: produtos }); 
         }
         , error: function (xmlHttpRequest, status, err) {
             $('.resultado').html('Ocorreu um erro');
         }
-    });			
-});
- */
+    });	
+}

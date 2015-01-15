@@ -37,6 +37,26 @@ function criarLista(){
     }
 }
 
+//___________________ RETORNAR NOME LISTA ________________________//
+function retornarNomeLista(){
+	var idLista = parseInt(window.localStorage.idListaClicada);
+    $.ajax({
+        type: 'POST'
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarNomeLista"
+		, crossDomain:true
+        , contentType: 'application/json; charset=utf-8'
+        , dataType: 'json'
+        ,data: "{idLista:'"+idLista+"'}"
+        , success: function (data, status){                    
+			var nomeLista = $.parseJSON(data.d);               
+			$("#nomeDaLista").html(nomeLista);
+		}
+        , error: function (xmlHttpRequest, status, err) {
+            $('.resultado').html('Ocorreu um erro');
+        }
+    });
+}
+
 //_____________________________________ RETORNAR LISTA _____________________________________//
 function retornarListas(){	
 	$.ajax({
@@ -48,10 +68,9 @@ function retornarListas(){
         , data: "{idUsuario:'"+ID_USUARIO+"'}" //passando os parametros
         , success: function (data, status){                    
 			var lista = $.parseJSON(data.d); 		    //pegando retorno do servidor
-			var idNome = 1;							   //indice para pegar o nome
-			var idLista = 0;						  //indice para pegar o id
+			
 			for(var i=0; i<lista.length ;i++){
-				if(lista[idLista] != undefined){
+				if(lista[i] != undefined){
 					var inp = document.createElement("div");
 					var aTag = document.createElement('a');
 					var iconEdit = document.createElement('div');
@@ -61,9 +80,9 @@ function retornarListas(){
 					var iconRemove = document.createElement('div');
 					iconRemove.setAttribute("class", "iconRemove");
 					iconRemove.setAttribute("onclick", "excluirLista();");
-					aTag.setAttribute('href',"visualizar-lista.html?id="+lista[idLista]);
-					aTag.innerHTML = lista[idNome];
-					inp.setAttribute("id",lista[idLista]);
+					aTag.setAttribute('href',"visualizar-lista.html?id="+lista[i].id);
+					aTag.innerHTML = lista[i].nome;
+					inp.setAttribute("id",lista[i].id);
 					inp.setAttribute("class", "alert alert-warning");
 					inp.setAttribute("name", "listas");
 					inp.setAttribute("role", "alert");
@@ -73,8 +92,6 @@ function retornarListas(){
 				}							
 				var pai = document.getElementById("nomeLista");
 				pai.appendChild(inp);
-				idNome+=2;
-				idLista+=2;
 			}
         }
         , error: function (xmlHttpRequest, status, err) {
@@ -125,7 +142,8 @@ function retornarProdutosDaListas(){
 		var i = q.split('=');
 		queries[i[0].toString()] = i[1].toString();
 	});
-	$("#nomeDaLista").html(queries['id']);
+	
+	// $("#nomeDaLista").html(queries['id']);
 	var idLista=queries['id'];
 	window.localStorage.idListaClicada=idLista;
 	$.ajax({
@@ -136,8 +154,7 @@ function retornarProdutosDaListas(){
         , dataType: 'json'
         , data: "{idLista:'"+idLista+"'}"
         , success: function (data, status){                    
-			var produtos = $.parseJSON(data.d);
-			var idNome = 1;							   //indice para pegar o nome
+			var produtos = $.parseJSON(data.d);					   //indice para pegar o nome
 			var idProduto = 0;						  //indice para pegar o id
 			for(var i=0; i<produtos.length ;i++){
 				if(produtos[idProduto] != undefined){

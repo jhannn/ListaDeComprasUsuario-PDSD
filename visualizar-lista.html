@@ -23,24 +23,9 @@
    	<script type="text/javascript">
 		window.onload = function(){
 			verificarLogin("listas");
-			retornarProdutosDaListas();
-			
-			$.ajax({
-                type: 'POST'
-                , url: "http://localhost:52192/Servidor/Produto.asmx/retornarProdutos"
-                , contentType: 'application/json; charset=utf-8'
-                , dataType: 'json'
-                , data: "{}"
-                , success: function (data, status) {
-                    
-					var produtos = $.parseJSON(data.d); //salvando o nome dos produtos em um array
-					$("#div_da_label_aqui" ).autocomplete({ source: produtos }); 
-                }
-                , error: function (xmlHttpRequest, status, err) {
-                    $('.resultado').html('Ocorreu um erro');
-                }
-            });
-			
+			retornarProdutosDaListas();	
+			retornarNomeLista();
+			//autocomplete();
 		}
 		
 	</script>   
@@ -100,6 +85,8 @@
 							Cadastrar produto à lista
 						</button>
 						
+						<!--<input type="text" id="nomeDoProduto" onkeyup="teste()" />-->
+						
 					</div> 					 	
 				</div>
             </div>           
@@ -122,17 +109,21 @@
       <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
 	
-	<script src="assets/js/comunicacaoWebService.js"></script>
+	<script src="assets/js/usuarioWS.js"></script>
+	<script src="assets/js/listaWS.js"></script>
+	<script src="assets/js/produtoWS.js"></script>
    
    	<script type="text/javascript">
 		window.onload = function(){
 			verificarLogin("listas");
 			retornarProdutosDaListas();
+			retornarNomeLista();
+			//autocomplete();
 			
 		}
 		
 	</script>   
-     
+   
    <script>
 		var data = new Date();
 		var dia = data.getDate();
@@ -164,7 +155,7 @@
 				  <div class="form-group" style="margin-bottom: 0px;">
 					<label for="inputEmail3" class="col-sm-2 control-label">Código de barras:</label>
 					<div class="col-sm-10">
-					  <input class="form-control" type="text" placeholder="Código de barras" id="cod_barra" name="cod_barra" value='' readonly>
+					  <input class="form-control" type="text" placeholder="Código de barras" id="cod_barra" name="cod_barra" value='' readonly />
 					  <p style="margin: 0px; padding: 0px;"><a href="#" id="scan"><img src="assets/img/codigo_barras.png" width="30px" style="float: right; position: relative;bottom: 70px;"></a></p>
 					</div>
 				  </div>
@@ -179,14 +170,14 @@
 				  <div class="form-group">
 					<label for="nomeDoProduto" class="col-sm-2 control-label">Nome do produto:</label>
 					<div class="col-sm-10">
-					  <input type="text" class="form-control" placeholder="Nome do produto" id="nomeDoProduto" name="nomeDoProduto">
+					<input type="text" class="form-control" placeholder="Nome do produto" id="nomeDoProduto" name="nomeDoProduto" onkeyup="teste()" />
 					</div>
 				  </div>
 				  
 				  <div class="form-group">
 					<label for="quantidade" class="col-sm-2 control-label">Quantidade:</label>
 					<div class="col-sm-10">
-					  <input type="text" class="form-control" placeholder="1" id="quantidade" name="quantidade">
+					  <input type="text" class="form-control" placeholder="1" id="quantidade" name="quantidade" />
 					</div>
 				  </div>
 				  
@@ -211,6 +202,11 @@
 	<script type="text/javascript">
 		app.initialize();
 	</script>
-	<script src="assets/js/comunicacaoWebService.js"></script>
+	<script src="assets/js/usuarioWS.js"></script>
+	<script src="assets/js/listaWS.js"></script>
+	<script src="assets/js/produtoWS.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </body>
 </html>
