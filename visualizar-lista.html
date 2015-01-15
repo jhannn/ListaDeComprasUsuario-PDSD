@@ -16,12 +16,30 @@
      <!-- GOOGLE FONTS-->
    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
    
-   <script src="assets/js/comunicacaoWebService.js"></script>
+    <script src="assets/js/usuarioWS.js"></script>
+	<script src="assets/js/listaWS.js"></script>
+	<script src="assets/js/produtoWS.js"></script>  
    
    	<script type="text/javascript">
 		window.onload = function(){
 			verificarLogin("listas");
 			retornarProdutosDaListas();
+			
+			$.ajax({
+                type: 'POST'
+                , url: "http://localhost:52192/Servidor/Produto.asmx/retornarProdutos"
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: "{}"
+                , success: function (data, status) {
+                    
+					var produtos = $.parseJSON(data.d); //salvando o nome dos produtos em um array
+					$("#div_da_label_aqui" ).autocomplete({ source: produtos }); 
+                }
+                , error: function (xmlHttpRequest, status, err) {
+                    $('.resultado').html('Ocorreu um erro');
+                }
+            });
 			
 		}
 		

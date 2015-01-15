@@ -1,6 +1,8 @@
+/*
 var ID_USUARIO = 1;
 var TOKEN = "124576453875";
-
+*/
+/*
 //____________________________________ FAZER LOGIN ______________________________________________//
 function fazerLogin() {
     var email = $("#email_logar").val();
@@ -145,27 +147,6 @@ function recuperarSenha()
 
 }
 
-//__________________________________ CADASTRAR PRODUTO ______________________________________//
-var listaDeProdutos = [];
-var i = 0;
-function cadastrarProduto() {
-	//Pegar os parametros
-	var codigoDeBarras = $("#cod_barra").val();
-	var nomeDoProduto = $("#nome_produto").val();
-	var formatoCodigoDeBarras = $("#formato").val();
-	
-	if(codigoDeBarras == "") //ta vazio
-	{
-		codigoDeBarras = -1;
-		formatoCodigoDeBarras = -1;
-	}
-	
-	var produtos = new Array(codigoDeBarras,formatoCodigoDeBarras,nomeDoProduto);
-	listaDeProdutos[i++] = produtos;
-	
-	window.location = "principal.html#editar_lista"
-	document.getElementById("exibir").innerHTML = "- " + listaDeProdutos[i-1][2] +"<br />";
-}
 
 //________________________________ CADASTRAR USUARIO _______________________________________//
 function cadastrarUsuario() {
@@ -309,9 +290,9 @@ function atualizarSenhaUsuario() {
 		return;
 	}	
 }
-
+*/
 //############# LISTAS ##################
-
+/*
 //___________________ CRIAR LISTA ________________________//
 function criarLista() {
 	//Pegar os parametros
@@ -464,7 +445,7 @@ function adicionarProdutoALista()
 	{
         alert("Campo de Nome vazio.");
 		return false;
-    }*/
+    }*//*
 }
 
 
@@ -482,27 +463,48 @@ function retornarProdutosDaListas(){
 	window.localStorage.idListaClicada=idLista;
 	$.ajax({
                 type: 'POST'
-                , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarListas"
+                , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarProdutosDaLista"
 				, crossDomain:true
                 , contentType: 'application/json; charset=utf-8'
                 , dataType: 'json'
-                , data: "{idUsuario:'"+ID_USUARIO+"'}"
+                , data: "{idLista:'"+idLista+"'}"
                 , success: function (data, status) {
                     
-					var lista = $.parseJSON(data.d);
-					var idNome = 1;
-					var idLista = 0;
-					
-					
-					
+					var produtos = $.parseJSON(data.d); 		    //pegando retorno do servidor
+					var idNome = 1;							   //indice para pegar o nome
+					var idProduto = 0;						  //indice para pegar o id
+					for(var i=0; i<produtos.length ;i++)	 //pecorre o tamanho da lista
+					{
+						if(produtos[idProduto] != undefined){
+							var inp = document.createElement("div");
+							var aTag = document.createElement('a');
+							var iconEdit = document.createElement('div');
+							iconEdit.setAttribute("class", "iconEdit");
+							//iconEdit.setAttribute("onclick", "editarNomeLista();");
+							iconEdit.setAttribute("data-target", "#");
+							iconEdit.setAttribute("data-toggle", "modal");
+							var iconRemove = document.createElement('div');
+							iconRemove.setAttribute("class", "iconRemove");
+							iconRemove.setAttribute("onclick", "");
+							aTag.innerHTML = produtos[i].nome;
+							inp.setAttribute("id",produtos[i].id);
+							inp.setAttribute("class", "alert alert-warning");
+							inp.setAttribute("name", "produtos");
+							inp.setAttribute("role", "alert");
+							inp.appendChild(aTag);
+							inp.appendChild(iconRemove);
+							inp.appendChild(iconEdit);							
+						}						
+						var pai = document.getElementById("nomeDaLista");
+						pai.appendChild(inp);
+
+					}
                 }
                 , error: function (xmlHttpRequest, status, err) {
                     $('.resultado').html('Ocorreu um erro');
                 }
             });
 }
-
-
 
 //_____________________________ EDITAR NOME LISTA____________________________//
 function editarNomeLista() {
@@ -571,30 +573,50 @@ function excluirLista() {
                 }
             });
 }
+*/
+/*
+__________________________________ CADASTRAR PRODUTO ______________________________________//
+// var listaDeProdutos = [];
+// var i = 0;
+// function cadastrarProduto() {
+	Pegar os parametros
+	// var codigoDeBarras = $("#cod_barra").val();
+	// var nomeDoProduto = $("#nome_produto").val();
+	// var formatoCodigoDeBarras = $("#formato").val();
+	
+	// if(codigoDeBarras == "") //ta vazio
+	// {
+		// codigoDeBarras = -1;
+		// formatoCodigoDeBarras = -1;
+	// }
+	
+	// var produtos = new Array(codigoDeBarras,formatoCodigoDeBarras,nomeDoProduto);
+	// listaDeProdutos[i++] = produtos;
+	
+	// window.location = "principal.html#editar_lista"
+	// document.getElementById("exibir").innerHTML = "- " + listaDeProdutos[i-1][2] +"<br />";
+// }
 
-//______________________________ AUTO COMPLETE _______________________________________// 
-$(function() 
-{	
-	$.ajax({
-                type: 'POST'
-                , url: "http://localhost:52192/Servidor/Produto.asmx/retornarProdutos"
-                , contentType: 'application/json; charset=utf-8'
-                , dataType: 'json'
-                , data: "{}"
-                , success: function (data, status) {
+______________________________ AUTO COMPLETE _______________________________________// 
+
+
+// /*$(function() 
+// {	
+	// $.ajax({
+                // type: 'POST'
+                // , url: "http://localhost:52192/Servidor/Produto.asmx/retornarProdutos"
+                // , contentType: 'application/json; charset=utf-8'
+                // , dataType: 'json'
+                // , data: "{}"
+                // , success: function (data, status) {
                     
-					var produtos = $.parseJSON(data.d); //salvando o nome dos produtos em um array
-					$("#div_da_label_aqui" ).autocomplete({ source: produtos }); 
-                }
-                , error: function (xmlHttpRequest, status, err) {
-                    $('.resultado').html('Ocorreu um erro');
-                }
-            });
+					// var produtos = $.parseJSON(data.d); //salvando o nome dos produtos em um array
+					// $("#div_da_label_aqui" ).autocomplete({ source: produtos }); 
+                // }
+                // , error: function (xmlHttpRequest, status, err) {
+                    // $('.resultado').html('Ocorreu um erro');
+                // }
+            // });
 			
- });
- 
-
-
-
-
- 
+ // });*/
+ // */
