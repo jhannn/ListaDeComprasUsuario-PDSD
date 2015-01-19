@@ -49,7 +49,7 @@ function retornarNomeLista(){
         ,data: "{idLista:'"+idLista+"'}"
         , success: function (data, status){                    
 			var nomeLista = $.parseJSON(data.d);               
-			$("#nomeDaLista").html(nomeLista);
+			$("#tituloLista").html(nomeLista);
 		}
         , error: function (xmlHttpRequest, status, err) {
             $('.resultado').html('Ocorreu um erro');
@@ -79,7 +79,7 @@ function retornarListas(){
 					iconEdit.setAttribute("data-toggle", "modal");
 					var iconRemove = document.createElement('div');
 					iconRemove.setAttribute("class", "iconRemove");
-					iconRemove.setAttribute("onclick", "excluirLista();");
+					iconRemove.setAttribute("onclick", "excluirLista('"+lista[i].id+"')");
 					aTag.setAttribute('href',"visualizar-lista.html?id="+lista[i].id);
 					aTag.innerHTML = lista[i].nome;
 					inp.setAttribute("id",lista[i].id);
@@ -217,8 +217,8 @@ function editarNomeLista(){
 }
 
 //______________________________________ EXCLUIR LISTA _____________________________________________//
-function excluirLista() {
-	var idLista = parseInt(window.localStorage.idListaClicada);
+function excluirLista(id) {
+	var idLista = id; //parseInt(window.localStorage.idListaClicada);
 	var idUsuario = ID_USUARIO;
 	var token = TOKEN;
    

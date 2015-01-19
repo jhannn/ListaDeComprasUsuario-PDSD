@@ -90,6 +90,12 @@ p {
     line-height:25px;
     padding-top:20px;
 }
+
+#tituloLista
+{
+	color: orange;
+	margin-left: 15px;
+}
 /*==============================================
    DASHBOARD STYLES    
     =============================================*/
