@@ -16,11 +16,13 @@ function fazerLogin(){
             , data: "{email:'"+email+"',senha:'"+senha+"',token:'"+token+"'}"
             , success: function (data, status) {                    
 				var retorno = $.parseJSON(data.d);
-				if(retorno == "-1"){
-					alert("Voce nao possui uma conta");
+				if(retorno.erro == "Erro de Usuário"){
+					alert(retorno.erro + "\n" + retorno.Message);
 					return;							
 				}else{
+					window.localStorage.UsuarioNome=retorno.nome;
 					window.localStorage.UsuarioEmail=email;
+					window.localStorage.UsuarioId=retorno.id_usuario;
 					window.localStorage.UsuarioToken=token;
 					window.location = "principal.html";
 					return;
@@ -47,14 +49,16 @@ function verificarLogin(lugar) {
 		, data: "{email:'"+email+"',token:'"+token+"'}"
 		, success: function (data, status) {						
 			var retorno = $.parseJSON(data.d);
-			if(retorno == "-1" && lugar=="index"){
+			console.log(retorno);
+			if(retorno=="OK" && lugar!="index"){
 				return;		
-			}else if(retorno == "0" && lugar=="index"){
+			}else if(retorno=="OK" && lugar=="index"){
 				window.location = "principal.html";
 				return;
-			}else if(retorno == "-1"){
-				window.location = "index.html";
+			}else if(retorno!="OK" && lugar=="index"){
 				return;
+			}else{
+				window.location = "index.html";
 			}
 		}
 		, error: function (xmlHttpRequest, status, err) {
@@ -66,22 +70,24 @@ function verificarLogin(lugar) {
 //_______________________________ LOGOUT ____________________________________________//
 function logout(){
 	var email= window.localStorage.UsuarioEmail;
-	
+	var token= window.localStorage.UsuarioToken;
 	$.ajax({
         type: 'POST'
         , url: "http://localhost:52192/Servidor/Usuario.asmx/logout"
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{email:'"+email+"'}"
+        , data: "{email:'"+email+"',token:'"+token+"'}"
         , success: function (data, status){                    
 			var retorno = $.parseJSON(data.d);
-			if(retorno == "0"){
+			console.log(retorno);
+			if(retorno == "OK"){
 				window.localStorage.UsuarioEmail='';
 				window.localStorage.UsuarioToken='';
 				window.localStorage.UsuarioNome='';
 				window.location = "index.html";
 				return;							
-			}else {
+			}else{
+				alert(retorno.erro + "\n" + retorno.Message);
 				return;
 			}
         }
@@ -149,18 +155,19 @@ function cadastrarUsuario() {
                 , dataType: 'json'
                 , data: "{nomeUsuario:'"+nome+"',email:'"+email+"',senha:'"+senha+"',token:'"+token+"'}"
                 , success: function (data, status){                    
-					var itens = $.parseJSON(data.d);                    
-					if(itens[0] == "0"){
+					var retorno = $.parseJSON(data.d);
+						console.log(retorno);
+					if(retorno.erro != "Erro de Usuário"){
 						alert("Usuario cadastrado com sucesso!");
 						window.localStorage.UsuarioNome=nome;
 						window.localStorage.UsuarioEmail=email;
 						window.localStorage.UsuarioToken=token;
+						window.localStorage.UsuarioId=retorno.id_usuario;
 						window.location = "principal.html";
 						return;
-					}
-					else if(itens[0] == "1"){
-						alert("Ja possui uma conta com este email");
-						return;
+					}else if(retorno.erro == "Erro de Usuário"){
+						alert(retorno.erro + "\n" + retorno.Message);
+						return
 					}
 					else{
 						alert("Erro de token");
@@ -208,13 +215,14 @@ function atualizarSenhaUsuario() {
                 , dataType: 'json'
                 , data: "{email:'"+email+"',senha:'"+senha+"',novaSenha:'"+novaSenha+"'}"
                 , success: function (data, status){                    
-					var itens = $.parseJSON(data.d);                    
-					if(itens[0] == "0"){
+					var retorno = $.parseJSON(data.d); 
+						console.log(retorno);
+					if(retorno == "OK"){
 						alert("Usuario atualizado com sucesso!");
 						window.location = "perfil.html";
 						return;
 					}else{
-						alert("Ocorreu algum erro, repita o processo novamente!");
+						alert(retorno.erro + "\n" + retorno.Message);
 						return;
 					}
                 }
