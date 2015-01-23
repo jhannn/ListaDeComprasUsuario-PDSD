@@ -1,5 +1,5 @@
 var ID_USUARIO = 1;
-var TOKEN = "124576453875";
+var TOKEN = "123";
 
 //__________________________________ CADASTRAR PRODUTO ______________________________________//
 var listaDeProdutos = [];
@@ -28,7 +28,7 @@ function autoComplete(){
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{nome: '"+nomeProduto+"'}"
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeProduto:'"+nomeProduto+"'}"
 		, success: function (data, status){                    
 			var produtos = $.parseJSON(data.d); //salvando o nome dos produtos em um array
 			$("#nomeDoProduto").autocomplete({ source: produtos }); 
