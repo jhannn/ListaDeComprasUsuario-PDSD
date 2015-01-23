@@ -1,5 +1,5 @@
 var ID_USUARIO = 1;
-var TOKEN = "124576453875";
+var TOKEN = "123";
 
 //___________________ CRIAR LISTA ________________________//
 function criarLista(){
@@ -65,7 +65,7 @@ function retornarListas(){
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'						//tipos de dados de retorno
-        , data: "{idUsuario:'"+ID_USUARIO+"'}" //passando os parametros
+       , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"'}"
         , success: function (data, status){                    
 			var lista = $.parseJSON(data.d); 		    //pegando retorno do servidor
 			
