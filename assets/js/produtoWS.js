@@ -19,7 +19,7 @@ function cadastrarProduto(){
 }
 
 //______________________________ AUTO COMPLETE _______________________________________// 
-function teste(){
+function autoComplete(){
 	
 	var nomeProduto = $("#nomeDoProduto").val();
 	$.ajax({
