@@ -109,12 +109,12 @@ function recuperarSenha(){
         , data: "{emailUsuario:'"+emailUsuario+"'}"
         , success: function (data, status){                    
 			var retorno = $.parseJSON(data.d);
-			if(retorno == "0"){
+			if(retorno == "OK"){
 				alert("Email enviado, verifique sua caixa de menssagem!");
 				return;							
-			}else if(retorno == "1"){
-				alert("Voce nao possui uma conta cadastrada");
-				return;
+			}else if(retorno.erro == "Erro de Usuário"){
+				alert(retorno.erro + "\n" + retorno.Message);
+				return;		
 			}else{
 				alert("Ocorreu um erro!");
 				return;
