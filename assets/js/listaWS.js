@@ -76,9 +76,9 @@ function retornarListas(){
 				if(lista[i] != undefined){
 					var inp = document.createElement("div");
 					var aTag = document.createElement('a');
-					var list = document.createElement('input');
 					var iconEdit = document.createElement('div');
 					iconEdit.setAttribute("class", "iconEdit");
+					iconEdit.setAttribute("onclick", "listaClicadaEditar('"+lista[i].id_listaDeProdutos+"')");
 					iconEdit.setAttribute("data-target", "#editar_lista");
 					iconEdit.setAttribute("data-toggle", "modal");
 					var iconRemove = document.createElement('div');
@@ -86,14 +86,10 @@ function retornarListas(){
 					iconRemove.setAttribute("onclick", "excluirLista('"+lista[i].id_listaDeProdutos+"')");
 					aTag.setAttribute('href',"visualizar-lista.html?id="+lista[i].id_listaDeProdutos);
 					aTag.innerHTML = lista[i].nome;
-					list.setAttribute("type", "hidden");
-					list.setAttribute("id", "lista_clicada");
-					list.setAttribute("value", lista[i].id_listaDeProdutos);
 					inp.setAttribute("id",lista[i].id_listaDeProdutos);
 					inp.setAttribute("class", "alert alert-warning");
 					inp.setAttribute("name", "listas");
 					inp.setAttribute("role", "alert");
-					inp.appendChild(list);
 					inp.appendChild(aTag);
 					inp.appendChild(iconRemove);
 					inp.appendChild(iconEdit);
@@ -196,8 +192,7 @@ function retornarProdutosDaListas(){
 
 //_____________________________ EDITAR NOME LISTA____________________________//
 function editarNomeLista(){
-	var idLista = $("#lista_clicada").val();
-	var idLista1 = parseInt(idLista);
+	var idLista = parseInt(window.localStorage.idEditarLista);
 	var idUsuario = ID_USUARIO;
 	var novoNomeDaLista = $("#novo_nome_lista").val();
 	var token = TOKEN;
@@ -207,7 +202,7 @@ function editarNomeLista(){
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{idLista:'"+idLista1+"',novoNomeDaLista:'"+novoNomeDaLista+"',idUsuario:'"+idUsuario+"',token:'"+token+"'}"
+        , data: "{idLista:'"+idLista+"',novoNomeDaLista:'"+novoNomeDaLista+"',idUsuario:'"+idUsuario+"',token:'"+token+"'}"
         , success: function (data, status){                    
 			var itens = $.parseJSON(data.d);               
 			if(itens == "-1"){
@@ -254,4 +249,8 @@ function excluirLista(id) {
             $('.resultado').html('Ocorreu um erro');
         }
     });
+}
+
+function listaClicadaEditar(id) {
+	window.localStorage.idEditarLista = id;
 }
