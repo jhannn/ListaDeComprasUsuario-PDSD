@@ -40,6 +40,10 @@ function fazerLogin(){
 function verificarLogin(lugar) {
     var idUsuario = window.localStorage.UsuarioId;
 	var token = window.localStorage.UsuarioToken;
+	if(typeof(idUsuario)===undefined|| typeof(idUsuario)!=='string' || typeof(token)===undefined || typeof(token)!=='string'){
+		idUsuario=-1;
+		token='';
+	}
 		
 	$.ajax({
 		type: 'POST'
@@ -69,17 +73,18 @@ function verificarLogin(lugar) {
 
 //_______________________________ LOGOUT ____________________________________________//
 function logout(){
-	var email= window.localStorage.UsuarioEmail;
+	var id= window.localStorage.UsuarioId;
 	var token= window.localStorage.UsuarioToken;
 	$.ajax({
         type: 'POST'
         , url: "http://localhost:52192/Servidor/Usuario.asmx/logout"
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{email:'"+email+"',token:'"+token+"'}"
+        , data: "{idUsuario:'"+id+"',token:'"+token+"'}"
         , success: function (data, status){                    
 			var retorno = $.parseJSON(data.d);
 			if(retorno == "OK"){
+				window.localStorage.UsuarioId=-1;
 				window.localStorage.UsuarioEmail='';
 				window.localStorage.UsuarioToken='';
 				window.localStorage.UsuarioNome='';
