@@ -1,4 +1,3 @@
-var ID_USUARIO = 1;
 var TOKEN = "124576453875";
 
 //____________________________________ FAZER LOGIN ______________________________________________//
@@ -40,7 +39,7 @@ function fazerLogin(){
 function verificarLogin(lugar) {
     var idUsuario = window.localStorage.UsuarioId;
 	var token = window.localStorage.UsuarioToken;
-	if(typeof(idUsuario)===undefined|| typeof(idUsuario)!=='string' || typeof(token)===undefined || typeof(token)!=='string'){
+	if(typeof(idUsuario)===undefined || typeof(idUsuario)!=='string' || typeof(token)===undefined || typeof(token)!=='string'){
 		idUsuario=-1;
 		token='';
 	}

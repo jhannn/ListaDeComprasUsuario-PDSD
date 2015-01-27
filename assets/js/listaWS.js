@@ -1,8 +1,10 @@
-var ID_USUARIO = 1;
-var TOKEN = "124576453875";
+var ID_USUARIO = window.localStorage.UsuarioId;
+var TOKEN = window.localStorage.UsuarioToken;
 
 //___________________ CRIAR LISTA ________________________//
 function criarLista(){
+	console.log(ID_USUARIO);
+	console.log(TOKEN);
 	var nomeLista = $("#nome_lista").val();
 	var idUsuario = ID_USUARIO;
 	var token = TOKEN;
@@ -16,13 +18,14 @@ function criarLista(){
             , dataType: 'json'
             , data: "{nomeLista:'"+nomeLista+"',idUsuario:'"+idUsuario+"',token:'"+token+"'}"
             , success: function (data, status){                    
-				var itens = $.parseJSON(data.d); //salvando retorno do metodo do servidor                    
-				if(itens == "-1"){
-					alert("Erro ao criar lista");
-					return;							
-				}else {
+				var itens = $.parseJSON(data.d); //salvando retorno do metodo do servidor  
+				console.log(itens.erro);               
+				if(typeof(itens.erro) === 'undefined'){
 					alert("Lista criada com sucesso!");
 					window.location = "visualizar-lista.html?id="+itens.id_listaDeProdutos;
+					return;						
+				}else{					
+					alert(itens.erro + "\n" + itens.Message);
 					return;
 				}
 			}
@@ -73,6 +76,7 @@ function retornarListas(){
 				if(lista[i] != undefined){
 					var inp = document.createElement("div");
 					var aTag = document.createElement('a');
+					var list = document.createElement('input');
 					var iconEdit = document.createElement('div');
 					iconEdit.setAttribute("class", "iconEdit");
 					iconEdit.setAttribute("data-target", "#editar_lista");
@@ -82,10 +86,14 @@ function retornarListas(){
 					iconRemove.setAttribute("onclick", "excluirLista('"+lista[i].id_listaDeProdutos+"')");
 					aTag.setAttribute('href',"visualizar-lista.html?id="+lista[i].id_listaDeProdutos);
 					aTag.innerHTML = lista[i].nome;
+					list.setAttribute("type", "hidden");
+					list.setAttribute("id", "lista_clicada");
+					list.setAttribute("value", lista[i].id_listaDeProdutos);
 					inp.setAttribute("id",lista[i].id_listaDeProdutos);
 					inp.setAttribute("class", "alert alert-warning");
 					inp.setAttribute("name", "listas");
 					inp.setAttribute("role", "alert");
+					inp.appendChild(list);
 					inp.appendChild(aTag);
 					inp.appendChild(iconRemove);
 					inp.appendChild(iconEdit);
@@ -188,7 +196,8 @@ function retornarProdutosDaListas(){
 
 //_____________________________ EDITAR NOME LISTA____________________________//
 function editarNomeLista(){
-	var idLista = parseInt(window.localStorage.idListaClicada);
+	var idLista = $("#lista_clicada").val();
+	var idLista1 = parseInt(idLista);
 	var idUsuario = ID_USUARIO;
 	var novoNomeDaLista = $("#novo_nome_lista").val();
 	var token = TOKEN;
@@ -198,7 +207,7 @@ function editarNomeLista(){
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{idLista:'"+idLista+"',novoNomeDaLista:'"+novoNomeDaLista+"',idUsuario:'"+idUsuario+"',token:'"+token+"'}"
+        , data: "{idLista:'"+idLista1+"',novoNomeDaLista:'"+novoNomeDaLista+"',idUsuario:'"+idUsuario+"',token:'"+token+"'}"
         , success: function (data, status){                    
 			var itens = $.parseJSON(data.d);               
 			if(itens == "-1"){

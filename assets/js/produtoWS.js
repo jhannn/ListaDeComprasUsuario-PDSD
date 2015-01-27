@@ -1,5 +1,5 @@
-var ID_USUARIO = 1;
-var TOKEN = "124576453875";
+var ID_USUARIO = window.localStorage.UsuarioId;
+var TOKEN = window.localStorage.UsuarioToken;
 
 //__________________________________ CADASTRAR PRODUTO ______________________________________//
 var listaDeProdutos = [];
