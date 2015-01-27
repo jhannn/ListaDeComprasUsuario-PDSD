@@ -38,7 +38,7 @@ function fazerLogin(){
 }
 //_____________________________ VERIFICAR LOGIN _______________________________//
 function verificarLogin(lugar) {
-    var email = window.localStorage.UsuarioEmail;
+    var idUsuario = window.localStorage.UsuarioId;
 	var token = window.localStorage.UsuarioToken;
 		
 	$.ajax({
@@ -46,10 +46,10 @@ function verificarLogin(lugar) {
 		, url: "http://localhost:52192/Servidor/Usuario.asmx/verificarLogin"
 		, contentType: 'application/json; charset=utf-8'
 		, dataType: 'json'
-		, data: "{email:'"+email+"',token:'"+token+"'}"
+		, data: "{idUsuario:'"+idUsuario+"',token:'"+token+"'}"
 		, success: function (data, status) {						
 			var retorno = $.parseJSON(data.d);
-			console.log(retorno);
+			
 			if(retorno=="OK" && lugar!="index"){
 				return;		
 			}else if(retorno=="OK" && lugar=="index"){
@@ -79,7 +79,6 @@ function logout(){
         , data: "{email:'"+email+"',token:'"+token+"'}"
         , success: function (data, status){                    
 			var retorno = $.parseJSON(data.d);
-			console.log(retorno);
 			if(retorno == "OK"){
 				window.localStorage.UsuarioEmail='';
 				window.localStorage.UsuarioToken='';

@@ -1,5 +1,5 @@
 var ID_USUARIO = 1;
-var TOKEN = "123";
+var TOKEN = "124576453875";
 
 //___________________ CRIAR LISTA ________________________//
 function criarLista(){
@@ -22,7 +22,7 @@ function criarLista(){
 					return;							
 				}else {
 					alert("Lista criada com sucesso!");
-					window.location = "visualizar-lista.html?id="+itens;
+					window.location = "visualizar-lista.html?id="+itens.id_listaDeProdutos;
 					return;
 				}
 			}
@@ -42,14 +42,14 @@ function retornarNomeLista(){
 	var idLista = parseInt(window.localStorage.idListaClicada);
     $.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarNomeLista"
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarLista"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        ,data: "{idLista:'"+idLista+"'}"
+        ,data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idListaDeProdutos:'"+idLista+"'}"
         , success: function (data, status){                    
 			var nomeLista = $.parseJSON(data.d);               
-			$("#tituloLista").html(nomeLista);
+			$("#tituloLista").html(nomeLista.nome);
 		}
         , error: function (xmlHttpRequest, status, err) {
             $('.resultado').html('Ocorreu um erro');
@@ -61,7 +61,7 @@ function retornarNomeLista(){
 function retornarListas(){	
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarListas" //chamando a função
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'						//tipos de dados de retorno
@@ -79,10 +79,10 @@ function retornarListas(){
 					iconEdit.setAttribute("data-toggle", "modal");
 					var iconRemove = document.createElement('div');
 					iconRemove.setAttribute("class", "iconRemove");
-					iconRemove.setAttribute("onclick", "excluirLista('"+lista[i].id+"')");
-					aTag.setAttribute('href',"visualizar-lista.html?id="+lista[i].id);
+					iconRemove.setAttribute("onclick", "excluirLista('"+lista[i].id_listaDeProdutos+"')");
+					aTag.setAttribute('href',"visualizar-lista.html?id="+lista[i].id_listaDeProdutos);
 					aTag.innerHTML = lista[i].nome;
-					inp.setAttribute("id",lista[i].id);
+					inp.setAttribute("id",lista[i].id_listaDeProdutos);
 					inp.setAttribute("class", "alert alert-warning");
 					inp.setAttribute("name", "listas");
 					inp.setAttribute("role", "alert");
@@ -145,7 +145,7 @@ function retornarProdutosDaListas(){
 	
 	// $("#nomeDaLista").html(queries['id']);
 	var idLista=queries['id'];
-	window.localStorage.idListaClicada=idLista;
+	window.localStorage.idListaClicada= idLista;
 	$.ajax({
         type: 'POST'
         , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarProdutosDaLista"
@@ -205,8 +205,9 @@ function editarNomeLista(){
 				alert("Erro ao alterar o nome da lista.");
 				return;							
 			}else{
-				alert("Nome da lista cadastrada com sucesso!");
-				window.location = "visualizar-lista.html?id="+idLista;
+				alert("Nome da lista alterado com sucesso!");
+				window.location = "listas.html";
+				// window.location = "visualizar-lista.html?id="+idLista;
 				return;
 			}
 		}
@@ -224,7 +225,7 @@ function excluirLista(id) {
    
    $.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/excluirLista"
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/removerLista"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
