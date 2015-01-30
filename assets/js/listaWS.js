@@ -3,8 +3,6 @@ var TOKEN = window.localStorage.UsuarioToken;
 
 //___________________ CRIAR LISTA ________________________//
 function criarLista(){
-	console.log(ID_USUARIO);
-	console.log(TOKEN);
 	var nomeLista = $("#nome_lista").val();
 	var idUsuario = ID_USUARIO;
 	var token = TOKEN;

@@ -20,6 +20,7 @@
 	<script type="text/javascript">
 		window.onload = function(){
 			verificarLogin("estabelecimento");
+			listarEstabelecimento();
 		}
 	</script>      
 </head>
@@ -105,26 +106,21 @@
                     <form class="form-horizontal" role="form">
 
                         <div class="form-group" style="margin-bottom: 20px;">
-                            
-                            <label for="inputPassword3" class="col-sm-2 control-label">Nome da lista:</label>
                             <div class="col-sm-10">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Nome do estabelecimento:</label>                           
                                 <input class="form-control" type="text" placeholder="Nome do estabelecimento" id="nome">
                             </div>
-
-
                             <label for="inputPassword3" class="col-sm-2 control-label">Bairro:</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" placeholder="Bairro" id="bairro">
+                                <input class="form-control" type="text" placeholder="Bairro" id="bairroEstabelecimento">
                             </div>
-
                             <label for="inputPassword3" class="col-sm-2 control-label">Cidade:</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" placeholder="Cidade" id="cidade">
+                                <input class="form-control" type="text" placeholder="Cidade" id="cidadeEstabelecimento">
                             </div>
-
-                            <label for="inputPassword3" class="col-sm-2 control-label">Número:</label>
+                            <label for="inputPassword3" class="col-sm-2 control-label">Unidade do estabelecimento:</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" placeholder="Número" id="numero">
+                                <input class="form-control" type="text" placeholder="Unidade" id="unidadeEstabelecimento">
                             </div>
 
                         </div>
@@ -135,7 +131,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary" onclick="criarLista()">Cadastrar estabelecimento</button>
+                    <button type="submit" class="btn btn-primary" onclick="cadastrarEstabelecimento()">Cadastrar estabelecimento</button>
                 </div>
             </div>
         </div>
@@ -146,7 +142,7 @@
 
 
     <!-- Modal para editar lista -->
-    <div class="modal fade" id="editar_estabelecimento tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editar_estabelecimento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -158,9 +154,21 @@
                     <form class="form-horizontal" role="form">
 
                         <div class="form-group" style="margin-bottom: 20px;">
-                            <label for="inputPassword3" class="col-sm-2 control-label">Novo nome:</label>
+                                  <label for="inputPassword3" class="col-sm-2 control-label">Nome da lista:</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" placeholder="Nome do estabelecimento" id="novo_nome">
+                                <input class="form-control" type="text" placeholder="Nome do estabelecimento" id="novoNomeEstabelecimento">
+                            </div>
+                            <label for="inputPassword3" class="col-sm-2 control-label">Bairro:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" placeholder="Bairro" id="novoBairroEstabelecimento">
+                            </div>
+                            <label for="inputPassword3" class="col-sm-2 control-label">Cidade:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" placeholder="Cidade" id="novoCidadeEstabelecimento">
+                            </div>
+                            <label for="inputPassword3" class="col-sm-2 control-label">Unidade do estabelecimento:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" placeholder="Unidade" id="novoUnidadeEstabelecimento">
                             </div>
                         </div>
 
@@ -170,7 +178,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary" onclick="editarNomeLista()">Editar estabelecimento</button>
+                    <button type="button" class="btn btn-primary" onclick="editarEstabelecimento()">Editar estabelecimento</button>
                 </div>
             </div>
         </div>
