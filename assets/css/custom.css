@@ -140,6 +140,21 @@ color: #555555;
 white-space: nowrap;
 text-decoration: none;
 }	
+
+
+/*==============================================
+   AJUSTES EXIBIR LISTA   
+    =============================================*/
+	
+.ajustesLista
+{
+font-size: 20px;
+color: #ffb503;
+position: relative;
+float: right;
+margin: -19px;
+right: 310px;
+}
 	
 
 /*==============================================

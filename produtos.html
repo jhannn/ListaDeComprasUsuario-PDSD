@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-      <meta charset="utf-8" />
+      <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Compras Digital</title>
 	<!-- BOOTSTRAP STYLES-->
@@ -21,6 +21,7 @@
 	<script type="text/javascript">
 		window.onload = function(){
 			verificarLogin("produtos");
+			listarProduto();
 		}
 	</script>    
   
@@ -76,34 +77,9 @@
 				<h2 style="color: #000; font-size: 18px; font-weight: bold; padding: 0px 0px 12px 15px;">Produtos:</h2>
 				
 				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="width: 97%; padding-left: 16px;">
-			  <div class="panel panel-default">
-				<div class="panel-heading" role="tab" id="headingOne">
-				  <h4 class="panel-title">
-					<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="color: #ffb503;">
-					  <img src="assets/img/detalhes.png" width="30px" style="margin-bottom: 3px;color: #ffb503;">Arroz
-					</a>
-				  </h4>
-				</div>
-				<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-				  <div class="panel-body">
-					Descrição do produto...
-				  </div>
-				</div>
-			  </div>
-			  <div class="panel panel-default">
-				<div class="panel-heading" role="tab" id="headingTwo">
-				  <h4 class="panel-title">
-					<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="color: #ffb503;">
-					  <img src="assets/img/detalhes.png" width="30px" style="margin-bottom: 3px;color: #ffb503;">Feijão
-					</a>
-				  </h4>
-				</div>
-				<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-				  <div class="panel-body">
-					Descrição do produto...
-				  </div>
-				</div>
-			  </div>
+				
+				<p id="referencia"></p>
+			  
 			  
 			</div>
 				 					 	
