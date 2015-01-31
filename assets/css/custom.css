@@ -145,18 +145,39 @@ text-decoration: none;
 /*==============================================
    AJUSTES EXIBIR LISTA   
     =============================================*/
+.panel-default > .panel-heading {
+background-color: #E7E6E6;
+}	
 	
-.ajustesLista
+.ajustes-lista
 {
-font-size: 20px;
-color: #ffb503;
-position: absolute;
-float: right;
-margin: -48px;
-margin-left: 32px;
+	font-size: 20px;
+	color: #ffb503;
+	position: absolute;
+	float: right;
+	margin: -48px;
+	margin-left: 32px;
 }
-	
 
+.panel-body
+ {
+	height: 1px;
+	transition: height 1.5s;
+	padding:0px !important;
+}
+
+.panel-body-abrir
+{
+	transition: height 1.5s;
+	height: 145px;
+}
+
+p#detalhes
+{
+	font-size: 14px;
+	line-height: 25px;
+	padding-top: 10px;
+}
 /*==============================================
    DASHBOARD STYLES    
     =============================================*/
