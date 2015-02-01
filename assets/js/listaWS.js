@@ -105,7 +105,6 @@ function retornarListas(){
 //_____________________________________ ADICIONAR PRODUTOS À LISTA _____________________________________//
 function adicionarProdutoALista(){
 	var nomeDoProduto = $("#nomeDoProduto").val();
-	var formatoDoCodigo = $("#formato").val();
 	var codigoDeBarras = $("#cod_barra").val();
 	var quantidade = parseInt($("#quantidade").val());
 	var idLista = parseInt(window.localStorage.idListaClicada);
@@ -117,7 +116,7 @@ function adicionarProdutoALista(){
 			, crossDomain:true
             , contentType: 'application/json; charset=utf-8'
             , dataType: 'json'
-            , data: "{nomeProduto:'"+nomeDoProduto+"',codigoDeBarras:'"+codigoDeBarras+"',tipoCodigo:'"+formatoDoCodigo+"',quantidade:'"+quantidade+"',idLista:'"+idLista+"'}"
+            , data: "{nomeProduto:'"+nomeDoProduto+"',codigoDeBarras:'"+codigoDeBarras+"',quantidade:'"+quantidade+"',idLista:'"+idLista+"'}"
             , success: function (data, status){
                 var itens = $.parseJSON(data.d); //salvando retorno do metodo do servidor
                 if(itens == "-1"){
@@ -150,16 +149,16 @@ function retornarProdutosDaListas(){
 	window.localStorage.idListaClicada= idLista;
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarProdutosDaLista"
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarLista"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{idLista:'"+idLista+"'}"
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idListaDeProdutos:'"+idLista+"'}"
         , success: function (data, status){                    
 			var produtos = $.parseJSON(data.d);					   //indice para pegar o nome
 			var idProduto = 0;						  //indice para pegar o id
-			for(var i=0; i<produtos.length ;i++){
-				if(produtos[idProduto] != undefined){
+			for(var i=0; i<produtos.produtosDaLista.length ;i++){
+				if(produtos.produtosDaLista[idProduto] != undefined){
 					var inp = document.createElement("div");
 					var aTag = document.createElement('a');
 					var iconEdit = document.createElement('div');
@@ -169,8 +168,8 @@ function retornarProdutosDaListas(){
 					var iconRemove = document.createElement('div');
 					iconRemove.setAttribute("class", "iconRemove");
 					iconRemove.setAttribute("onclick", "");
-					aTag.innerHTML = produtos[i].nome;
-					inp.setAttribute("id",produtos[i].id);
+					aTag.innerHTML = produtos.produtosDaLista[i].nome;
+					inp.setAttribute("id",produtos.produtosDaLista[i].id_produto);
 					inp.setAttribute("class", "alert alert-warning");
 					inp.setAttribute("name", "produtos");
 					inp.setAttribute("role", "alert");

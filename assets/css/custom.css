@@ -144,10 +144,15 @@ text-decoration: none;
 
 /*==============================================
    AJUSTES EXIBIR LISTA   
-    =============================================*/
+    =============================================*/	
 .panel-default > .panel-heading {
 background-color: #E7E6E6;
 }	
+
+.panel.panel-default {
+margin-left: 15px;
+margin-top: 30px;
+}
 	
 .ajustes-lista
 {
@@ -157,19 +162,6 @@ background-color: #E7E6E6;
 	float: right;
 	margin: -48px;
 	margin-left: 32px;
-}
-
-.panel-body
- {
-	height: 1px;
-	transition: height 1.5s;
-	padding:0px !important;
-}
-
-.panel-body-abrir
-{
-	transition: height 1.5s;
-	height: 145px;
 }
 
 p#detalhes
@@ -317,7 +309,7 @@ color: #8d8888;
 
 
 .user-image {
-    margin: 25px auto;
+ margin: 25px auto;
 -webkit-border-radius: 10px;
 -moz-border-radius: 10px;
 border-radius: 10px;

@@ -39,23 +39,95 @@ function autoComplete(){
     });	
 }
 
-function listarProduto()
+//_______________________ PESQUISAR PRODUTO POR NOME ___________________________//
+function pesquisarProdutosNome()
 {
+	var marca = $("#marca_produto_pesquisa").val();
+	var nome = $("#nomeDoProduto").val();
+	
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Produto.asmx/retornarTodosProdutos"
+        , url: "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosNome"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"'}"
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"',nome:'"+nome+"'}"
 		, success: function (data, status){  
 		
-			var produto = $.parseJSON(data.d); 
-			for(var i=0 ;i<produto.length ;i++)
+			var produto = $.parseJSON(data.d);
+			if(produto.erro == "Erro de Pesquisa") 
 			{
-			listaEstilo(produto[i]);
+				alert(produto.Message);
 			}
-			
+			else
+			{	
+				for(var i=0 ;i<produto.length ;i++)
+				{ listaEstilo(produto[i]); }	
+			}
+        }
+        , error: function (xmlHttpRequest, status, err) {
+            $('.resultado').html('Ocorreu um erro');
+        }
+    });	
+}
+
+//_______________________ PESQUISAR PRODUTO POR MARCA ___________________________//
+function pesquisarProdutosMarca()
+{
+	var marca = $("#marca_produto_pesquisa").val();
+	
+	$.ajax({
+        type: 'POST'
+        , url: "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosMarca"
+		, crossDomain:true
+        , contentType: 'application/json; charset=utf-8'
+        , dataType: 'json'
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"'}"
+		, success: function (data, status){  
+		
+			var produto = $.parseJSON(data.d);
+			if(produto.erro == "Erro de Pesquisa") 
+			{
+				alert(produto.Message);
+			}
+			else
+			{	
+				for(var i=0 ;i<produto.length ;i++)
+				{ listaEstilo(produto[i]); }	
+			}
+        }
+        , error: function (xmlHttpRequest, status, err) {
+            $('.resultado').html('Ocorreu um erro');
+        }
+    });	
+}
+
+//_______________________ PESQUISAR PRODUTO POR EMBALAGEM ___________________________//
+function pesquisarProdutosEmbalagem()
+{
+	var marca = $("#marcaProduto").val();
+	var nome = $("#nomeProduto").val();
+	var embalagem = $("#embalagem_produto_pesquisa").val();
+	
+	$.ajax({
+        type: 'POST'
+        , url: "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosEmbalagem"
+		, crossDomain:true
+        , contentType: 'application/json; charset=utf-8'
+        , dataType: 'json'
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"',nome:'"+nome+"',embalagem:'"+embalagem+"'}"
+		, success: function (data, status){  
+		
+			var produto = $.parseJSON(data.d);
+			if(produto.erro == "Erro de Pesquisa") 
+			{
+				alert(produto.Message);
+			}
+			else
+			{	
+				for(var i=0 ;i<produto.length ;i++)
+				{ listaEstilo(produto[i]); }	
+			}
         }
         , error: function (xmlHttpRequest, status, err) {
             $('.resultado').html('Ocorreu um erro');
@@ -71,8 +143,6 @@ function listaEstilo(produto)
 		var h4 = document.createElement("h4");
 		var a = document.createElement("a");
 		var img = document.createElement("img");
-		var divP = document.createElement("div");
-		var painel = document.createElement("div");
 		var nomeProduto = document.createElement("p");
 		
 		//--estilos--
@@ -88,50 +158,17 @@ function listaEstilo(produto)
 		nomeProduto.setAttribute("class","ajustes-lista");		
 		nomeProduto.innerHTML = produto.nome;
 		
-		divP.setAttribute("id",produto.id_produto);
-		painel.setAttribute("class","panel-body");
-		painel.setAttribute("id","nome"+produto.id_produto);
-		painel.innerHTML =  "<p id='detalhes'> Marca: "+ produto.marca +
-							"<br /> Codigo de barras: "+ produto.codigoDeBarras +
-							"<br /> Tipo codigo de barras: "+ produto.tipoCodigoDeBarras +
-							"<br /> Unidade: "+ produto.unidade +
-							"<br /> Embalagem: "+ produto.embalagem +"</p> </ br>";
-		
 		//--------//
 		
 		divPrincipal.appendChild(divRole);
 		divPrincipal.appendChild(h4);
 		divPrincipal.appendChild(a);
 		divPrincipal.appendChild(img);
-		divPrincipal.appendChild(divP);
 		divRole.appendChild(h4);
 		h4.appendChild(a);
 		h4.appendChild(nomeProduto);
 		a.appendChild(img);
-		divP.appendChild(painel);
 		
 		var pai = document.getElementById("referencia");
 		pai.appendChild(divPrincipal);	
-		nomeProduto.setAttribute("onclick","abrirDescricao('"+ 'nome'+produto.id_produto+"')");
-}
-
-var aberta = "fechada";
-var controle = "-1";
-function abrirDescricao(id)
-{	
-
-	if(aberta == "fechada" && id != controle)//tem q abrir
-	{
-		document.getElementById(id).className = "panel-body-abrir";
-		controle = id;
-		aberta = "aberta";
-		return;
-	}
-	
-	if(aberta == "aberta" && id == controle) //tem q fechar
-	{
-		document.getElementById(id).className = "panel-body";
-		controle = "-1";
-		aberta = "fechada";
-	}
 }
