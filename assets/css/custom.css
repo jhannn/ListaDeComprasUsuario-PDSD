@@ -12,6 +12,7 @@
 /*==============================================
     GENERAL  STYLES    
     =============================================*/
+
 body {
     font-family: 'Open Sans', sans-serif;
 }
@@ -170,6 +171,14 @@ p#detalhes
 	line-height: 25px;
 	padding-top: 10px;
 }
+
+img.pesquisar-imagem
+{
+	float: right;
+	width: 40px;
+	margin-top: -45px;
+}	
+		
 /*==============================================
    DASHBOARD STYLES    
     =============================================*/
@@ -482,5 +491,10 @@ line-height: 1.428571429;
 }
    
 }
+
+
+
+	
+	
 
 
