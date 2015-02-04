@@ -46,29 +46,34 @@ function autoComplete(){
 function pesquisarProduto()
 {
 
-	var nome = $("#nomeDoProduto").val();
-	var marca = $("#marcaProduto").val();
+	var nome = $("#nomeDoProduto").val().trim();
+	var marca = $("#marcaProduto").val().trim();
 	var embalagem = $('select[name=embalagem]').val(); 
 	
 	var dados;
 	var url;
+
+	//------ Pesquisar por embalagem ----//
+	if(nome != "" && embalagem != 0){
+		dados =  "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"',nome:'"+nome+"',embalagem:'"+embalagem+"'}"
+		url = "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosEmbalagem"
+	}
 	
 	//------ Pesquisar por nome -----//
-	if(nome!="" && (marca!="" || marca=="" ) && embalagem==""){
+	else if(nome != ""){
 		dados = "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"',nome:'"+nome+"'}"
 		url   = "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosNome";
 	}
 	
 	//------ Pesquisar por marca -----//
-	if(nome == "" && marca != "" && embalagem == ""){
+	else if(marca != ""){
 		dados = "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"'}"
 		url = "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosMarca"	
 	}
-
-	//------ Pesquisar por embalagem ----//
-	if(nome != "" && marca != "" && embalagem != ""){
-		dados =  "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"',nome:'"+nome+"',embalagem:'"+embalagem+"'}"
-		url = "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosEmbalagem"
+	
+	else
+	{
+		alert("Preencha pelo menos Nome ou Marca");
 	}
 	
 	$.ajax({
@@ -84,6 +89,7 @@ function pesquisarProduto()
 			if(produto.erro == "Erro de Pesquisa") {	alert(produto.Message);	}
 			else
 			{	
+				document.getElementById("referencia").innerHTML = "";
 				for(var i=0 ;i<produto.length ;i++)
 				{ listaEstilo(produto[i]); }	
 			}
