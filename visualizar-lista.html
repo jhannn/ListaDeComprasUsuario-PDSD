@@ -19,6 +19,7 @@
     <script src="assets/js/usuarioWS.js"></script>
 	<script src="assets/js/listaWS.js"></script>
 	<script src="assets/js/produtoWS.js"></script>  
+	<script src="assets/js/estabelecimentoWS.js"></script>  
    
    	<script type="text/javascript">
 		window.onload = function(){
@@ -81,6 +82,10 @@
 						
 						
 						<p id="nomeLista" style="margin-left:15px"></p>
+						
+						<button type="button" class="btn btn-primary" style="float: right;" data-toggle="modal" data-target="#exibir_estabelecimento">
+							Buscar ofertas
+						</button>
 
 						<button type="button" class="btn btn-primary" style="float: right;" data-toggle="modal" data-target="#cadastrar_prduto_lista" onclick="javascript:adicionarProdutoALista();">
 							Cadastrar produto à lista
@@ -138,10 +143,32 @@
    </script>
    
    
-   <!-- Modal para inserir produtos a uma lista -->
-   <!-- Modal -->
+   <!-- Modal listar estabelecimento -->
+     <div class="modal fade" id="exibir_estabelecimento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myModalLabel">Estabelecimentos</h4>
+		  </div>
+		  <div class="modal-body">
+		  
+		  <h2 style="font-size: 15px;">Estabelecimento</h1>
+		  <h2 id="hey" style="font-size: 15px; float:right;margin: -25px; margin-right: 122px;">Oferta<h1>
+		  <h2 id="you" style="font-size: 15px; float:right;margin: -33px; margin-right: 5px;">Preço</h2>
+		  
+		  <p id="referenciaEstab"><p>
+		  
+		  <button type="button" onclick="retornarEstabelecimentosMaisBaratos();">Teste</button>
+
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		  </div>
+		</div>
+	  </div>
+	</div> <!-- fim modal -->
 	
-   <!-- Final modal inserir produtos a uma lista -->
    
    <div class="modal fade" id="cadastrar_prduto_lista" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">

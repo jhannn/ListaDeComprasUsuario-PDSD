@@ -196,3 +196,98 @@ function visualizarEstabelecimento(){
     });
 }
 
+//_______________________ RETORNAR ESTABELECIMENTOS MAIS BARATO ______________________//
+
+function retornarEstabelecimentosMaisBaratos(){	
+
+	var idLista = parseInt(window.localStorage.idListaClicada);
+	
+	$.ajax({
+        type: 'POST'
+        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimentosMaisBarato"
+		, crossDomain:true
+        , contentType: 'application/json; charset=utf-8'
+        , dataType: 'json'
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"'}"
+		, success: function (data, status){                    
+			var estabelecimentos = $.parseJSON(data.d);
+			
+			//------------ ordenar -----------------//
+			var i, j, preco,oferta,guardar;
+			for (i = 1; i < estabelecimentos.length; i++) {
+			   preco = estabelecimentos[i].precoLista;
+			   guardar = estabelecimentos[i];
+			   oferta = estabelecimentos[i].produtosEncontrados;
+			   j = i;
+			   while((j>0) && 
+			   preco<estabelecimentos[j-1].precoLista && 
+			  (oferta>=estabelecimentos[j-1].produtosEncontrados ||  (preco*2) >= estabelecimentos[j-1].precoLista) )
+			   {
+					estabelecimentos[j] = estabelecimentos[j-1];
+					j = j-1;
+			   }
+			   estabelecimentos[j] = guardar;
+			}
+			//------------------------------------------//
+			var totalDeProdutos =  estabelecimentos[0].produtosEncontrados + estabelecimentos[0].produtosNaoEncontrados;
+			
+			document.getElementById("referenciaEstab").innerHTML = "";
+			for(var i=0 ;i<estabelecimentos.length ;i++)
+			{ listaEstiloEstab(estabelecimentos[i],totalDeProdutos); }	
+			
+        }
+        , error: function (xmlHttpRequest, status, err) {
+            $('.resultado').html('Ocorreu um erro');
+        }
+    });	
+}
+
+function listaEstiloEstab(estabelecimentos,totalDeProdutos)
+{
+	var divPrincipal = document.createElement("div");
+		var divRole = document.createElement("div");
+		var h4 = document.createElement("h4");
+		var a = document.createElement("a");
+		var img = document.createElement("img");
+		var nomeProduto = document.createElement("p");
+		var produtosExistentes = document.createElement("p");
+		var produtosNaoExistentes = document.createElement("p");
+		var valor = document.createElement("p");
+		
+		//--estilos--
+		divPrincipal.setAttribute("class","panel panel-default");
+		divRole.setAttribute("class","panel-heading");
+		h4.setAttribute("class","panel-title");
+		a.setAttribute("style","color: #ffb503;");
+		
+		img.setAttribute("src","assets/img/detalhes.png");
+		img.setAttribute("width","30px");
+		img.setAttribute("style","color: #ffb503;");
+		
+		nomeProduto.setAttribute("class","ajustes-lista");		
+		nomeProduto.innerHTML = "<p>"+ estabelecimentos.nomeEstabelecimento+"..............."+
+		estabelecimentos.produtosEncontrados+"/"+
+		totalDeProdutos+
+		"................R$:"+
+		estabelecimentos.precoLista+"</p>";
+
+		//--------//
+		
+		divPrincipal.appendChild(divRole);
+		divPrincipal.appendChild(h4);
+		divPrincipal.appendChild(a);
+		divPrincipal.appendChild(img);
+		divRole.appendChild(h4);
+		h4.appendChild(a);
+		h4.appendChild(nomeProduto);
+		a.appendChild(img);
+		
+		var pai = document.getElementById("referenciaEstab");
+		pai.appendChild(divPrincipal);	
+}
+
+
+
+
+
+
