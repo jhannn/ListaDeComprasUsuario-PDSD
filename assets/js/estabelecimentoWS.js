@@ -229,11 +229,10 @@ function retornarEstabelecimentosMaisBaratos(){
 			   estabelecimentos[j] = guardar;
 			}
 			//------------------------------------------//
-			var totalDeProdutos =  estabelecimentos[0].produtosEncontrados + estabelecimentos[0].produtosNaoEncontrados;
 			
 			document.getElementById("referenciaEstab").innerHTML = "";
 			for(var i=0 ;i<estabelecimentos.length ;i++)
-			{ listaEstiloEstab(estabelecimentos[i],totalDeProdutos); }	
+			{ listaEstiloEstab(estabelecimentos[i]); }	
 			
         }
         , error: function (xmlHttpRequest, status, err) {
@@ -242,7 +241,7 @@ function retornarEstabelecimentosMaisBaratos(){
     });	
 }
 
-function listaEstiloEstab(estabelecimentos,totalDeProdutos)
+function listaEstiloEstab(estabelecimentos)
 {
 	var divPrincipal = document.createElement("div");
 		var divRole = document.createElement("div");
@@ -250,12 +249,12 @@ function listaEstiloEstab(estabelecimentos,totalDeProdutos)
 		var a = document.createElement("a");
 		var img = document.createElement("img");
 		var nomeProduto = document.createElement("p");
-		var produtosExistentes = document.createElement("p");
-		var produtosNaoExistentes = document.createElement("p");
+		var oferta = document.createElement("p");
 		var valor = document.createElement("p");
 		
 		//--estilos--
 		divPrincipal.setAttribute("class","panel panel-default");
+		divPrincipal.setAttribute("id",estabelecimentos.idEstabelecimento); //passando id do estabelecimento para a div principal
 		divRole.setAttribute("class","panel-heading");
 		h4.setAttribute("class","panel-title");
 		a.setAttribute("style","color: #ffb503;");
@@ -265,12 +264,15 @@ function listaEstiloEstab(estabelecimentos,totalDeProdutos)
 		img.setAttribute("style","color: #ffb503;");
 		
 		nomeProduto.setAttribute("class","ajustes-lista");		
-		nomeProduto.innerHTML = "<p>"+ estabelecimentos.nomeEstabelecimento+"..............."+
-		estabelecimentos.produtosEncontrados+"/"+
-		totalDeProdutos+
-		"................R$:"+
-		estabelecimentos.precoLista+"</p>";
-
+		nomeProduto.innerHTML = estabelecimentos.nomeEstabelecimento; //nome do estabelecimento
+		
+		oferta.setAttribute("class","ajustes-oferta");		
+		oferta.innerHTML = estabelecimentos.produtosEncontrados+"/"+estabelecimentos.totalProdutos; //oferta
+		
+		valor.setAttribute("class","ajustes-valor");		
+		valor.innerHTML = "R$"+estabelecimentos.precoLista; //valor
+		
+		
 		//--------//
 		
 		divPrincipal.appendChild(divRole);
@@ -280,6 +282,8 @@ function listaEstiloEstab(estabelecimentos,totalDeProdutos)
 		divRole.appendChild(h4);
 		h4.appendChild(a);
 		h4.appendChild(nomeProduto);
+		h4.appendChild(oferta);
+		h4.appendChild(valor);
 		a.appendChild(img);
 		
 		var pai = document.getElementById("referenciaEstab");

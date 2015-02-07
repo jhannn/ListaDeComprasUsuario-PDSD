@@ -154,6 +154,52 @@ background-color: #E7E6E6;
 margin-left: 15px;
 margin-top: 30px;
 }
+
+h2.estabelecimento-produtos-baratos {
+font-size: 20px;
+padding-left: 15px;
+color:orange;
+}
+
+p#referenciaEstab {
+margin-top: -53px;
+}
+
+h2.preco {
+color: orange;
+font-size: 20px;
+float: right;
+margin-right: -165px;
+margin-top: -28px;
+}
+
+h2.oferta {
+color: orange;
+font-size: 20px;
+float: right;
+margin-top: -29px;
+margin-right: 120px;
+}
+
+.ajustes-oferta
+{
+font-size: 18px;
+color: blue;
+font-weight: bold;
+float: right;
+margin-top: -16px;
+margin-right: 120px;
+}
+
+.ajustes-valor
+{
+font-size: 18px;
+color: rgb(255, 94, 0);
+font-weight: bold;
+float: right;
+margin-right: -142px;
+margin-top: -16px;
+}
 	
 .ajustes-lista
 {

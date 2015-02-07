@@ -83,7 +83,7 @@
 						
 						<p id="nomeLista" style="margin-left:15px"></p>
 						
-						<button type="button" class="btn btn-primary" style="float: right;" data-toggle="modal" data-target="#exibir_estabelecimento">
+						<button type="button" class="btn btn-primary" style="float: right;" data-toggle="modal" data-target="#exibir_estabelecimento" onclick="retornarEstabelecimentosMaisBaratos()">
 							Buscar ofertas
 						</button>
 
@@ -153,13 +153,11 @@
 		  </div>
 		  <div class="modal-body">
 		  
-		  <h2 style="font-size: 15px;">Estabelecimento</h1>
-		  <h2 id="hey" style="font-size: 15px; float:right;margin: -25px; margin-right: 122px;">Oferta<h1>
-		  <h2 id="you" style="font-size: 15px; float:right;margin: -33px; margin-right: 5px;">Preço</h2>
+		  <h2 class="estabelecimento-produtos-baratos">Estabelecimento</h1>
+		  <h2 class="oferta">Oferta</h2>
+		  <h2 class="preco">Preço</h2>
 		  
 		  <p id="referenciaEstab"><p>
-		  
-		  <button type="button" onclick="retornarEstabelecimentosMaisBaratos();">Teste</button>
 
 		  </div>
 		  <div class="modal-footer">
