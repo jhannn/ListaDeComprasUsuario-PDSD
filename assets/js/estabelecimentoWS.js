@@ -229,10 +229,11 @@ function retornarEstabelecimentosMaisBaratos(){
 			   estabelecimentos[j] = guardar;
 			}
 			//------------------------------------------//
-			
+
 			document.getElementById("referenciaEstab").innerHTML = "";
-			for(var i=0 ;i<estabelecimentos.length ;i++)
-			{ listaEstiloEstab(estabelecimentos[i]); }	
+			for(var i=0 ;i<estabelecimentos.length ;i++){
+				listaEstiloEstab(estabelecimentos[i]); 
+			}	
 			
         }
         , error: function (xmlHttpRequest, status, err) {
@@ -251,7 +252,9 @@ function listaEstiloEstab(estabelecimentos)
 		var nomeProduto = document.createElement("p");
 		var oferta = document.createElement("p");
 		var valor = document.createElement("p");
-		
+		var modal = document.createElement("div");
+		var conteudo = document.createElement("div");
+
 		//--estilos--
 		divPrincipal.setAttribute("class","panel panel-default");
 		divPrincipal.setAttribute("id",estabelecimentos.idEstabelecimento); //passando id do estabelecimento para a div principal
@@ -270,8 +273,12 @@ function listaEstiloEstab(estabelecimentos)
 		oferta.innerHTML = estabelecimentos.produtosEncontrados+"/"+estabelecimentos.totalProdutos; //oferta
 		
 		valor.setAttribute("class","ajustes-valor");		
-		valor.innerHTML = "R$"+estabelecimentos.precoLista; //valor
+		valor.innerHTML = "R$"+estabelecimentos.precoLista;//valor
 		
+		modal.setAttribute("id","modal"+estabelecimentos.idEstabelecimento);
+		modal.setAttribute("class","modal-fechado");
+		conteudo.innerHTML = "<p>conteudo disponivel para guardar qualquer informacao que seja,"+
+							 "fica a criterio do nosso gerente doido qual conteudo sera ministrado aqui</br></p>"; 
 		
 		//--------//
 		
@@ -285,10 +292,33 @@ function listaEstiloEstab(estabelecimentos)
 		h4.appendChild(oferta);
 		h4.appendChild(valor);
 		a.appendChild(img);
+		divPrincipal.appendChild(modal);
+		modal.appendChild(conteudo);
 		
 		var pai = document.getElementById("referenciaEstab");
 		pai.appendChild(divPrincipal);	
+		divPrincipal.setAttribute("onclick","controleModal(modal"+estabelecimentos.idEstabelecimento+")");
 }
+
+var aberto = "nao";
+var idAberto = "0";
+function controleModal(id)
+{
+	if(aberto == "nao" && idAberto==0){ //abra modal
+		document.getElementById(id.id).className = "modal-aberto";
+		aberto="sim";
+		idAberto = id.id;
+		return;
+	}
+	
+	if(aberto == "sim" && idAberto==id.id){//feche modal
+		document.getElementById(id.id).className = "modal-fechado";
+		aberto="nao";
+		idAberto="0";
+		return;
+	}
+}
+
 
 
 

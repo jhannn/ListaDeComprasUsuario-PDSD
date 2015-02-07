@@ -148,6 +148,7 @@ text-decoration: none;
     =============================================*/	
 .panel-default > .panel-heading {
 background-color: #E7E6E6;
+box-shadow: 0px 1px 4px rgb(127, 125, 125);
 }	
 
 .panel.panel-default {
@@ -209,6 +210,21 @@ margin-top: -16px;
 	float: right;
 	margin: -48px;
 	margin-left: 32px;
+}
+
+.modal-fechado
+{
+height: 0px;
+overflow: hidden;
+transition:height 2s;  
+box-shadow: 0px 1px 5px rgb(138, 136, 136);
+}
+
+.modal-aberto {
+overflow: hidden;
+height: 150px;
+transition: height 2s;
+box-shadow: 0px 1px 5px rgb(138, 136, 136);
 }
 
 p#detalhes
