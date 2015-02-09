@@ -220,8 +220,8 @@ function retornarEstabelecimentosMaisBaratos(){
 			   oferta = estabelecimentos[i].produtosEncontrados;
 			   j = i;
 			   while((j>0) && 
-			   preco<estabelecimentos[j-1].precoLista && 
-			  (oferta>=estabelecimentos[j-1].produtosEncontrados ||  (preco*2) >= estabelecimentos[j-1].precoLista) )
+			   (oferta>estabelecimentos[j-1].produtosEncontrados || 
+			   (oferta==estabelecimentos[j-1].produtosEncontrados && preco<estabelecimentos[j-1].precoLista)) )
 			   {
 					estabelecimentos[j] = estabelecimentos[j-1];
 					j = j-1;
@@ -277,8 +277,8 @@ function listaEstiloEstab(estabelecimentos)
 		
 		modal.setAttribute("id","modal"+estabelecimentos.idEstabelecimento);
 		modal.setAttribute("class","modal-fechado");
-		conteudo.innerHTML = "<p>conteudo disponivel para guardar qualquer informacao que seja,"+
-							 "fica a criterio do nosso gerente doido qual conteudo sera ministrado aqui</br></p>"; 
+		conteudo.innerHTML = "<p>Foram encontrados nesse supermercado "+estabelecimentos.produtosEncontrados+" produtos,"+
+							 " no total de "+estabelecimentos.totalProdutos+" produtos cadastrados na sua lista de compras</br></p>"; 
 		
 		//--------//
 		
