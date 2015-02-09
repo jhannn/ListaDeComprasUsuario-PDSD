@@ -65,12 +65,17 @@ function listarEstabelecimento(){
 					var pBairro = document.createElement('p');
 					var pUnidade = document.createElement('p');
 					var iconEdit = document.createElement('div');
+					var imgMap = document.createElement('img');
+
 					iconEdit.setAttribute("class", "iconEdit");
 					iconEdit.setAttribute("onclick", "estabelecimentoClicadoId('"+estabelecimentos[i].id_estabelecimento+"')");
 					iconEdit.setAttribute("data-target", "#editar_estabelecimento");
 					iconEdit.setAttribute("data-toggle", "modal");
 					aTag.setAttribute('href',"visualizar-estabelecimento.html?id="+estabelecimentos[i].id_estabelecimento);
 					aTag.innerHTML = estabelecimentos[i].nome;
+					imgMap.setAttribute("src","assets/img/icone-mapa.png");
+					imgMap.setAttribute("class","icone-mapa");		
+					imgMap.setAttribute("onclick","googleMaps()");		
 					pCidade.innerHTML = "<label>Cidade:  </label>"+estabelecimentos[i].cidade;
 					pBairro.innerHTML = "<label>Bairro:  </label>"+estabelecimentos[i].bairro;
 					pUnidade.innerHTML = "<label>Unidade:  </label>"+estabelecimentos[i].numero;
@@ -80,6 +85,7 @@ function listarEstabelecimento(){
 					inp.setAttribute("role", "alert");
 					inp.appendChild(aTag);
 					inp.appendChild(pCidade);
+					inp.appendChild(imgMap);
 					inp.appendChild(pBairro);
 					inp.appendChild(pUnidade);
 					inp.appendChild(iconEdit);
@@ -92,6 +98,11 @@ function listarEstabelecimento(){
             $('.resultado').html('Ocorreu um erro');
         }
     });
+}
+
+function googleMaps()
+{
+	window.location = "googleMaps.html";
 }
 
 function editarEstabelecimento(){	
