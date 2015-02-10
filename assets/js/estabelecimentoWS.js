@@ -59,39 +59,73 @@ function listarEstabelecimento(){
 			var estabelecimentos = $.parseJSON(data.d);		
 			for(var i=0; i<estabelecimentos.length ;i++){
 				if(estabelecimentos[i] != undefined){
-					var inp = document.createElement("div");
-					var aTag = document.createElement('a');
+
+					var divPrincipal = document.createElement("div");
+					var divRole = document.createElement("div");
+					var h4 = document.createElement("h4");
+					var a = document.createElement("a");
+					var img = document.createElement("img");
+					var nomeEstab = document.createElement('a');
 					var pCidade = document.createElement('p');
 					var pBairro = document.createElement('p');
 					var pUnidade = document.createElement('p');
 					var iconEdit = document.createElement('div');
 					var imgMap = document.createElement('img');
+					var modal = document.createElement("div");
+					var conteudo = document.createElement("div");
 
+					//--estilos--
+					divPrincipal.setAttribute("class","panel panel-default");
+					divPrincipal.setAttribute("id",estabelecimentos[i].id_estabelecimento);
+					divPrincipal.setAttribute("name", "estabelecimentos");
+					divPrincipal.setAttribute("role", "alert");
+
+					divRole.setAttribute("class","panel-heading");
+					h4.setAttribute("class","panel-title");
+					a.setAttribute("style","color: #ffb503;");
+						
+					img.setAttribute("src","assets/img/detalhes.png");
+					img.setAttribute("width","30px");
+					img.setAttribute("style","color: #ffb503;");
+
+					/* icone de editar */
 					iconEdit.setAttribute("class", "iconEdit");
 					iconEdit.setAttribute("onclick", "estabelecimentoClicadoId('"+estabelecimentos[i].id_estabelecimento+"')");
 					iconEdit.setAttribute("data-target", "#editar_estabelecimento");
 					iconEdit.setAttribute("data-toggle", "modal");
-					aTag.setAttribute('href',"visualizar-estabelecimento.html?id="+estabelecimentos[i].id_estabelecimento);
-					aTag.innerHTML = estabelecimentos[i].nome;
+
+					/* tag do nome */
+					nomeEstab.setAttribute('href',"visualizar-estabelecimento.html?id="+estabelecimentos[i].id_estabelecimento);
+					nomeEstab.setAttribute('class',"titulos");
+					nomeEstab.innerHTML = estabelecimentos[i].nome;
+
+					/* icone do google maps */
 					imgMap.setAttribute("src","assets/img/icone-mapa.png");
 					imgMap.setAttribute("class","icone-mapa");		
-					imgMap.setAttribute("onclick","googleMaps()");		
-					pCidade.innerHTML = "<label>Cidade:  </label>"+estabelecimentos[i].cidade;
-					pBairro.innerHTML = "<label>Bairro:  </label>"+estabelecimentos[i].bairro;
-					pUnidade.innerHTML = "<label>Unidade:  </label>"+estabelecimentos[i].numero;
-					inp.setAttribute("id",estabelecimentos[i].id_estabelecimento);
-					inp.setAttribute("class", "alert alert-warning");
-					inp.setAttribute("name", "estabelecimentos");
-					inp.setAttribute("role", "alert");
-					inp.appendChild(aTag);
-					inp.appendChild(pCidade);
-					inp.appendChild(imgMap);
-					inp.appendChild(pBairro);
-					inp.appendChild(pUnidade);
-					inp.appendChild(iconEdit);
-				}							
+					imgMap.setAttribute("onclick","googleMaps()");
+
+					modal.setAttribute("id","modal"+estabelecimentos[i].id_estabelecimento);
+					modal.setAttribute("class","modal-fechado");
+					conteudo.innerHTML = "<p class='conteudo-estab'>Cidade: "+estabelecimentos[i].cidade+"</br>"+
+										 "Bairro: "+estabelecimentos[i].bairro+"</br>"+
+										 "Unidade: "+estabelecimentos[i].numero+"</br></p>";
+
+					divPrincipal.appendChild(divRole);
+					divPrincipal.appendChild(h4);
+					divPrincipal.appendChild(a);
+					divPrincipal.appendChild(img);
+					divRole.appendChild(h4);
+					h4.appendChild(a);
+					h4.appendChild(iconEdit);
+					h4.appendChild(imgMap)
+					h4.appendChild(nomeEstab);
+					a.appendChild(img);
+					divPrincipal.appendChild(modal);
+					modal.appendChild(conteudo);
+					}	
 				var pai = document.getElementById("nomeEstabelecimento");
-				pai.appendChild(inp);
+				pai.appendChild(divPrincipal);	
+				img.setAttribute("onclick","controleModal(modal"+estabelecimentos[i].id_estabelecimento+")");
 			}
         }
         , error: function (xmlHttpRequest, status, err) {
@@ -256,59 +290,59 @@ function retornarEstabelecimentosMaisBaratos(){
 function listaEstiloEstab(estabelecimentos)
 {
 	var divPrincipal = document.createElement("div");
-		var divRole = document.createElement("div");
-		var h4 = document.createElement("h4");
-		var a = document.createElement("a");
-		var img = document.createElement("img");
-		var nomeProduto = document.createElement("p");
-		var oferta = document.createElement("p");
-		var valor = document.createElement("p");
-		var modal = document.createElement("div");
-		var conteudo = document.createElement("div");
+	var divRole = document.createElement("div");
+	var h4 = document.createElement("h4");
+	var a = document.createElement("a");
+	var img = document.createElement("img");
+	var nomeProduto = document.createElement("p");
+	var oferta = document.createElement("p");
+	var valor = document.createElement("p");
+	var modal = document.createElement("div");
+	var conteudo = document.createElement("div");
 
-		//--estilos--
-		divPrincipal.setAttribute("class","panel panel-default");
-		divPrincipal.setAttribute("id",estabelecimentos.idEstabelecimento); //passando id do estabelecimento para a div principal
-		divRole.setAttribute("class","panel-heading");
-		h4.setAttribute("class","panel-title");
-		a.setAttribute("style","color: #ffb503;");
+	//--estilos--
+	divPrincipal.setAttribute("class","panel panel-default");
+	divPrincipal.setAttribute("id",estabelecimentos.idEstabelecimento); //passando id do estabelecimento para a div principal
+	divRole.setAttribute("class","panel-heading");
+	h4.setAttribute("class","panel-title");
+	a.setAttribute("style","color: #ffb503;");
 		
-		img.setAttribute("src","assets/img/detalhes.png");
-		img.setAttribute("width","30px");
-		img.setAttribute("style","color: #ffb503;");
+	img.setAttribute("src","assets/img/detalhes.png");
+	img.setAttribute("width","30px");
+	img.setAttribute("style","color: #ffb503;");
 		
-		nomeProduto.setAttribute("class","ajustes-lista");		
-		nomeProduto.innerHTML = estabelecimentos.nomeEstabelecimento; //nome do estabelecimento
+	nomeProduto.setAttribute("class","ajustes-lista");		
+	nomeProduto.innerHTML = estabelecimentos.nomeEstabelecimento; //nome do estabelecimento
 		
-		oferta.setAttribute("class","ajustes-oferta");		
-		oferta.innerHTML = estabelecimentos.produtosEncontrados+"/"+estabelecimentos.totalProdutos; //oferta
+	oferta.setAttribute("class","ajustes-oferta");		
+	oferta.innerHTML = estabelecimentos.produtosEncontrados+"/"+estabelecimentos.totalProdutos; //oferta
 		
-		valor.setAttribute("class","ajustes-valor");		
-		valor.innerHTML = "R$"+estabelecimentos.precoLista;//valor
+	valor.setAttribute("class","ajustes-valor");		
+	valor.innerHTML = "R$"+estabelecimentos.precoLista;//valor
 		
-		modal.setAttribute("id","modal"+estabelecimentos.idEstabelecimento);
-		modal.setAttribute("class","modal-fechado");
-		conteudo.innerHTML = "<p>Foram encontrados nesse supermercado "+estabelecimentos.produtosEncontrados+" produtos,"+
+	modal.setAttribute("id","modal"+estabelecimentos.idEstabelecimento);
+	modal.setAttribute("class","modal-fechado");
+	conteudo.innerHTML = "<p>Foram encontrados nesse supermercado "+estabelecimentos.produtosEncontrados+" produtos,"+
 							 " no total de "+estabelecimentos.totalProdutos+" produtos cadastrados na sua lista de compras</br></p>"; 
 		
-		//--------//
+	//--------//
 		
-		divPrincipal.appendChild(divRole);
-		divPrincipal.appendChild(h4);
-		divPrincipal.appendChild(a);
-		divPrincipal.appendChild(img);
-		divRole.appendChild(h4);
-		h4.appendChild(a);
-		h4.appendChild(nomeProduto);
-		h4.appendChild(oferta);
-		h4.appendChild(valor);
-		a.appendChild(img);
-		divPrincipal.appendChild(modal);
-		modal.appendChild(conteudo);
+	divPrincipal.appendChild(divRole);
+	divPrincipal.appendChild(h4);
+	divPrincipal.appendChild(a);
+	divPrincipal.appendChild(img);
+	divRole.appendChild(h4);
+	h4.appendChild(a);
+	h4.appendChild(nomeProduto);
+	h4.appendChild(oferta);
+	h4.appendChild(valor);
+	a.appendChild(img);
+	divPrincipal.appendChild(modal);
+	modal.appendChild(conteudo);
 		
-		var pai = document.getElementById("referenciaEstab");
-		pai.appendChild(divPrincipal);	
-		divPrincipal.setAttribute("onclick","controleModal(modal"+estabelecimentos.idEstabelecimento+")");
+	var pai = document.getElementById("referenciaEstab");
+	pai.appendChild(divPrincipal);	
+	divPrincipal.setAttribute("onclick","controleModal(modal"+estabelecimentos.idEstabelecimento+")");
 }
 
 var aberto = "nao";

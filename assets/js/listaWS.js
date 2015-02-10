@@ -82,6 +82,7 @@ function retornarListas(){
 					var iconRemove = document.createElement('div');
 					iconRemove.setAttribute("class", "iconRemove");
 					iconRemove.setAttribute("onclick", "excluirLista('"+lista[i].id_listaDeProdutos+"')");
+					aTag.setAttribute('class','titulos');
 					aTag.setAttribute('href',"visualizar-lista.html?id="+lista[i].id_listaDeProdutos);
 					aTag.innerHTML = lista[i].nome;
 					inp.setAttribute("id",lista[i].id_listaDeProdutos);
