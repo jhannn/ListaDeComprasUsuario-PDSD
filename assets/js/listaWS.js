@@ -158,8 +158,8 @@ function retornarProdutosDaListas(){
         , success: function (data, status){                    
 			var produtos = $.parseJSON(data.d);					   //indice para pegar o nome
 			var idProduto = 0;						  //indice para pegar o id
-			for(var i=0; i<produtos.produtosDaLista.length ;i++){
-				if(produtos.produtosDaLista[idProduto] != undefined){
+			for(var i=0; i<produtos.itens.length ;i++){
+				if(produtos.itens[idProduto] != undefined){
 					var inp = document.createElement("div");
 					var aTag = document.createElement('a');
 					var iconEdit = document.createElement('div');
@@ -169,8 +169,8 @@ function retornarProdutosDaListas(){
 					var iconRemove = document.createElement('div');
 					iconRemove.setAttribute("class", "iconRemove");
 					iconRemove.setAttribute("onclick", "");
-					aTag.innerHTML = produtos.produtosDaLista[i].nome;
-					inp.setAttribute("id",produtos.produtosDaLista[i].id_produto);
+					aTag.innerHTML = produtos.itens[i].nome;
+					inp.setAttribute("id",produtos.itens[i].id_produto);
 					inp.setAttribute("class", "alert alert-warning");
 					inp.setAttribute("name", "produtos");
 					inp.setAttribute("role", "alert");

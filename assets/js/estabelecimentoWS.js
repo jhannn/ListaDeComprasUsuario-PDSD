@@ -249,24 +249,24 @@ function retornarEstabelecimentosMaisBaratos(){
 	
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimentosMaisBarato"
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/buscarOfertas"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
         , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"'}"
 		, success: function (data, status){                    
 			var estabelecimentos = $.parseJSON(data.d);
+			console.log(estabelecimentos);
 			
 			//------------ ordenar -----------------//
 			var i, j, preco,oferta,guardar;
 			for (i = 1; i < estabelecimentos.length; i++) {
-			   preco = estabelecimentos[i].precoLista;
+			   preco = estabelecimentos[i].precoDaLista;
 			   guardar = estabelecimentos[i];
-			   oferta = estabelecimentos[i].produtosEncontrados;
+			   oferta = estabelecimentos[i].itensEncontrados;
 			   j = i;
 			   while((j>0) && 
-			   (oferta>estabelecimentos[j-1].produtosEncontrados || 
-			   (oferta==estabelecimentos[j-1].produtosEncontrados && preco<estabelecimentos[j-1].precoLista)) )
+			   (oferta>estabelecimentos[j-1].itensEncontrados  || (preco<estabelecimentos[j-1].precoDaLista && oferta==estabelecimentos[j-1].itensEncontrados)))
 			   {
 					estabelecimentos[j] = estabelecimentos[j-1];
 					j = j-1;
@@ -315,15 +315,15 @@ function listaEstiloEstab(estabelecimentos)
 	nomeProduto.innerHTML = estabelecimentos.nomeEstabelecimento; //nome do estabelecimento
 		
 	oferta.setAttribute("class","ajustes-oferta");		
-	oferta.innerHTML = estabelecimentos.produtosEncontrados+"/"+estabelecimentos.totalProdutos; //oferta
+	oferta.innerHTML = estabelecimentos.itensEncontrados+"/"+estabelecimentos.itensTotal; //oferta
 		
 	valor.setAttribute("class","ajustes-valor");		
-	valor.innerHTML = "R$"+estabelecimentos.precoLista;//valor
+	valor.innerHTML = "R$"+estabelecimentos.precoDaLista;//valor
 		
 	modal.setAttribute("id","modal"+estabelecimentos.idEstabelecimento);
 	modal.setAttribute("class","modal-fechado");
-	conteudo.innerHTML = "<p>Foram encontrados nesse supermercado "+estabelecimentos.produtosEncontrados+" produtos,"+
-							 " no total de "+estabelecimentos.totalProdutos+" produtos cadastrados na sua lista de compras</br></p>"; 
+	conteudo.innerHTML = "<p>Foram encontrados nesse supermercado "+estabelecimentos.itensEncontrados+" produtos,"+
+							 " no total de "+estabelecimentos.itensTotal+" produtos cadastrados na sua lista de compras</br></p>"; 
 		
 	//--------//
 		
