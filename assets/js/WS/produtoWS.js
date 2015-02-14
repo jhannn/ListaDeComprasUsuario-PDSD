@@ -52,23 +52,55 @@ function pesquisarProduto()
 	
 	var dados;
 	var url;
+	var passou=false;
+	
+	if(window.localStorage.ProdutoProcurado!=undefined && window.localStorage.ProdutoProcurado!=''){
+		nome=window.localStorage.ProdutoProcurado;
+		marca="";
+		console.log(nome);
+		window.localStorage.ProdutoProcurado='';
+	}
 
 	//------ Pesquisar por embalagem ----//
 	if(nome != "" && embalagem != 0){
 		dados =  "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"',nome:'"+nome+"',embalagem:'"+embalagem+"'}"
 		url = "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosEmbalagem"
+		passou=true;
 	}
 	
 	//------ Pesquisar por nome -----//
 	else if(nome != ""){
 		dados = "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"',nome:'"+nome+"'}"
 		url   = "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosNome";
+		passou=true;
 	}
 	
 	//------ Pesquisar por marca -----//
 	else if(marca != ""){
 		dados = "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"'}"
 		url = "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosMarca"	
+		passou=true;
+	}
+	
+	else if(passou==false || window.localStorage.ProdutoProcurado!=undefined){
+		document.getElementById("referencia").innerHTML = "";
+		var divPrincipal = document.createElement("div");
+		var divRole = document.createElement("div");
+		var nomeProduto = document.createElement("p");
+				
+		divRole.setAttribute("class", "btn btn-primary");
+		divRole.setAttribute("data-target", "#cadastrar_produto_lista");
+		divRole.setAttribute("data-toggle", "modal");
+		divRole.innerHTML="Cadastrar um novo Produto!!"
+
+		divPrincipal.setAttribute("class","panel panel-default");				
+		nomeProduto.innerHTML="Nada foi encontrado!! Cadastre um novo Produto! =)";
+				
+		divPrincipal.appendChild(divRole);
+		divPrincipal.appendChild(nomeProduto);
+				
+		var pai = document.getElementById("referencia");
+		pai.appendChild(divPrincipal);
 	}
 	
 	else
@@ -84,11 +116,27 @@ function pesquisarProduto()
         , dataType: 'json'
         , data: dados
 		, success: function (data, status){  
-			var produto = $.parseJSON(data.d);
-			
-			if(produto.erro == "Erro de Pesquisa") {	alert(produto.Message);	}
-			else
-			{	
+			var produto = $.parseJSON(data.d);			
+			if(produto.erro == "Erro de Pesquisa"){
+				document.getElementById("referencia").innerHTML = "";
+				var divPrincipal = document.createElement("div");
+				var divRole = document.createElement("div");
+				var nomeProduto = document.createElement("p");
+				
+				divRole.setAttribute("class", "btn btn-primary");
+				divRole.setAttribute("data-target", "#cadastrar_produto_lista");
+				divRole.setAttribute("data-toggle", "modal");
+				divRole.innerHTML="Cadastrar um novo Produto!!"
+
+				divPrincipal.setAttribute("class","panel panel-default");				
+				nomeProduto.innerHTML="Nada foi encontrado!! Cadastre um novo Produto! =)";
+				
+				divPrincipal.appendChild(divRole);
+				divPrincipal.appendChild(nomeProduto);
+				
+				var pai = document.getElementById("referencia");
+				pai.appendChild(divPrincipal);
+			}else{	
 				document.getElementById("referencia").innerHTML = "";
 				for(var i=0 ;i<produto.length ;i++)
 				{ listaEstilo(produto[i]); }	
@@ -98,6 +146,40 @@ function pesquisarProduto()
             $('.resultado').html('Ocorreu um erro');
         }
     });	
+}
+
+//______________________________ Adicionar Produto Na Lista _______________________________________// 
+function adicionarProdutoNaLista(){	
+	var quantidade = parseInt($("#quantidadeDeProdutosParaAdicionarNaLista").val());
+	var idLista = parseInt(window.localStorage.idListaClicada);
+	var idProduto=parseInt(window.localStorage.idProdutoAdicionarLista);
+	$.ajax({
+        type: 'POST'
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/cadastrarProduto"
+		, crossDomain:true
+        , contentType: 'application/json; charset=utf-8'
+        , dataType: 'json'
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',idProduto:'"+idProduto+"',quantidade:'"+quantidade+"'}"
+		, success: function (data, status){                    
+			var produtos = $.parseJSON(data.d);
+			if(produtos=="OK"){
+				alert("Produto cadastrado com sucesso!");
+				window.location = "visualizar-lista.html?id="+idLista;
+				return;	
+			}else{
+				alert(itens.erro + "\n" + itens.Message);
+				return;
+			}
+        }
+        , error: function (xmlHttpRequest, status, err) {
+            $('.resultado').html('Ocorreu um erro');
+        }
+    });	
+}
+
+//____________________________Id Produto no localStorage___________________//
+function adicionarIdProdutoLocalStorage(id){
+	window.localStorage.idProdutoAdicionarLista=id;
 }
 
 //---------- Construção de HTML no javascript --------------//
@@ -113,6 +195,10 @@ function listaEstilo(produto)
 		//--estilos--
 		divPrincipal.setAttribute("class","panel panel-default");
 		divRole.setAttribute("class","panel-heading");
+		divRole.setAttribute("style", "display: block;");
+		divRole.setAttribute("onclick", "adicionarIdProdutoLocalStorage('"+produto.id_produto+"')");
+		divRole.setAttribute("data-target", "#adicionar_quantidade_de_produto_na_lista");
+		divRole.setAttribute("data-toggle", "modal");		
 		h4.setAttribute("class","panel-title");
 		a.setAttribute("style","color: #ffb503;");
 		

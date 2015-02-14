@@ -24,52 +24,49 @@
         <title>Geolocation</title>
         <meta HTTP-EQUIV="Content-type" content="text/html; charset=iso-8859-1"
         <script type="text/javascript" src="cordova.js"></script>
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.css"/>
+        <link rel="stylesheet" href="assets/css/jquery.mobile.structure-1.4.5.css"/>
         <script src="assets/js/jquery-2.1.3.min.js"></script>
         <script src="assets/js/jquery.mobile-1.4.2.mim.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-     
         <script>
-        $(document).on("pageinit","#paginaMapa", function(e,data){
+			$(document).on("pageinit","#paginaMapa", function(e,data){
 
-        	var defaultPos = new google.maps.LatLng(-5.800782, -35.2155313);
+				var defaultPos = new google.maps.LatLng(-5.800782, -35.2155313);
 
-        	if(navigator.geolocation){
-        			function exito(pos){
-        				MuestraMapa(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-        			}
+				if(navigator.geolocation){
+						function exito(pos){
+							MuestraMapa(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+						}
 
-        			function falla(error){
-        				MuestraMapa(defaultPos);
-        			}
-        	var options = {maximumAge:500000, enableHighAccuracy:true, timeout: 5000}
-        	navigator.geolocation.getCurrentPosition(exito, falla, options);
-        	}
-        	else{
-        		MuestraMapa(defaultPos);
-        	}
+						function falla(error){
+							MuestraMapa(defaultPos);
+						}
+				var options = {maximumAge:500000, enableHighAccuracy:true, timeout: 5000}
+				navigator.geolocation.getCurrentPosition(exito, falla, options);
+				}
+				else{
+					MuestraMapa(defaultPos);
+				}
 
-        	function MuestraMapa(latlng){
+				function MuestraMapa(latlng){
 
-        		var myOptions = {
-        			zoom: 18,
-        			center: latlng,
-        			mapTypeId: google.maps.MapTypeId.ROADMAP
-        		};
+					var myOptions = {
+						zoom: 18,
+						center: latlng,
+						mapTypeId: google.maps.MapTypeId.ROADMAP
+					};
 
-        		var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+					var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
 
-        		var marker = new google.maps.Marker({
-        			position:latlng,
-        			map:map,
-        			title:"hi posiction",
-        			animation: google.maps.Animation.DROP
-        		});
-        	}
-        })
-
+					var marker = new google.maps.Marker({
+						position:latlng,
+						map:map,
+						title:"hi posiction",
+						animation: google.maps.Animation.DROP
+					});
+				}
+			})
         </script>
-
         <style>
         	#map-canvas{
         		height:100%;
@@ -81,18 +78,16 @@
         		bottom: 0px !important;
         		left: 0px !important;
         	}
-
         </style>
-
-    </head>
+		
+    </head>	
     <body>
-       
-
-    <div data-role="page" id="paginaMapa" data-url="map-page">
-	    <div data-role="header">
-	    	<h1>Localização supermercado</h1>
-	    </div>
-	    <div id="map-canvas"></div>
-    </div>	
+		<div data-role="page" id="paginaMapa" data-url="map-page">
+			<div data-role="header">
+				<h1>Localização supermercado</h1>
+			</div>
+			<div id="map-canvas"></div>
+		</div>	
     </body>
+	
 </html>

@@ -1,28 +1,29 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Compras Digital</title>
-		<!-- BOOTSTRAP STYLES-->
+		<!-- BOOTSTRAP STYLES -->
 		<link href="assets/css/bootstrap.css" rel="stylesheet" />
-		<!-- FONTAWESOME STYLES-->
+		<!-- FONTAWESOME STYLES -->
 		<link href="assets/css/font-awesome.css" rel="stylesheet" />
-		<!-- MORRIS CHART STYLES-->
+		<!-- MORRIS CHART STYLES -->
 		<link href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
-		<!-- CUSTOM STYLES-->
+		<!-- CUSTOM STYLES -->
 		<link href="assets/css/custom.css" rel="stylesheet" />
-		<!-- GOOGLE FONTS-->
+		<!-- GOOGLE FONTS -->
 		<link href='assets/css/googleapis.css' rel='stylesheet' type='text/css' />
-		<!--SCRIPTS DO COMUNICACAO WEB SERVICE-->
+		<!--SCRIPTS DO COMUNICACAO WEB SERVICE -->
 		<script src="assets/js/WS/listaWS.js"></script> 
 		<script src="assets/js/WS/usuarioWS.js"></script>  
 		<script src="assets/js/WS/produtoWS.js"></script>  
-		<!--FUNCOES PRE-REALIZADAS-->
+		<!--FUNCOES PRE-REALIZADAS -->
 		<script type="text/javascript">
 			window.onload = function(){
 				verificarLogin("produtos");
+				pesquisarProduto();
 			}
 		</script>  
 		
@@ -38,7 +39,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<h2 style="padding:0px 0px 10px 10px;color:#fff;"><a href="principal.html"><img src="assets/img/voltar.png" width="40px"></a></h2> 
+					<h2 style="padding:0px 0px 10px 10px;color:#fff;"><a href="visualizar-lista.html"><img src="assets/img/voltar.png" width="40px"></a></h2> 
 				</div>				
 				<div id="dataAtual" style="color: white; padding: 15px; float: right; font-size: 16px;"> </div>
 			</nav>   
@@ -57,13 +58,12 @@
 						</li>
 						<li>
 							<a  href="produtos.html"><img src="assets/img/produtosBranco.png" width="40px" style="margin-right: 15px;"> Produtos</a>
-						</li>
-						
+						</li>					
 						<li>
 							<a   href="perfil.html"><img src="assets/img/profileBranco.png" width="40px" style="margin-right: 15px;"> Perfil</a>
-						</li>
-					</ul>
-				</div>
+						</li>                    
+					</ul>               
+				</div>            
 			</nav>  
 			<!-- /. NAV SIDE  -->
 			<div id="page-wrapper" >
@@ -122,8 +122,82 @@
 					</div>
 				</div>
 			</div>
+		</div>	
+		<div class="modal fade" id="cadastrar_produto_lista" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="myModalLabel">Adicionar produto à lista</h4>
+					</div>
+					<div class="modal-body">			
+						<form class="form-horizontal" role="form">
+							<div class="form-group" style="margin-bottom: 0px;">
+								<label for="inputEmail3" class="col-sm-2 control-label">Código de barras:</label>
+								<div class="col-sm-10">
+									<input class="form-control" type="text" placeholder="Código de barras" id="cod_barra" name="cod_barra" value='' readonly />
+									<p style="margin: 0px; padding: 0px;"><a href="#" id="scan"><img src="assets/img/codigo_barras.png" width="30px" style="float: right; position: relative;bottom: 70px;"></a></p>
+								</div>
+							</div>				  
+							<!-- <div class="form-group" style="margin-bottom: 20px;">
+								<label for="inputPassword3"  class="col-sm-2 control-label">Formato:</label>
+								<div class="col-sm-10">
+									<input class="form-control" type="text" placeholder="Formato" id="formato" name="formato" value='' readonly>
+								</div>
+							</div>
+							-->
+							<div class="form-group">
+								<label for="nomeDoProduto" class="col-sm-2 control-label">Nome do produto:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" placeholder="Nome do produto" id="nomeDoProduto" name="nomeDoProduto" onkeyup="autoComplete()" />
+								</div>
+							</div>				  
+							<div class="form-group">
+								<label for="quantidade" class="col-sm-2 control-label">Quantidade:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" placeholder="1" id="quantidade" name="quantidade" />
+								</div>
+							</div>				  
+						</form>			
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+						<button type="button" class="btn btn-primary" onclick="criarProduto();">Cadastrar produto</button>
+						<!-- <button type="button" class="btn btn-primary" onclick="excluirLista();">Excluir Lista</button>
+						<button type="button" class="btn btn-primary" onclick="editarNomeLista();">Editar  Nome da lista</button> -->
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- Modal final -->	
+		<!-- Modal Quantidade Pordutos -->
+		<div class="modal fade" id="adicionar_quantidade_de_produto_na_lista" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+						<h4 class="modal-title" id="myModalLabel">Adicionar quantidade:</h4>
+					</div>
+					<div class="modal-body">			
+						<form class="form-horizontal" role="form">				  
+							<div class="form-group" style="margin-bottom: 20px;">
+								<label for="quantidadeDeProdutosParaAdicionarNaLista" class="col-sm-2 control-label">Quantidade deste produto:</label>
+								<div class="col-sm-10">
+									<input class="form-control" type="text" placeholder="1" id="quantidadeDeProdutosParaAdicionarNaLista">
+								</div>
+							</div>			  
+						</form>		
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+						<button type="button" class="btn btn-primary" onclick="adicionarProdutoNaLista()">Adicionar produto na lista</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal final -->
+		<!-- /. PAGE INNER  -->
+		<!-- /. WRAPPER  -->
 		<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
 		<!-- JQUERY SCRIPTS -->
 		<script src="assets/js/jquery-1.10.2.js"></script>
@@ -136,9 +210,9 @@
 		<script src="assets/js/morris/morris.js"></script>
 		<!-- CUSTOM SCRIPTS -->
 		<script src="assets/js/custom.js"></script>	
-		<script src="assets/js/jquery-1.9.1.js"></script> 
+		<script src="assets/js/jquery-1.9.1.js"></script>
 		<script src="assets/js/jquery-ui-1.10.3.js"></script>
-		<link rel="stylesheet" href="assets/css/jquery-ui.css" />     
+		<link rel="stylesheet" href="assets/css/jquery-ui.css" type='text/css'/>     
 		<script>
 			var data = new Date();
 			var dia = data.getDate();

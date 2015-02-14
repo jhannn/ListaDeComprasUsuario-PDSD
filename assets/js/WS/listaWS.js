@@ -66,7 +66,7 @@ function retornarListas(){
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'						//tipos de dados de retorno
-       , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"'}"
+		, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"'}"
         , success: function (data, status){                    
 			var lista = $.parseJSON(data.d); 		    //pegando retorno do servidor
 			
@@ -104,36 +104,47 @@ function retornarListas(){
 }
 
 //_____________________________________ ADICIONAR PRODUTOS À LISTA _____________________________________//
-function adicionarProdutoALista(){
+function criarProduto(){
 	var nomeDoProduto = $("#nomeDoProduto").val();
 	var codigoDeBarras = $("#cod_barra").val();
-	var quantidade = parseInt($("#quantidade").val());
+	var marca = $("#marcaDoProduto").val();
+	var embalagem = parseInt($("#embalagemDoProduto").val());
+	var quantidade = parseInt($("#quantidadeDoProduto").val());
+	var unidade = parseInt($("#unidadeDoProduto").val());
 	var idLista = parseInt(window.localStorage.idListaClicada);
 	
-    if (nomeDoProduto.trim() != ''){
+	var url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/criarProduto";
+	var data="{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',marca:'"+marca+"',nome:'"+nomeDoProduto+"',unidade:'"+unidade+"',embalagem:'"+embalagem+"',quantidade:'"+quantidade+"'}";
+	
+	if(codigoDeBarras.trim() !=''){
+		url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/criarProdutoComCodigo";
+		data="{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',marca:'"+marca+"',nome:'"+nomeDoProduto+"',unidade:'"+unidade+"',embalagem:'"+embalagem+"',codigo:'"+codigoDeBarras+"'tipoCod:'"+tipoCod+"',quantidade:'"+quantidade+"'}";
+	}	
+	
+	if (nomeDoProduto.trim() != ''){
 		$.ajax({
             type: 'POST'
-            , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/cadastrarProduto"
+            , url: url
 			, crossDomain:true
             , contentType: 'application/json; charset=utf-8'
             , dataType: 'json'
-            , data: "{nomeProduto:'"+nomeDoProduto+"',codigoDeBarras:'"+codigoDeBarras+"',quantidade:'"+quantidade+"',idLista:'"+idLista+"'}"
+            , data: data
             , success: function (data, status){
-                var itens = $.parseJSON(data.d); //salvando retorno do metodo do servidor
-                if(itens == "-1"){
-					alert("Erro ao cadastrar o produto");
-					return;							
-				}else{
+				var retorno=$.parseJSON(data.d);
+				if(retorno=="OK"){
 					alert("Produto cadastrado com sucesso!");
 					window.location = "visualizar-lista.html?id="+idLista;
+					return;					
+				}else{
+					alert(itens.erro + "\n" + itens.Message);
 					return;
-				}				
+				}	
             }
             , error: function (xmlHttpRequest, status, err) {
                 $('.resultado').html('Ocorreu um erro');
             }
         });
-	}
+	}   
 }
 
 //_____________________________________ RETORNAR PRODUTOS DA LISTA (VISUALIZAR LISTA) _____________________________________//
@@ -251,4 +262,19 @@ function excluirLista(id) {
 
 function listaClicadaEditar(id) {
 	window.localStorage.idEditarLista = id;
+}
+
+////----------------------Loucuras de Johann ---------------------------//
+
+function mostrarPesquisa(){
+	var newFields = document.getElementById('botaoLoucao');
+    newFields.style.display = 'block';
+	var newFields = document.getElementById('teste');
+    newFields.style.display = 'block';
+}
+
+function procurarProduto(){	
+	var nome = $("#teste").val().trim();
+	window.localStorage.ProdutoProcurado=nome;
+	window.location = "procurarProdutosLista.html";
 }
