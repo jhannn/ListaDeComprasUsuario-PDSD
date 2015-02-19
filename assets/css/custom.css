@@ -642,6 +642,13 @@ font-size: 20px;
 font-weight: bold;
 }
 
+.alert-lista-nao-criada{
+font-size: 17px;
+margin-left: 15px;
+color: orange;
+font-weight: bold;
+}
+
 	
 	
 

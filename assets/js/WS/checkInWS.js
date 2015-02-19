@@ -76,25 +76,44 @@ function escolherListas(){
 			var lista = $.parseJSON(data.d);
 			if(typeof(lista.erro) === 'undefined'){
 				document.getElementById("nomeLista").innerHTML = "";
-				for(var i=0; i<lista.length ;i++){
-					if(lista[i] != undefined){
-						var inp = document.createElement("div");
-						var aTag = document.createElement('a');
-			
-						aTag.setAttribute('class','titulos');
-						aTag.setAttribute("data-toggle","modal");
-					    aTag.setAttribute("data-target","#checkIn");	
-					    aTag.setAttribute("onclick","retornarProdutosCheckIn('"+lista[i].id_listaDeProdutos+"');");	
-					    aTag.setAttribute("data-dismiss","modal");	
-						aTag.innerHTML = lista[i].nome;
-						inp.setAttribute("id",lista[i].id_listaDeProdutos);
-						inp.setAttribute("class", "alert alert-warning");
-						inp.setAttribute("name", "listas");
-						inp.setAttribute("role", "alert");
-						inp.appendChild(aTag);
-					}							
+				
+				if(lista.length != 0){
+					for(var i=0; i<lista.length ;i++){
+						if(lista[i] != undefined){
+							var inp = document.createElement("div");
+							var aTag = document.createElement('a');
+				
+							aTag.setAttribute('class','titulos');
+							aTag.setAttribute("data-toggle","modal");
+							aTag.setAttribute("data-target","#checkIn");	
+							aTag.setAttribute("onclick","retornarProdutosCheckIn('"+lista[i].id_listaDeProdutos+"');");	
+							aTag.setAttribute("data-dismiss","modal");	
+							aTag.innerHTML = lista[i].nome;
+							inp.setAttribute("id",lista[i].id_listaDeProdutos);
+							inp.setAttribute("class", "alert alert-warning");
+							inp.setAttribute("name", "listas");
+							inp.setAttribute("role", "alert");
+							inp.appendChild(aTag);
+						}							
+						var pai = document.getElementById("nomeLista");
+						pai.appendChild(inp);
+					}			
+				}else{
+					var criarLista = document.createElement("button");
+					var alert = document.createElement("p");
+					
+					alert.innerHTML = "Voce nao possui nenhuma lista cadastrada";
+					alert.setAttribute("class","alert-lista-nao-criada");
+					
+					criarLista.setAttribute("type","button");
+					criarLista.setAttribute("class","btn btn-primary");
+					criarLista.setAttribute("onclick","criarLista()");
+					criarLista.setAttribute("style","margin-left:15px;");
+					criarLista.innerHTML = "Criar Lista";
+					
 					var pai = document.getElementById("nomeLista");
-					pai.appendChild(inp);
+					pai.appendChild(alert);
+					pai.appendChild(criarLista);
 				}
 			}else{
 				alert(itens.erro + "\n" + itens.Message);
@@ -106,6 +125,11 @@ function escolherListas(){
             $('.resultado').html('Ocorreu um erro');
         }
     });
+}
+
+function criarLista()
+{
+	window.location = "listas.html";
 }
 
 function retornarProdutosCheckIn(idLista){	
