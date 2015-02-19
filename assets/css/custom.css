@@ -37,22 +37,33 @@ body {
 	background-size: 27px;
 	position: relative;
 	cursor:pointer;
+	bottom: 3px;
 }
 
 .icone-mapa{
-width: 42px;
-height: 32px;
+	width: 42px;
+	height: 32px;
+	float: right;
+	margin-top: -6px;
+	margin-right: 10px;
+}
+
+.icone-quant{
+width: 28px;
 float: right;
-margin-top: -6px;
-margin-right: 10px;
+position: relative;
+cursor: pointer;
+right: 300px;
+bottom: -1px;
 }
 
 .iconEdit {
-	cursor:pointer;
+	cursor: pointer;
 	background: url("../img/edit.png") no-repeat;
 	width: 28px;
 	height: 30px;
-	right:10px;
+	right: -22px;
+	bottom: 2px;
 	float: right;
 	background-size: 27px;
 	position: relative;

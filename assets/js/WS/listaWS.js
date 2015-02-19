@@ -140,7 +140,7 @@ function criarProduto(){
 					window.location = "visualizar-lista.html?id="+idLista;
 					return;					
 				}else{
-					alert(itens.erro + "\n" + itens.Message);
+					alert(retorno.erro + "\n" + retorno.mensagem);
 					return;
 				}	
             }
@@ -178,12 +178,19 @@ function retornarProdutosDaListas(){
 						var inp = document.createElement("div");
 						var aTag = document.createElement('a');
 						var iconEdit = document.createElement('div');
+						var quantidade = document.createElement('div');
+						var iconRemove = document.createElement('div');
+						
 						iconEdit.setAttribute("class", "iconEdit");
 						iconEdit.setAttribute("data-target", "#");
 						iconEdit.setAttribute("data-toggle", "modal");
-						var iconRemove = document.createElement('div');
+						
 						iconRemove.setAttribute("class", "iconRemove");
 						iconRemove.setAttribute("onclick", "excluirProdutoDaLista('"+produtos.itens[i].id_produto+"')");
+						
+						quantidade.innerHTML = "x"+produtos.itens[i].quantidade;
+						quantidade.setAttribute("class","icone-quant");
+						
 						aTag.innerHTML = produtos.itens[i].nome;
 						inp.setAttribute("id",produtos.itens[i].id_produto);
 						inp.setAttribute("class", "alert alert-warning");
@@ -191,6 +198,7 @@ function retornarProdutosDaListas(){
 						inp.setAttribute("role", "alert");
 						inp.appendChild(aTag);
 						inp.appendChild(iconRemove);
+						inp.appendChild(quantidade);
 						inp.appendChild(iconEdit);							
 					}						
 					var pai = document.getElementById("nomeDaLista");

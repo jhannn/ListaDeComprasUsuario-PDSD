@@ -177,8 +177,8 @@ function adicionarProdutoNaLista(){
     });	
 }
 
-////________________________Editar Produto__________________////
-function criarProduto(){
+////________________________Editar Produto_____________________////
+function editarProduto(){
 	var nomeDoProduto = $("#nomeDoProdutoEditado").val();
 	var codigoDeBarras = $("#cod_barraEditado").val();
 	var marca = $("#marcaDoProdutoEditado").val();
