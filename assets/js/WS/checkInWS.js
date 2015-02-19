@@ -131,7 +131,8 @@ function retornarProdutosCheckIn(idLista){
 						aTag.setAttribute("class","nome-produto-checkin");
 						aTag.setAttribute("id",produtos.itens[i].id_produto+"prod");
 						
-						checkbox.setAttribute("value",produtos.itens[i].id_produto);
+						checkbox.setAttribute("id",produtos.itens[i].id_produto);
+						checkbox.setAttribute("value",produtos.itens[i].nome);
 						checkbox.setAttribute("type","checkbox");
 						checkbox.setAttribute("name","produtos");
 						checkbox.setAttribute("onclick","guardarProdutos();");
@@ -167,11 +168,11 @@ function guardarProdutos(){
     for (var i=0;i<aChk.length;i++){ 
 		if (aChk[i].checked == true){ 
 			// alert(aChk[i].value + " marcado.");
-			document.getElementById(aChk[i].value+"prod").className = "produto-escolhido";  
-			produtos[aux] = aChk[i].value;
+			document.getElementById(aChk[i].id+"prod").className = "produto-escolhido";  
+			produtos[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value};
 			aux++;
 		}else{
-			// document.getElementById(aChk[i].value+"prod").className = "nome-produto-checkin";  
+			document.getElementById(aChk[i].id+"prod").className = "nome-produto-checkin";  
 		}
 	}	
 }
