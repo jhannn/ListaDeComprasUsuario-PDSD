@@ -15,6 +15,7 @@
 
 body {
     font-family: 'Open Sans', sans-serif;
+	background-image: url("../img/fundo.png");
 }
 
 #map-canvas{
@@ -73,15 +74,15 @@ margin-right: 10px;
 
 #page-wrapper {
     padding: 15px 15px;
-    background:#F3F3F3;
+    background:rgb(0, 180, 255);
    
 }
 #page-inner {
     width:100%;
     margin:10px 20px 10px 0px;
-    background-color:#fff!important;
+    background-image: url("../img/fundo.png");   
     padding:10px;
-    /*min-height:400px;*/
+	height: 100%;
 }
 
 .text-center {
@@ -433,7 +434,7 @@ max-width:170px;
 	font-weight: 700;
 }
 .active-menu {
-    background-color:#ffb503!important;
+    background-color:blue!important;
 }
 
 .arrow {
@@ -469,7 +470,7 @@ max-width:170px;
 }
 .sidebar-collapse .nav > li > a {
 	color:#fff;
-	background:#a3a3a3;
+	background: #FF9900;
 	text-shadow:none;
 	
 }
@@ -482,7 +483,7 @@ max-width:170px;
 .sidebar-collapse .nav > li > a:hover,
 .sidebar-collapse .nav > li > a:focus {
 	
-	background:#ffb503;
+	background:blue;
 	outline:0;
 }
 
@@ -523,7 +524,7 @@ max-width:170px;
 	
 }
 .navbar-cls-top {
-	background:#bbb;
+	background: #ff9900;
 	border-bottom:none;
 	
 }
@@ -534,10 +535,10 @@ border:0px solid black;
      
 }
 .navbar-header {
-    background: #FFb503;
+    background: #0308FF;
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-background-color: #ffb503;
+background-color: #03EEFF;
 }
 .navbar-default .navbar-toggle {
 border-color: #fff;
@@ -589,7 +590,28 @@ line-height: 1.428571429;
    
 }
 
+/*==============================================
+    CHECK IN   
+    =============================================*/
 
+input.checkbox{
+margin-left: 80%;
+width: 50px;
+height: 25px;
+position: absolute;
+margin-top: -25px;
+}
+
+.nome-produto-checkin{
+font-size: 20px;
+font-weight: bold;			
+}
+
+.produto-escolhido{
+text-decoration: line-through;
+font-size: 20px;
+font-weight: bold;
+}
 
 	
 	

@@ -70,7 +70,7 @@ function escolherListas(){
         , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
-        , dataType: 'json'						//tipos de dados de retorno
+        , dataType: 'json'		
 		, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"'}"
         , success: function (data, status){                    
 			var lista = $.parseJSON(data.d);
@@ -118,28 +118,31 @@ function retornarProdutosCheckIn(idLista){
         , dataType: 'json'
         , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idListaDeProdutos:'"+idLista+"'}"
         , success: function (data, status){                    
-			var produtos = $.parseJSON(data.d);					   //indice para pegar o nome
+			var produtos = $.parseJSON(data.d);				
 			if(typeof(produtos.erro) === 'undefined'){
 				document.getElementById("produtos_checkIn").innerHTML = "";
 				for(var i=0; i<produtos.itens.length ;i++){
 					if(produtos.itens[i] != undefined){
 						var inp = document.createElement("div");
 						var aTag = document.createElement('a');
-						var iconEdit = document.createElement('div');
-						iconEdit.setAttribute("class", "iconEdit");
-						iconEdit.setAttribute("data-target", "#");
-						iconEdit.setAttribute("data-toggle", "modal");
-						var iconRemove = document.createElement('div');
-						iconRemove.setAttribute("class", "iconRemove");
-						iconRemove.setAttribute("onclick", "excluirProdutoDaLista('"+produtos.itens[i].id_produto+"')");
+						var checkbox = document.createElement('INPUT');
+						
 						aTag.innerHTML = produtos.itens[i].nome;
+						aTag.setAttribute("class","nome-produto-checkin");
+						aTag.setAttribute("id",produtos.itens[i].id_produto+"prod");
+						
+						checkbox.setAttribute("value",produtos.itens[i].id_produto);
+						checkbox.setAttribute("type","checkbox");
+						checkbox.setAttribute("name","produtos");
+						checkbox.setAttribute("onclick","guardarProdutos();");
+						checkbox.setAttribute("class","checkbox");
+						
 						inp.setAttribute("id",produtos.itens[i].id_produto);
 						inp.setAttribute("class", "alert alert-warning");
 						inp.setAttribute("name", "produtos");
 						inp.setAttribute("role", "alert");
-						inp.appendChild(aTag);
-						inp.appendChild(iconRemove);
-						inp.appendChild(iconEdit);							
+						inp.appendChild(aTag);	
+						inp.appendChild(checkbox);	
 					}						
 					var pai = document.getElementById("produtos_checkIn");
 					pai.appendChild(inp);
@@ -154,4 +157,21 @@ function retornarProdutosCheckIn(idLista){
             $('.resultado').html('Ocorreu um erro');
         }
     });
+}
+
+function guardarProdutos(){
+	var aChk = document.getElementsByName("produtos");
+	var aux = 0;
+	var produtos = [];
+	
+    for (var i=0;i<aChk.length;i++){ 
+		if (aChk[i].checked == true){ 
+			// alert(aChk[i].value + " marcado.");
+			document.getElementById(aChk[i].value+"prod").className = "produto-escolhido";  
+			produtos[aux] = aChk[i].value;
+			aux++;
+		}else{
+			// document.getElementById(aChk[i].value+"prod").className = "nome-produto-checkin";  
+		}
+	}	
 }
