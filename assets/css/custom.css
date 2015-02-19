@@ -40,6 +40,18 @@ body {
 	bottom: 3px;
 }
 
+.icone-remove-produto {
+	background: url("../img/remove.png") no-repeat;
+	width: 28px;
+	height: 30px;
+	float: right;
+	background-size: 27px;
+	position: relative;
+	cursor:pointer;
+	bottom: 3px;
+	left: 30px;
+}
+
 .icone-mapa{
 	width: 42px;
 	height: 32px;
@@ -55,9 +67,21 @@ position: relative;
 cursor: pointer;
 right: 300px;
 bottom: -1px;
+color:rgb(19, 22, 244);
 }
 
 .iconEdit {
+	cursor: pointer;
+	background: url("../img/edit.png") no-repeat;
+	width: 28px;
+	height: 30px;
+	bottom: 2px;
+	float: right;
+	background-size: 27px;
+	position: relative;
+}
+
+.icone-editar-produto{
 	cursor: pointer;
 	background: url("../img/edit.png") no-repeat;
 	width: 28px;

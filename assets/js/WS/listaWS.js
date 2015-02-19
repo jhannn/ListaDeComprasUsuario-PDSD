@@ -181,11 +181,11 @@ function retornarProdutosDaListas(){
 						var quantidade = document.createElement('div');
 						var iconRemove = document.createElement('div');
 						
-						iconEdit.setAttribute("class", "iconEdit");
+						iconEdit.setAttribute("class", "icone-editar-produto");
 						iconEdit.setAttribute("data-target", "#");
 						iconEdit.setAttribute("data-toggle", "modal");
 						
-						iconRemove.setAttribute("class", "iconRemove");
+						iconRemove.setAttribute("class", "icone-remove-produto");
 						iconRemove.setAttribute("onclick", "excluirProdutoDaLista('"+produtos.itens[i].id_produto+"')");
 						
 						quantidade.innerHTML = "x"+produtos.itens[i].quantidade;
@@ -197,8 +197,9 @@ function retornarProdutosDaListas(){
 						inp.setAttribute("name", "produtos");
 						inp.setAttribute("role", "alert");
 						inp.appendChild(aTag);
+						aTag.appendChild(quantidade);
 						inp.appendChild(iconRemove);
-						inp.appendChild(quantidade);
+						//inp.appendChild(quantidade);
 						inp.appendChild(iconEdit);							
 					}						
 					var pai = document.getElementById("nomeDaLista");
