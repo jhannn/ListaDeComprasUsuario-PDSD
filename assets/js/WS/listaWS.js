@@ -199,7 +199,6 @@ function retornarProdutosDaListas(){
 						inp.appendChild(aTag);
 						aTag.appendChild(quantidade);
 						inp.appendChild(iconRemove);
-						//inp.appendChild(quantidade);
 						inp.appendChild(iconEdit);							
 					}						
 					var pai = document.getElementById("nomeDaLista");

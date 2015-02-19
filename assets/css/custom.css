@@ -48,8 +48,7 @@ body {
 	background-size: 27px;
 	position: relative;
 	cursor:pointer;
-	bottom: 3px;
-	left: 30px;
+	bottom: 22px;
 }
 
 .icone-mapa{
@@ -61,12 +60,7 @@ body {
 }
 
 .icone-quant{
-width: 28px;
-float: right;
-position: relative;
-cursor: pointer;
-right: 300px;
-bottom: -1px;
+margin: -18px 0px 0px 100px;
 color:rgb(19, 22, 244);
 }
 
@@ -86,8 +80,8 @@ color:rgb(19, 22, 244);
 	background: url("../img/edit.png") no-repeat;
 	width: 28px;
 	height: 30px;
-	right: -22px;
-	bottom: 2px;
+	right: 10px;
+	bottom: 21px;
 	float: right;
 	background-size: 27px;
 	position: relative;
