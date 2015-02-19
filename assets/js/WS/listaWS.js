@@ -178,7 +178,6 @@ function retornarProdutosDaListas(){
 						var inp = document.createElement("div");
 						var aTag = document.createElement('a');
 						var iconEdit = document.createElement('div');
-						var quantidade = document.createElement('div');
 						var iconRemove = document.createElement('div');
 						
 						iconEdit.setAttribute("class", "icone-editar-produto");
@@ -188,16 +187,12 @@ function retornarProdutosDaListas(){
 						iconRemove.setAttribute("class", "icone-remove-produto");
 						iconRemove.setAttribute("onclick", "excluirProdutoDaLista('"+produtos.itens[i].id_produto+"')");
 						
-						quantidade.innerHTML = "x"+produtos.itens[i].quantidade;
-						quantidade.setAttribute("class","icone-quant");
-						
-						aTag.innerHTML = produtos.itens[i].nome;
+						aTag.innerHTML = produtos.itens[i].nome+"  Qtd. "+produtos.itens[i].quantidade;
 						inp.setAttribute("id",produtos.itens[i].id_produto);
 						inp.setAttribute("class", "alert alert-warning");
 						inp.setAttribute("name", "produtos");
 						inp.setAttribute("role", "alert");
 						inp.appendChild(aTag);
-						aTag.appendChild(quantidade);
 						inp.appendChild(iconRemove);
 						inp.appendChild(iconEdit);							
 					}						
@@ -325,4 +320,9 @@ function procurarProduto(){
 	var nome = $("#teste").val().trim();
 	window.localStorage.ProdutoProcurado=nome;
 	window.location = "procurarProdutosLista.html";
+}
+
+function voltarParaAListaAnterior(){
+	var idLista = window.localStorage.idListaClicada;
+	window.location = "visualizar-lista.html?id="+idLista;
 }
