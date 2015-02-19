@@ -48,7 +48,7 @@ body {
 	background-size: 27px;
 	position: relative;
 	cursor:pointer;
-	bottom: 22px;
+	bottom: 5px;
 }
 
 .icone-mapa{
@@ -81,7 +81,7 @@ color:rgb(19, 22, 244);
 	width: 28px;
 	height: 30px;
 	right: 10px;
-	bottom: 21px;
+	bottom: 5px;
 	float: right;
 	background-size: 27px;
 	position: relative;
