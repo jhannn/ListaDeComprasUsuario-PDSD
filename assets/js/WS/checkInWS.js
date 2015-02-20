@@ -202,11 +202,11 @@ function guardarProdutos(){
 	var aux = 0;
 	var produtos = [];
 	var valorTotal = 0;
+	var verificarCheckMarcado = 0;
 		
     for (var i=0;i<aChk.length;i++){ 
 		if (aChk[i].checked == true){ 
 			document.getElementById(aChk[i].id+"prod").className = "produto-escolhido";  
-			
 			produtos[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value};
 			aux++;
 			var preco = document.getElementById("preco"+aChk[i].id).innerHTML;
@@ -218,6 +218,11 @@ function guardarProdutos(){
 			document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal;
 		}else{
 			document.getElementById(aChk[i].id+"prod").className = "nome-produto-checkin";  
+			
+			verificarCheckMarcado++;
+			if(verificarCheckMarcado == aChk.length){
+			document.getElementById("total_lista").innerHTML = "R$ "+ 0;
+			} //tudo vazio
 		}
 	}	
 }
