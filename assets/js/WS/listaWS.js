@@ -242,33 +242,36 @@ function editarNomeLista(){
 }
 
 //______________________________________ EXCLUIR LISTA _____________________________________________//
-function excluirLista(id) {
-	var idLista = id;
-	var idUsuario = ID_USUARIO;
-	var token = TOKEN;
-   
-   $.ajax({
-        type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/removerLista"
-		, crossDomain:true
-        , contentType: 'application/json; charset=utf-8'
-        , dataType: 'json'
-        , data: "{idUsuario:'"+idUsuario+"',token:'"+token+"',idLista:'"+idLista+"'}"
-        , success: function (data, status){                    
-			var itens = $.parseJSON(data.d);                
-			if(itens == "OK"){
-				alert("Lista excluida com sucesso!");
-				window.location = "listas.html";
-				return;			
-			}else{
-				alert("Erro ao excluir a lista.");
-				return;	
-			}				
-        }
-        , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
-        }
-    });
+function excluirLista(id){
+	var confirme =  confirm ("Tem certeza que deseja excluir essa lista?")
+	if(confirme){
+		var idLista = id;
+		var idUsuario = ID_USUARIO;
+		var token = TOKEN;
+	   
+	   $.ajax({
+			type: 'POST'
+			, url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/removerLista"
+			, crossDomain:true
+			, contentType: 'application/json; charset=utf-8'
+			, dataType: 'json'
+			, data: "{idUsuario:'"+idUsuario+"',token:'"+token+"',idLista:'"+idLista+"'}"
+			, success: function (data, status){                    
+				var itens = $.parseJSON(data.d);                
+				if(itens == "OK"){
+					alert("Lista excluida com sucesso!");
+					window.location = "listas.html";
+					return;			
+				}else{
+					alert("Erro ao excluir a lista.");
+					return;	
+				}				
+			}
+			, error: function (xmlHttpRequest, status, err) {
+				$('.resultado').html('Ocorreu um erro');
+			}
+		});
+	}
 }
 
 //_______________Excluir Produto da lista_______________________//
