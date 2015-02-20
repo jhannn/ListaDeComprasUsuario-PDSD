@@ -649,6 +649,12 @@ color: orange;
 font-weight: bold;
 }
 
+.preco-checkin {
+position: absolute;
+right: 115px;
+margin-top: -23px;
+color: red;
+}
 	
 	
 

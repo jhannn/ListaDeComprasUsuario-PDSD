@@ -41,7 +41,7 @@ function listarEstabelecimento(){
 					/* tag do nome */
 					nomeEstab.setAttribute("data-toggle","modal");
 					nomeEstab.setAttribute("data-target","#escolher_lista");			
-					nomeEstab.setAttribute("onclick","escolherListas();");			
+					nomeEstab.setAttribute("onclick","escolherListas('"+estabelecimentos[i].id_estabelecimento+"');");			
 					nomeEstab.setAttribute('class',"titulos");
 					nomeEstab.innerHTML = estabelecimentos[i].nome;
 
@@ -64,7 +64,7 @@ function listarEstabelecimento(){
     });
 }
 
-function escolherListas(){	
+function escolherListas(idEstabelecimento){	
 	$.ajax({
         type: 'POST'
         , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
@@ -86,7 +86,7 @@ function escolherListas(){
 							aTag.setAttribute('class','titulos');
 							aTag.setAttribute("data-toggle","modal");
 							aTag.setAttribute("data-target","#checkIn");	
-							aTag.setAttribute("onclick","retornarProdutosCheckIn('"+lista[i].id_listaDeProdutos+"');");	
+							aTag.setAttribute("onclick","retornarProdutosCheckIn('"+lista[i].id_listaDeProdutos+"','"+idEstabelecimento+"');");	
 							aTag.setAttribute("data-dismiss","modal");	
 							aTag.innerHTML = lista[i].nome;
 							inp.setAttribute("id",lista[i].id_listaDeProdutos);
@@ -132,48 +132,60 @@ function criarLista()
 	window.location = "listas.html";
 }
 
-function retornarProdutosCheckIn(idLista){	
+function retornarProdutosCheckIn(idLista,idEstabelecimento){	
 
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarLista"
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarCheckin"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idListaDeProdutos:'"+idLista+"'}"
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',idEstabelecimento:'"+idEstabelecimento+"'}"
         , success: function (data, status){                    
 			var produtos = $.parseJSON(data.d);				
 			if(typeof(produtos.erro) === 'undefined'){
 				document.getElementById("produtos_checkIn").innerHTML = "";
-				for(var i=0; i<produtos.itens.length ;i++){
-					if(produtos.itens[i] != undefined){
+				for(var i=0; i<produtos.length ;i++){
+					if(produtos[i] != undefined){
 						var inp = document.createElement("div");
 						var aTag = document.createElement('a');
 						var checkbox = document.createElement('INPUT');
+						var preco = document.createElement('div');
 						
-						aTag.innerHTML = produtos.itens[i].nome;
+						aTag.innerHTML = produtos[i].nome;
 						aTag.setAttribute("class","nome-produto-checkin");
-						aTag.setAttribute("id",produtos.itens[i].id_produto+"prod");
+						aTag.setAttribute("id",produtos[i].id_produto+"prod");
 						
-						checkbox.setAttribute("id",produtos.itens[i].id_produto);
-						checkbox.setAttribute("value",produtos.itens[i].nome);
+						checkbox.setAttribute("id",produtos[i].id_produto);
+						checkbox.setAttribute("value",produtos[i].nome);
 						checkbox.setAttribute("type","checkbox");
 						checkbox.setAttribute("name","produtos");
-						checkbox.setAttribute("onclick","guardarProdutos();");
+						checkbox.setAttribute("onclick","guardarProdutos()");
 						checkbox.setAttribute("class","checkbox");
 						
-						inp.setAttribute("id",produtos.itens[i].id_produto);
+						preco.setAttribute("class","preco-checkin");
+						preco.setAttribute("value",2);
+						preco.setAttribute("id","preco"+produtos[i].id_produto);
+						if(produtos[i].preco != 0){	
+							preco.innerHTML = "R$ "+produtos[i].preco;
+						}
+						else{
+							preco.innerHTML = "-";
+						}
+						
+						inp.setAttribute("id",produtos[i].id_produto);
 						inp.setAttribute("class", "alert alert-warning");
 						inp.setAttribute("name", "produtos");
 						inp.setAttribute("role", "alert");
 						inp.appendChild(aTag);	
 						inp.appendChild(checkbox);	
+						aTag.appendChild(preco);
 					}						
 					var pai = document.getElementById("produtos_checkIn");
 					pai.appendChild(inp);
 				}
 			}else{
-				alert(itens.erro + "\n" + itens.Message);
+				alert(produtos.erro + "\n" + produtos.Message);
 				window.location = "index.html";
 				return;
 			}
@@ -184,17 +196,23 @@ function retornarProdutosCheckIn(idLista){
     });
 }
 
+
 function guardarProdutos(){
 	var aChk = document.getElementsByName("produtos");
 	var aux = 0;
 	var produtos = [];
-	
+	var valorTotal = 0;
+		
     for (var i=0;i<aChk.length;i++){ 
 		if (aChk[i].checked == true){ 
 			// alert(aChk[i].value + " marcado.");
 			document.getElementById(aChk[i].id+"prod").className = "produto-escolhido";  
 			produtos[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value};
 			aux++;
+			var preco = document.getElementById("preco1").value;
+			valorTotal += parseInt(preco);
+			
+			document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal;
 		}else{
 			document.getElementById(aChk[i].id+"prod").className = "nome-produto-checkin";  
 		}
