@@ -205,12 +205,15 @@ function guardarProdutos(){
 		
     for (var i=0;i<aChk.length;i++){ 
 		if (aChk[i].checked == true){ 
-			// alert(aChk[i].value + " marcado.");
 			document.getElementById(aChk[i].id+"prod").className = "produto-escolhido";  
+			
 			produtos[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value};
 			aux++;
-			var preco = document.getElementById("preco1").value;
-			valorTotal += parseInt(preco);
+			var preco = document.getElementById("preco"+aChk[i].id).innerHTML;
+			if(preco != '-'){
+				var valorTratado = preco.slice(3);
+				valorTotal += parseFloat(valorTratado);	
+			}
 			
 			document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal;
 		}else{
