@@ -160,7 +160,7 @@ function retornarProdutosCheckIn(idLista,idEstabelecimento){
 						checkbox.setAttribute("value",produtos[i].nome);
 						checkbox.setAttribute("type","checkbox");
 						checkbox.setAttribute("name","produtos");
-						checkbox.setAttribute("onclick","guardarProdutos()");
+						checkbox.setAttribute("onclick","guardarProdutos('"+produtos[i].id_produto+"','"+produtos[i].preco+"')");
 						checkbox.setAttribute("class","checkbox");
 						
 						preco.setAttribute("class","preco-checkin");
@@ -197,32 +197,52 @@ function retornarProdutosCheckIn(idLista,idEstabelecimento){
 }
 
 
-function guardarProdutos(){
-	var aChk = document.getElementsByName("produtos");
-	var aux = 0;
-	var produtos = [];
-	var valorTotal = 0;
-	var verificarCheckMarcado = 0;
+function guardarProdutos(idProduto,preco){
+	var aChk = document.getElementsByName("produtos"); //atribui o checkbox a variavel
+	var itens = [];	//variavel itens
+	var aux = 0; 		//variavel para acessar o array de itens
+	var valorTotal = 0; //variavel para armazenar o valor total
+	var verificarCheckMarcado = 0; //variavel para zerar o total quando nao tiver nenhum checkbox marcado
 		
-    for (var i=0;i<aChk.length;i++){ 
-		if (aChk[i].checked == true){ 
-			document.getElementById(aChk[i].id+"prod").className = "produto-escolhido";  
-			produtos[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value};
-			aux++;
-			var preco = document.getElementById("preco"+aChk[i].id).innerHTML;
-			if(preco != '-'){
-				var valorTratado = preco.slice(3);
-				valorTotal += parseFloat(valorTratado);	
+    for (var i=0;i<aChk.length;i++) //for para pecorrer o checkbox
+	{ 
+		if (aChk[i].checked == true)// se checkbox estiver marcado...
+		{
+			if(idProduto==aChk[i].id)//se for o checkbox selecionado 
+			{
+				var confirme = confirm("Voce confirma o preco desse produto? "+preco); //Menssagem para confirma o preço
+				if(confirme){ //se o preço for confirmado
+					document.getElementById(aChk[i].id+"prod").className = "produto-escolhido"; //style para riscar o nome do produto
+					itens[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value}; //criando o objeto item para retornar ao servidor
+					aux++;
+					if(preco != '-'){
+						var valorTratado = preco.slice(3);
+						valorTotal += parseFloat(valorTratado);	
+					}	
+					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal;
+				}
 			}
-			
-			document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal;
-		}else{
+			else //se nao for o checkbox selecionado
+			{
+				document.getElementById(aChk[i].id+"prod").className = "produto-escolhido";  
+				itens[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value};
+				aux++;
+				var preco = document.getElementById("preco"+aChk[i].id).innerHTML;
+				if(preco != '-'){
+					var valorTratado = preco.slice(3);
+					valorTotal += parseFloat(valorTratado);
+				}					
+				document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal;
+			}		
+		}
+		else //se checkbox nao tiver sido marcado
+		{
 			document.getElementById(aChk[i].id+"prod").className = "nome-produto-checkin";  
 			
 			verificarCheckMarcado++;
 			if(verificarCheckMarcado == aChk.length){
 			document.getElementById("total_lista").innerHTML = "R$ "+ 0;
-			} //tudo vazio
+			} 
 		}
-	}	
+	}//fim do for	
 }
