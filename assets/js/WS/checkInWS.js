@@ -70,7 +70,7 @@ function retornarProdutosCheckIn(idLista,idEstabelecimento){
 
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarCheckin"
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarItens"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -194,8 +194,8 @@ function htmlListarProdutos(produtos)
 		var nomeProduto = document.createElement('a');
 		var checkbox = document.createElement('INPUT');
 		var preco = document.createElement('div');
-		
-		nomeProduto.innerHTML = produtos.nome;
+				
+		nomeProduto.innerHTML = produtos.nome +" Qtd. "+produtos.quantidade;
 		nomeProduto.setAttribute("class","nome-produto-checkin");
 		nomeProduto.setAttribute("id",produtos.id_produto+"prod");
 		
@@ -203,18 +203,19 @@ function htmlListarProdutos(produtos)
 		checkbox.setAttribute("value",produtos.nome);
 		checkbox.setAttribute("type","checkbox");
 		checkbox.setAttribute("name","produtos");
-		checkbox.setAttribute("onclick","guardarItens('"+produtos.id_produto+"','"+produtos.preco+"')");
+		checkbox.setAttribute("onclick","guardarItens('"+produtos.id_produto+"','"+(produtos.preco * produtos.quantidade)+"')");
 		checkbox.setAttribute("class","checkbox");
 		
 		preco.setAttribute("class","preco-checkin");
 		preco.setAttribute("value",2);
 		preco.setAttribute("id","preco"+produtos.id_produto);
 		
-			if(produtos.preco != 0){	
-				preco.innerHTML = "R$ "+produtos.preco.toFixed(2);
-			}else{
-				preco.innerHTML = "-";
-			}
+		if(produtos.preco != 0){	
+			var precoTotal = (produtos.preco * produtos.quantidade);
+			preco.innerHTML = "R$ "+ precoTotal.toFixed(2);
+		}else{
+			preco.innerHTML = "-";
+		}
 		inp.setAttribute("id",produtos.id_produto);
 		inp.setAttribute("class", "alert alert-warning");
 		inp.setAttribute("name", "produtos");
