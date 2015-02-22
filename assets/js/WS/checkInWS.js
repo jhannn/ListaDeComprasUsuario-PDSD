@@ -38,16 +38,16 @@ function escolherListas(idEstabelecimento){
 					// if(idListaClicada != ""){
 						// retornarProdutosCheckIn(idListaClicada,idEstabelecimento);
 					// }else{
-						var confirme = confirm("Voce nao esta em nenhuma lista\n deseja escolher uma lista?");
+						var confirme = confirm("Você não está em nenhuma lista\n deseja escolher uma lista?");
 						if(confirme){
 							document.getElementById("nomeLista").innerHTML = "";
 							for(var i=0; i<lista.length ;i++)
-							htmlListarListas(lista[i],idEstabelecimento);
+							htmlListarListas(lista[i],idEstabelecimento);							
 						}	
 					// }
 				}else{
 					var alerta = document.createElement("p");
-					alerta.innerHTML = "Voce nao possui nenhuma lista cadastrada";
+					alerta.innerHTML = "Você não possui nenhuma lista cadastrada";
 					alerta.setAttribute("class","alert-lista-nao-criada");			
 					var pai = document.getElementById("nomeLista");
 					pai.appendChild(alerta);
@@ -66,7 +66,9 @@ function escolherListas(idEstabelecimento){
 }
 
 //_________________ LISTA PRODUTOS PARA SER REALIZADO O CHECKIN _________________//
-function retornarProdutosCheckIn(idLista,idEstabelecimento){	
+function retornarProdutosCheckIn(){	
+	var idLista = window.localStorage.listaClicadaCheckin;
+	var idEstabelecimento =	window.localStorage.estabelecimentoClicadoCheckin; 
 
 	$.ajax({
         type: 'POST'
@@ -76,7 +78,7 @@ function retornarProdutosCheckIn(idLista,idEstabelecimento){
         , dataType: 'json'
         , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',idEstabelecimento:'"+idEstabelecimento+"'}"
         , success: function (data, status){                    
-			var produtos = $.parseJSON(data.d);				
+			var produtos = $.parseJSON(data.d);	
 			document.getElementById("produtos_checkIn").innerHTML = "";
 				for(var i=0; i<produtos.length ;i++)
 				htmlListarProdutos(produtos[i]);
@@ -98,7 +100,7 @@ function guardarItens(idProduto,preco){
 	for (var i=0;i<aChk.length;i++){ 
 		if(aChk[i].id == idProduto && preco != 0){
 			if (aChk[i].checked == true){
-				var confirme = confirm("Voce confirma o preco desse produto?\n"+preco) //Menssagem para confirma o preço
+				var confirme = confirm("Você confirma o preço desse produto?\n"+preco) //Menssagem para confirma o preço
 				if(confirme){
 					document.getElementById(aChk[i].id+"prod").className = "produto-escolhido"; //style para riscar o nome do produto
 					itens[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value}; //criando o objeto item para retornar ao servidor					
@@ -129,6 +131,8 @@ function htmlListarEstabelecimentos(estabelecimentos){
 		var a = document.createElement("a");
 		var img = document.createElement("img");
 		var nomeEstab = document.createElement('a');
+		var modal = document.createElement("div");
+		var conteudo = document.createElement("div");
 
 		//--estilos--
 		divPrincipal.setAttribute("class","panel panel-default");
@@ -150,6 +154,12 @@ function htmlListarEstabelecimentos(estabelecimentos){
 		nomeEstab.setAttribute("onclick","escolherListas('"+estabelecimentos.id_estabelecimento+"');");			
 		nomeEstab.setAttribute('class',"titulos");
 		nomeEstab.innerHTML = estabelecimentos.nome;
+		
+		modal.setAttribute("id","modal"+estabelecimentos.id_estabelecimento);
+					modal.setAttribute("class","modal-fechado");
+					conteudo.innerHTML = "<p class='conteudo-estab'>Cidade: "+estabelecimentos.cidade+"</br>"+
+										 "Bairro: "+estabelecimentos.bairro+"</br>"+
+										 "Unidade: "+estabelecimentos.numero+"</br></p>";
 
 		divPrincipal.appendChild(divRole);
 		divPrincipal.appendChild(h4);
@@ -159,9 +169,31 @@ function htmlListarEstabelecimentos(estabelecimentos){
 		h4.appendChild(a);
 		h4.appendChild(nomeEstab);
 		a.appendChild(img);
+		divPrincipal.appendChild(modal);
+		modal.appendChild(conteudo);
 		}	
 	var pai = document.getElementById("nomeEstab");
-	pai.appendChild(divPrincipal);	
+	pai.appendChild(divPrincipal);
+	img.setAttribute("onclick","controleModal(modal"+estabelecimentos.id_estabelecimento+")");
+}
+
+var aberto = "nao";
+var idAberto = "0";
+function controleModal(id)
+{
+	if(aberto == "nao" && idAberto==0){ //abra modal
+		document.getElementById(id.id).className = "modal-aberto";
+		aberto="sim";
+		idAberto = id.id;
+		return;
+	}
+	
+	if(aberto == "sim" && idAberto==id.id){//feche modal
+		document.getElementById(id.id).className = "modal-fechado";
+		aberto="nao";
+		idAberto="0";
+		return;
+	}
 }
 
 /*--Listar listas --*/
@@ -171,11 +203,10 @@ function htmlListarListas(lista,idEstabelecimento){
 		var nomeLista = document.createElement('a');
 
 		nomeLista.setAttribute('class','titulos');
-		nomeLista.setAttribute("data-toggle","modal");
-		nomeLista.setAttribute("data-target","#checkIn");	
-		nomeLista.setAttribute("onclick","retornarProdutosCheckIn('"+lista.id_listaDeProdutos+"','"+idEstabelecimento+"');");	
-		nomeLista.setAttribute("data-dismiss","modal");	
+		nomeLista.setAttribute('onclick',"localStorageCheckin('"+lista.id_listaDeProdutos+"','"+idEstabelecimento+"')");
+		nomeLista.setAttribute("href","checkinProdutos.html");	
 		nomeLista.innerHTML = lista.nome;
+		
 		inp.setAttribute("id",lista.id_listaDeProdutos);
 		inp.setAttribute("class", "alert alert-warning");
 		inp.setAttribute("name", "listas");
@@ -184,6 +215,11 @@ function htmlListarListas(lista,idEstabelecimento){
 	}							
 	var pai = document.getElementById("nomeLista");
 	pai.appendChild(inp);
+}
+
+function localStorageCheckin(idLista,idEstabelecimento){
+	window.localStorage.listaClicadaCheckin = idLista;
+	window.localStorage.estabelecimentoClicadoCheckin = idEstabelecimento;
 }
 
 /*--listar produtos pro checkin --*/
@@ -203,7 +239,7 @@ function htmlListarProdutos(produtos)
 		checkbox.setAttribute("value",produtos.nome);
 		checkbox.setAttribute("type","checkbox");
 		checkbox.setAttribute("name","produtos");
-		checkbox.setAttribute("onclick","guardarItens('"+produtos.id_produto+"','"+(produtos.preco * produtos.quantidade)+"')");
+		checkbox.setAttribute("onclick","guardarItens('"+produtos.id_produto+"','"+(produtos.preco * produtos.quantidade).toFixed(2)+"')");
 		checkbox.setAttribute("class","checkbox");
 		
 		preco.setAttribute("class","preco-checkin");

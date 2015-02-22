@@ -93,11 +93,12 @@ function pesquisarProduto()
 		divRole.setAttribute("data-toggle", "modal");
 		divRole.innerHTML="Cadastrar um novo Produto!!"
 
-		divPrincipal.setAttribute("class","panel panel-default");				
-		nomeProduto.innerHTML="Nada foi encontrado!! Cadastre um novo Produto! =)";
+		// divPrincipal.setAttribute("class","panel panel-default");				
+		nomeProduto.setAttribute("class","alert-lista-nao-criada");				
+		nomeProduto.innerHTML="Nada foi encontrado!! Cadastre um novo Produto!";
 				
-		divPrincipal.appendChild(divRole);
 		divPrincipal.appendChild(nomeProduto);
+		divPrincipal.appendChild(divRole);
 				
 		var pai = document.getElementById("referencia");
 		pai.appendChild(divPrincipal);
@@ -121,18 +122,19 @@ function pesquisarProduto()
 				document.getElementById("referencia").innerHTML = "";
 				var divPrincipal = document.createElement("div");
 				var divRole = document.createElement("div");
-				var nomeProduto = document.createElement("p");
+				var nomeProduto = document.createElement("div");
 				
 				divRole.setAttribute("class", "btn btn-primary");
 				divRole.setAttribute("data-target", "#cadastrar_produto_lista");
 				divRole.setAttribute("data-toggle", "modal");
 				divRole.innerHTML="Cadastrar um novo Produto!!"
 
-				divPrincipal.setAttribute("class","panel panel-default");				
-				nomeProduto.innerHTML="Nada foi encontrado!! Cadastre um novo Produto! =)";
+				// divPrincipal.setAttribute("class","panel panel-default");				
+				nomeProduto.setAttribute("class","alert-lista-nao-criada");				
+				nomeProduto.innerHTML="Nada foi encontrado!! Cadastre um novo Produto!";
 				
-				divPrincipal.appendChild(divRole);
 				divPrincipal.appendChild(nomeProduto);
+				divPrincipal.appendChild(divRole);
 				
 				var pai = document.getElementById("referencia");
 				pai.appendChild(divPrincipal);

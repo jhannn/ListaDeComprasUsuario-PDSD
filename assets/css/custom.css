@@ -624,11 +624,11 @@ line-height: 1.428571429;
     =============================================*/
 
 input.checkbox{
-margin-left: 80%;
-width: 50px;
-height: 25px;
 position: absolute;
-margin-top: -25px;
+right: 65px;
+margin-top: -23px;
+height: 25px;
+width: 30px;
 }
 
 .nome-produto-checkin{
