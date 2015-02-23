@@ -91,10 +91,10 @@ function retornarProdutosCheckIn(){
 
 //___________________________ FUNÇÃO GUARDAR ITENS ________________________________//
 var valorTotal = 0; 
+var itens = [];	//variavel itens
+var aux = 0; 		//variavel para acessar o array de itens
 function guardarItens(idProduto,preco){
 	var aChk = document.getElementsByName("produtos"); //atribui o checkbox a variavel
-	var itens = [];	//variavel itens
-	var aux = 0; 		//variavel para acessar o array de itens
 	var verificarCheckMarcado = 0; //variavel para zerar o total quando nao tiver nenhum checkbox marcado
 	
 	for (var i=0;i<aChk.length;i++){ 
@@ -103,7 +103,8 @@ function guardarItens(idProduto,preco){
 				var confirme = confirm("Você confirma o preço desse produto?\n"+preco) //Menssagem para confirma o preço
 				if(confirme){
 					document.getElementById(aChk[i].id+"prod").className = "produto-escolhido"; //style para riscar o nome do produto
-					itens[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value}; //criando o objeto item para retornar ao servidor					
+					itens[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value}; //criando o objeto item para retornar ao servidor	
+					console.log(itens);
 					aux++;
 					valorTotal += parseFloat(preco);	
 					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2);				
