@@ -5,7 +5,7 @@ var TOKEN = window.localStorage.UsuarioToken;
 function listarEstabelecimento(){	
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimento"
+        , url: "http://192.168.0.34/Servidor/Estabelecimento.asmx/listarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -26,7 +26,7 @@ function escolherListas(idEstabelecimento){
 	var idListaClicada = window.localStorage.idListaClicada;
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
+        , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'		
@@ -72,7 +72,7 @@ function retornarProdutosCheckIn(){
 
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarItens"
+        , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/retornarItens"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -137,7 +137,7 @@ function htmlListarEstabelecimentos(estabelecimentos){
 
 		//--estilos--
 		divPrincipal.setAttribute("class","panel panel-default");
-		divPrincipal.setAttribute("id",estabelecimentos.id_estabelecimento);
+		divPrincipal.setAttribute("id","divEstab"+estabelecimentos.id_estabelecimento);
 		divPrincipal.setAttribute("name", "estabelecimentos");
 		divPrincipal.setAttribute("role", "alert");
 
@@ -145,7 +145,8 @@ function htmlListarEstabelecimentos(estabelecimentos){
 		h4.setAttribute("class","panel-title");
 		a.setAttribute("style","color: #ffb503;");
 			
-		img.setAttribute("src","assets/img/detalhes.png");
+		img.setAttribute("src","assets/img/setaFechada.png");
+		img.setAttribute("id","seta"+estabelecimentos.id_estabelecimento);
 		img.setAttribute("width","30px");
 		img.setAttribute("style","color: #ffb503;");
 
@@ -156,7 +157,7 @@ function htmlListarEstabelecimentos(estabelecimentos){
 		nomeEstab.setAttribute('class',"titulos");
 		nomeEstab.innerHTML = estabelecimentos.nome;
 		
-		modal.setAttribute("id","modal"+estabelecimentos.id_estabelecimento);
+		modal.setAttribute("id",estabelecimentos.id_estabelecimento);
 					modal.setAttribute("class","modal-fechado");
 					conteudo.innerHTML = "<p class='conteudo-estab'>Cidade: "+estabelecimentos.cidade+"</br>"+
 										 "Bairro: "+estabelecimentos.bairro+"</br>"+
@@ -175,22 +176,25 @@ function htmlListarEstabelecimentos(estabelecimentos){
 		}	
 	var pai = document.getElementById("nomeEstab");
 	pai.appendChild(divPrincipal);
-	img.setAttribute("onclick","controleModal(modal"+estabelecimentos.id_estabelecimento+")");
+	img.setAttribute("onclick","controleModal("+estabelecimentos.id_estabelecimento+")");
 }
 
+//______________________ CONTROLE MODAL ______________________//
 var aberto = "nao";
 var idAberto = "0";
-function controleModal(id)
+function controleModal(idModal)
 {
 	if(aberto == "nao" && idAberto==0){ //abra modal
-		document.getElementById(id.id).className = "modal-aberto";
+		document.getElementById(idModal).className = "modal-aberto";
+		document.getElementById("seta"+idModal).src = "assets/img/setaAberta.png";
 		aberto="sim";
-		idAberto = id.id;
+		idAberto = idModal;
 		return;
 	}
 	
-	if(aberto == "sim" && idAberto==id.id){//feche modal
-		document.getElementById(id.id).className = "modal-fechado";
+	if(aberto == "sim" && idAberto==idModal){//feche modal
+		document.getElementById(idModal).className = "modal-fechado";
+		document.getElementById("seta"+idModal).src = "assets/img/setaFechada.png";
 		aberto="nao";
 		idAberto="0";
 		return;

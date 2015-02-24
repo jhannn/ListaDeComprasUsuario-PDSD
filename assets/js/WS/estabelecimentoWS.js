@@ -1,6 +1,7 @@
 var ID_USUARIO = window.localStorage.UsuarioId;
 var TOKEN = window.localStorage.UsuarioToken;
 
+//______________________ CADASTRAR ESTABELECIMENTO _________________________//
 function cadastrarEstabelecimento(){
 	var nomeEstabelecimento = $("#nome").val();
 	var bairroEstabelecimento = $("#bairroEstabelecimento").val();
@@ -16,7 +17,7 @@ function cadastrarEstabelecimento(){
 		if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
 			$.ajax({
 				type: 'POST'
-				, url: "http://localhost:52192/Servidor/Estabelecimento.asmx/cadastrarEstabelecimento"
+				, url: "http://192.168.0.34/Servidor/Estabelecimento.asmx/cadastrarEstabelecimento"
 				, crossDomain:true
 				, contentType: 'application/json; charset=utf-8'
 				, dataType: 'json'
@@ -33,7 +34,7 @@ function cadastrarEstabelecimento(){
 					}
 				}
 				, error: function (xmlHttpRequest, status, err) {
-					$('.resultado').html('Ocorreu um erro');
+					alert("Ocorreu um erro");
 				}
 			});
 		}else{
@@ -44,101 +45,29 @@ function cadastrarEstabelecimento(){
 	}
 }
 
+//______________________ LISTAR ESTABELECIMENTO _________________________//
 function listarEstabelecimento(){	
-	nomeEstabelecimento='';
-	bairroEstabelecimento='';
-	cidadeEstabelecimento='';
+
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimento"
+        , url: "http://192.168.0.34/Servidor/Estabelecimento.asmx/listarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-		, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nome:'"+nomeEstabelecimento+"',bairro:'"+bairroEstabelecimento+"',cidade:'"+cidadeEstabelecimento+"'}"
+		, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nome:'',bairro:'',cidade:''}"
         , success: function (data, status){                    
 			var estabelecimentos = $.parseJSON(data.d);		
-			for(var i=0; i<estabelecimentos.length ;i++){
-				if(estabelecimentos[i] != undefined){
-
-					var divPrincipal = document.createElement("div");
-					var divRole = document.createElement("div");
-					var h4 = document.createElement("h4");
-					var a = document.createElement("a");
-					var img = document.createElement("img");
-					var nomeEstab = document.createElement('a');
-					var pCidade = document.createElement('p');
-					var pBairro = document.createElement('p');
-					var pUnidade = document.createElement('p');
-					var iconEdit = document.createElement('div');
-					var imgMap = document.createElement('img');
-					var modal = document.createElement("div");
-					var conteudo = document.createElement("div");
-
-					//--estilos--
-					divPrincipal.setAttribute("class","panel panel-default");
-					divPrincipal.setAttribute("id",estabelecimentos[i].id_estabelecimento);
-					divPrincipal.setAttribute("name", "estabelecimentos");
-					divPrincipal.setAttribute("role", "alert");
-
-					divRole.setAttribute("class","panel-heading");
-					h4.setAttribute("class","panel-title");
-					a.setAttribute("style","color: #ffb503;");
-						
-					img.setAttribute("src","assets/img/detalhes.png");
-					img.setAttribute("width","30px");
-					img.setAttribute("style","color: #ffb503;");
-
-					/* icone de editar */
-					iconEdit.setAttribute("class", "iconEdit");
-					iconEdit.setAttribute("onclick", "estabelecimentoClicadoId('"+estabelecimentos[i].id_estabelecimento+"')");
-					iconEdit.setAttribute("data-target", "#editar_estabelecimento");
-					iconEdit.setAttribute("data-toggle", "modal");
-
-					/* tag do nome */
-					nomeEstab.setAttribute('href',"visualizar-estabelecimento.html?id="+estabelecimentos[i].id_estabelecimento);
-					nomeEstab.setAttribute('class',"titulos");
-					nomeEstab.innerHTML = estabelecimentos[i].nome;
-
-					/* icone do google maps */
-					imgMap.setAttribute("src","assets/img/icone-mapa.png");
-					imgMap.setAttribute("class","icone-mapa");		
-					imgMap.setAttribute("onclick","googleMaps()");
-
-					modal.setAttribute("id","modal"+estabelecimentos[i].id_estabelecimento);
-					modal.setAttribute("class","modal-fechado");
-					conteudo.innerHTML = "<p class='conteudo-estab'>Cidade: "+estabelecimentos[i].cidade+"</br>"+
-										 "Bairro: "+estabelecimentos[i].bairro+"</br>"+
-										 "Unidade: "+estabelecimentos[i].numero+"</br></p>";
-
-					divPrincipal.appendChild(divRole);
-					divPrincipal.appendChild(h4);
-					divPrincipal.appendChild(a);
-					divPrincipal.appendChild(img);
-					divRole.appendChild(h4);
-					h4.appendChild(a);
-					h4.appendChild(iconEdit);
-					h4.appendChild(imgMap)
-					h4.appendChild(nomeEstab);
-					a.appendChild(img);
-					divPrincipal.appendChild(modal);
-					modal.appendChild(conteudo);
-					}	
-				var pai = document.getElementById("nomeEstabelecimento");
-				pai.appendChild(divPrincipal);	
-				img.setAttribute("onclick","controleModal(modal"+estabelecimentos[i].id_estabelecimento+")");
-			}
+			for(var i=0; i<estabelecimentos.length ;i++)
+			htmlListarEstabelecimentos(estabelecimentos[i]);
         }
         , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
+            alert("Ocorreu um erro");
         }
     });
 }
 
-function googleMaps()
-{
-	window.location = "googleMaps.html";
-}
 
+//______________________ EDITAR ESTABELECIMENTO _________________________//
 function editarEstabelecimento(){	
 	var nomeEstabelecimento = $("#novoNomeEstabelecimento").val();
 	var bairroEstabelecimento = $("#novoBairroEstabelecimento").val();
@@ -155,7 +84,7 @@ function editarEstabelecimento(){
 		if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
 			$.ajax({
 				type: 'POST'
-				, url: "http://localhost:52192/Servidor/Estabelecimento.asmx/editarEstabelecimento"
+				, url: "http://192.168.0.34/Servidor/Estabelecimento.asmx/editarEstabelecimento"
 				, crossDomain:true
 				, contentType: 'application/json; charset=utf-8'
 				, dataType: 'json'
@@ -172,7 +101,7 @@ function editarEstabelecimento(){
 					}
 				}
 				, error: function (xmlHttpRequest, status, err) {
-					$('.resultado').html('Ocorreu um erro');
+					alert("Ocorreu um erro");
 				}
 			});
 		}else{
@@ -188,11 +117,12 @@ function estabelecimentoClicadoId(id){
 	return;
 }
 
+//______________________ AUTOCOMPLETE ESTABELECIMENTO _________________________//
 function autoCompleteEstabelecimento(){	
 	var nomeEstabelecimento = $("#nomeEstabelecimento").val();
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/autoCompleteEstabelecimento"
+        , url: "http://192.168.0.34/Servidor/Estabelecimento.asmx/autoCompleteEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -202,11 +132,12 @@ function autoCompleteEstabelecimento(){
 			$("#nomeEstabelecimento").autocomplete({ source: estabelecimentos }); 
         }
         , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
+            alert("Ocorreu um erro");
         }
     });	
 }
 
+//______________________ VISUALIZAR ESTABELECIMENTO _________________________//
 function visualizarEstabelecimento(){	
 	var queries = {};
 	$.each(document.location.search.substr(1).split('&'), function(c,q){
@@ -217,7 +148,7 @@ function visualizarEstabelecimento(){
 	window.localStorage.idEstabelecimentoClicado= idEstabelecimento;
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/visualizarEstabelecimento"
+        , url: "http://192.168.0.34/Servidor/Estabelecimento.asmx/visualizarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -236,137 +167,109 @@ function visualizarEstabelecimento(){
 			}					
 		}
         , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
+            alert("Ocorreu um erro");
         }
     });
 }
 
-//_______________________ RETORNAR ESTABELECIMENTOS MAIS BARATO ______________________//
+/*==============================================
+    GENERAL HTML AND STYLES    
+    =============================================*/
+/*listar estabelecimentos*/	
+function htmlListarEstabelecimentos(estabelecimentos){
+	if(estabelecimentos != undefined){
+		var divPrincipal = document.createElement("div");
+		var divRole = document.createElement("div");
+		var h4 = document.createElement("h4");
+		var a = document.createElement("a");
+		var img = document.createElement("img");
+		var nomeEstab = document.createElement('a');
+		var pCidade = document.createElement('p');
+		var pBairro = document.createElement('p');
+		var pUnidade = document.createElement('p');
+		var iconEdit = document.createElement('div');
+		var imgMap = document.createElement('img');
+		var modal = document.createElement("div");
+		var conteudo = document.createElement("div");
 
-function retornarEstabelecimentosMaisBaratos(){	
+		//--estilos--
+		divPrincipal.setAttribute("class","panel panel-default");
+		divPrincipal.setAttribute("id","divEstab"+estabelecimentos.id_estabelecimento);
+		divPrincipal.setAttribute("name", "estabelecimentos");
+		divPrincipal.setAttribute("role", "alert");
 
-	var idLista = parseInt(window.localStorage.idListaClicada);
-	
-	$.ajax({
-        type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/buscarOfertas"
-		, crossDomain:true
-        , contentType: 'application/json; charset=utf-8'
-        , dataType: 'json'
-        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"'}"
-		, success: function (data, status){                    
-			var estabelecimentos = $.parseJSON(data.d);
-			console.log(estabelecimentos);
-			
-			//------------ ordenar -----------------//
-			var i, j, preco,oferta,guardar;
-			for (i = 1; i < estabelecimentos.length; i++) {
-			   preco = estabelecimentos[i].precoDaLista;
-			   guardar = estabelecimentos[i];
-			   oferta = estabelecimentos[i].itensEncontrados;
-			   j = i;
-			   while((j>0) && 
-			   (oferta>estabelecimentos[j-1].itensEncontrados  || (preco<estabelecimentos[j-1].precoDaLista && oferta==estabelecimentos[j-1].itensEncontrados)))
-			   {
-					estabelecimentos[j] = estabelecimentos[j-1];
-					j = j-1;
-			   }
-			   estabelecimentos[j] = guardar;
-			}
-			//------------------------------------------//
+		divRole.setAttribute("class","panel-heading");
+		h4.setAttribute("class","panel-title");
+		a.setAttribute("style","color: #ffb503;");
+		
+		/* icone seta */					
+		img.setAttribute("src","assets/img/setaFechada.png");
+		img.setAttribute("width","30px");
+		img.setAttribute("id","seta"+estabelecimentos.id_estabelecimento);
+		img.setAttribute("style","color: #ffb503;");
 
-			document.getElementById("referenciaEstab").innerHTML = "";
-			for(var i=0 ;i<estabelecimentos.length ;i++){
-				listaEstiloEstab(estabelecimentos[i]); 
-			}	
-			
-        }
-        , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
-        }
-    });	
-}
+		/* icone de editar */
+		iconEdit.setAttribute("class", "iconEdit");
+		iconEdit.setAttribute("onclick", "estabelecimentoClicadoId('"+estabelecimentos.id_estabelecimento+"')");
+		iconEdit.setAttribute("data-target", "#editar_estabelecimento");
+		iconEdit.setAttribute("data-toggle", "modal");
 
-function listaEstiloEstab(estabelecimentos)
-{
-	var divPrincipal = document.createElement("div");
-	var divRole = document.createElement("div");
-	var h4 = document.createElement("h4");
-	var a = document.createElement("a");
-	var img = document.createElement("img");
-	var nomeProduto = document.createElement("p");
-	var oferta = document.createElement("p");
-	var valor = document.createElement("p");
-	var modal = document.createElement("div");
-	var conteudo = document.createElement("div");
+		/* tag do nome */
+		nomeEstab.setAttribute('href',"visualizar-estabelecimento.html?id="+estabelecimentos.id_estabelecimento);
+		nomeEstab.setAttribute('class',"titulos");
+		nomeEstab.innerHTML = estabelecimentos.nome;
 
-	//--estilos--
-	divPrincipal.setAttribute("class","panel panel-default");
-	divPrincipal.setAttribute("id",estabelecimentos.idEstabelecimento); //passando id do estabelecimento para a div principal
-	divRole.setAttribute("class","panel-heading");
-	h4.setAttribute("class","panel-title");
-	a.setAttribute("style","color: #ffb503;");
-		
-	img.setAttribute("src","assets/img/detalhes.png");
-	img.setAttribute("width","30px");
-	img.setAttribute("style","color: #ffb503;");
-		
-	nomeProduto.setAttribute("class","ajustes-lista");		
-	nomeProduto.innerHTML = estabelecimentos.nomeEstabelecimento; //nome do estabelecimento
-		
-	oferta.setAttribute("class","ajustes-oferta");		
-	oferta.innerHTML = estabelecimentos.itensEncontrados+"/"+estabelecimentos.itensTotal; //oferta
-		
-	valor.setAttribute("class","ajustes-valor");		
-	valor.innerHTML = "R$"+estabelecimentos.precoDaLista;//valor
-		
-	modal.setAttribute("id","modal"+estabelecimentos.idEstabelecimento);
-	modal.setAttribute("class","modal-fechado");
-	conteudo.innerHTML = "<p>Foram encontrados nesse supermercado "+estabelecimentos.itensEncontrados+" produtos,"+
-							 " no total de "+estabelecimentos.itensTotal+" produtos cadastrados na sua lista de compras</br></p>"; 
-		
-	//--------//
-		
-	divPrincipal.appendChild(divRole);
-	divPrincipal.appendChild(h4);
-	divPrincipal.appendChild(a);
-	divPrincipal.appendChild(img);
-	divRole.appendChild(h4);
-	h4.appendChild(a);
-	h4.appendChild(nomeProduto);
-	h4.appendChild(oferta);
-	h4.appendChild(valor);
-	a.appendChild(img);
-	divPrincipal.appendChild(modal);
-	modal.appendChild(conteudo);
-		
-	var pai = document.getElementById("referenciaEstab");
+		/* icone do google maps */
+		imgMap.setAttribute("src","assets/img/icone-mapa.png");
+		imgMap.setAttribute("class","icone-mapa");		
+		imgMap.setAttribute("onclick","googleMaps()");
+
+		/* modal */
+		modal.setAttribute("id",estabelecimentos.id_estabelecimento);
+		modal.setAttribute("class","modal-fechado");
+		conteudo.innerHTML = "<p class='conteudo-estab'>Cidade: "+estabelecimentos.cidade+"</br>"+
+							 "Bairro: "+estabelecimentos.bairro+"</br>"+
+							 "Unidade: "+estabelecimentos.numero+"</br></p>";
+
+		divPrincipal.appendChild(divRole);
+		divPrincipal.appendChild(h4);
+		divPrincipal.appendChild(a);
+		divPrincipal.appendChild(img);
+		divRole.appendChild(h4);
+		h4.appendChild(a);
+		h4.appendChild(iconEdit);
+		h4.appendChild(imgMap)
+		h4.appendChild(nomeEstab);
+		a.appendChild(img);
+		divPrincipal.appendChild(modal);
+		modal.appendChild(conteudo);
+	}	
+	var pai = document.getElementById("nomeEstabelecimento");
 	pai.appendChild(divPrincipal);	
-	divPrincipal.setAttribute("onclick","controleModal(modal"+estabelecimentos.idEstabelecimento+")");
+	img.setAttribute("onclick","controleModal("+estabelecimentos.id_estabelecimento+")");
 }
 
+//______________________ CONTROLE MODAL __________________________//
 var aberto = "nao";
 var idAberto = "0";
-function controleModal(id)
+function controleModal(idModal)
 {
 	if(aberto == "nao" && idAberto==0){ //abra modal
-		document.getElementById(id.id).className = "modal-aberto";
+		document.getElementById(idModal).className = "modal-aberto";
+		document.getElementById("seta"+idModal).src = "assets/img/setaAberta.png";
 		aberto="sim";
-		idAberto = id.id;
+		idAberto = idModal;
 		return;
 	}
 	
-	if(aberto == "sim" && idAberto==id.id){//feche modal
-		document.getElementById(id.id).className = "modal-fechado";
+	if(aberto == "sim" && idAberto==idModal){//feche modal
+		document.getElementById(idModal).className = "modal-fechado";
+		document.getElementById("seta"+idModal).src = "assets/img/setaFechada.png";
 		aberto="nao";
 		idAberto="0";
 		return;
 	}
 }
 
-
-
-
-
-
+function googleMaps(){window.location = "googleMaps.html";}
 

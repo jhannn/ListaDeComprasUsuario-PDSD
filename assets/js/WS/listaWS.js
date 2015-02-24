@@ -10,7 +10,7 @@ function criarLista(){
     if (nomeLista != ''){ 	
 		$.ajax({
             type: 'POST'
-            , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/criarLista"
+            , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/criarLista"
 			, crossDomain:true
             , contentType: 'application/json; charset=utf-8'
             , dataType: 'json'
@@ -42,7 +42,7 @@ function retornarNomeLista(){
 	var idLista = parseInt(window.localStorage.idListaClicada);
     $.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarLista"
+        , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/retornarLista"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -61,7 +61,7 @@ function retornarNomeLista(){
 function retornarListas(){	
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
+        , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'						//tipos de dados de retorno
@@ -117,11 +117,11 @@ function criarProduto(){
 	var unidade = parseInt($("#unidadeDoProduto").val());
 	var idLista = parseInt(window.localStorage.idListaClicada);
 	
-	var url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/criarProduto";
+	var url="http://192.168.0.34/Servidor/ListaDeProdutos.asmx/criarProduto";
 	var data="{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',marca:'"+marca+"',nome:'"+nomeDoProduto+"',unidade:'"+unidade+"',embalagem:'"+embalagem+"',quantidade:'"+quantidade+"'}";
 	
 	if(codigoDeBarras.trim() !=''){
-		url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/criarProdutoComCodigo";
+		url="http://192.168.0.34/Servidor/ListaDeProdutos.asmx/criarProdutoComCodigo";
 		data="{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',marca:'"+marca+"',nome:'"+nomeDoProduto+"',unidade:'"+unidade+"',embalagem:'"+embalagem+"',codigo:'"+codigoDeBarras+"'tipoCod:'"+tipoCod+"',quantidade:'"+quantidade+"'}";
 	}	
 	
@@ -165,7 +165,7 @@ function retornarProdutosDaListas(){
 	window.localStorage.idListaClicada= idLista;
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarLista"
+        , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/retornarLista"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -219,7 +219,7 @@ function editarNomeLista(){
 	var token = TOKEN;
     $.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/editarNomeLista"
+        , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/editarNomeLista"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -251,7 +251,7 @@ function excluirLista(id){
 	   
 	   $.ajax({
 			type: 'POST'
-			, url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/removerLista"
+			, url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/removerLista"
 			, crossDomain:true
 			, contentType: 'application/json; charset=utf-8'
 			, dataType: 'json'
@@ -283,7 +283,7 @@ function excluirProdutoDaLista(id){
    
    $.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/removerProdutoDaLista"
+        , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/removerProdutoDaLista"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -309,6 +309,132 @@ function excluirProdutoDaLista(id){
 function listaClicadaEditar(id) {
 	window.localStorage.idEditarLista = id;
 }
+
+//_______________________ RETORNAR ESTABELECIMENTOS MAIS BARATO ______________________//
+
+function retornarEstabelecimentosMaisBaratos(){	
+
+	var idLista = parseInt(window.localStorage.idListaClicada);
+	
+	$.ajax({
+        type: 'POST'
+        , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/buscarOfertas"
+		, crossDomain:true
+        , contentType: 'application/json; charset=utf-8'
+        , dataType: 'json'
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"'}"
+		, success: function (data, status){                    
+			var estabelecimentos = $.parseJSON(data.d);
+			
+			//------------ ordenar -----------------//
+			var i, j, preco,oferta,guardar;
+			for (i = 1; i < estabelecimentos.length; i++) {
+			   preco = estabelecimentos[i].precoDaLista;
+			   guardar = estabelecimentos[i];
+			   oferta = estabelecimentos[i].itensEncontrados;
+			   j = i;
+			   while((j>0) && 
+			   (oferta>estabelecimentos[j-1].itensEncontrados  || (preco<estabelecimentos[j-1].precoDaLista && oferta==estabelecimentos[j-1].itensEncontrados)))
+			   {
+					estabelecimentos[j] = estabelecimentos[j-1];
+					j = j-1;
+			   }
+			   estabelecimentos[j] = guardar;
+			}
+			//------------------------------------------//
+
+			document.getElementById("referenciaEstab").innerHTML = "";
+			for(var i=0 ;i<estabelecimentos.length ;i++){
+				listaEstiloEstab(estabelecimentos[i]); 
+			}	
+			
+        }
+        , error: function (xmlHttpRequest, status, err) {
+            $('.resultado').html('Ocorreu um erro');
+        }
+    });	
+}
+
+function listaEstiloEstab(estabelecimentos)
+{
+	var divPrincipal = document.createElement("div");
+	var divRole = document.createElement("div");
+	var h4 = document.createElement("h4");
+	var a = document.createElement("a");
+	var img = document.createElement("img");
+	var nomeProduto = document.createElement("p");
+	var oferta = document.createElement("p");
+	var valor = document.createElement("p");
+	var modal = document.createElement("div");
+	var conteudo = document.createElement("div");
+
+	//--estilos--
+	divPrincipal.setAttribute("class","panel panel-default");
+	divPrincipal.setAttribute("id","divEstab"+estabelecimentos.idEstabelecimento); //passando id do estabelecimento para a div principal
+	divRole.setAttribute("class","panel-heading");
+	h4.setAttribute("class","panel-title");
+	a.setAttribute("style","color: #ffb503;");
+		
+	img.setAttribute("src","assets/img/setaFechada.png");
+	img.setAttribute("id","seta"+estabelecimentos.idEstabelecimento);
+	img.setAttribute("width","30px");
+	img.setAttribute("style","color: #ffb503;");
+		
+	nomeProduto.setAttribute("class","ajustes-lista");		
+	nomeProduto.innerHTML = estabelecimentos.nomeEstabelecimento; //nome do estabelecimento
+		
+	oferta.setAttribute("class","ajustes-oferta");		
+	oferta.innerHTML = estabelecimentos.itensEncontrados+"/"+estabelecimentos.itensTotal; //oferta
+		
+	valor.setAttribute("class","ajustes-valor");		
+	valor.innerHTML = "R$"+estabelecimentos.precoDaLista;//valor
+		
+	modal.setAttribute("id",estabelecimentos.idEstabelecimento);
+	modal.setAttribute("class","modal-fechado");
+	conteudo.innerHTML = "<p>Foram encontrados nesse supermercado "+estabelecimentos.itensEncontrados+" produtos,"+
+							 " no total de "+estabelecimentos.itensTotal+" produtos cadastrados na sua lista de compras</br></p>"; 
+		
+	//--------//
+		
+	divPrincipal.appendChild(divRole);
+	divPrincipal.appendChild(h4);
+	divPrincipal.appendChild(a);
+	divPrincipal.appendChild(img);
+	divRole.appendChild(h4);
+	h4.appendChild(a);
+	h4.appendChild(nomeProduto);
+	h4.appendChild(oferta);
+	h4.appendChild(valor);
+	a.appendChild(img);
+	divPrincipal.appendChild(modal);
+	modal.appendChild(conteudo);
+		
+	var pai = document.getElementById("referenciaEstab");
+	pai.appendChild(divPrincipal);	
+	divPrincipal.setAttribute("onclick","controleModal("+estabelecimentos.idEstabelecimento+")");
+}
+
+var aberto = "nao";
+var idAberto = "0";
+function controleModal(idModal)
+{
+	if(aberto == "nao" && idAberto==0){ //abra modal
+		document.getElementById(idModal).className = "modal-aberto";
+		document.getElementById("seta"+idModal).src = "assets/img/setaAberta.png";
+		aberto="sim";
+		idAberto = idModal;
+		return;
+	}
+	
+	if(aberto == "sim" && idAberto==idModal){//feche modal
+		document.getElementById(idModal).className = "modal-fechado";
+		document.getElementById("seta"+idModal).src = "assets/img/setaFechada.png";
+		aberto="nao";
+		idAberto="0";
+		return;
+	}
+}
+
 
 ////----------------------Loucuras de Johann ---------------------------//
 
