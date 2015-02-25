@@ -2,9 +2,12 @@ var ID_USUARIO = window.localStorage.UsuarioId;
 var TOKEN = window.localStorage.UsuarioToken;
 
 //______________________________ AUTO COMPLETE MARCA _______________________________________// 
-function autoCompleteMarca(){
+function autoCompleteMarca(flag){
 	
-	var nomeMarca = $("#marcaProduto").val();
+	var id;
+	if(flag==1){id = "#marcaDoProduto" }else{id="#marcaProduto"}
+	
+	var nomeMarca = $(id).val();
 	$.ajax({
         type: 'POST'
         , url: "http://localhost:52192/Servidor/Produto.asmx/autocompleteMarca"
@@ -14,17 +17,20 @@ function autoCompleteMarca(){
         , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeMarca:'"+nomeMarca+"'}"
 		, success: function (data, status){                    
 			var marcas = $.parseJSON(data.d); //salvando o nome das marcas em um array
-			$("#marcaProduto").autocomplete({ source: marcas }); 
+			$(id).autocomplete({ source: marcas }); 
         }
         , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
+            alert('Ocorreu um erro');
         }
     });	
 }
 //______________________________ AUTO COMPLETE PRODUTO _______________________________________// 
-function autoComplete(){
+function autoComplete(flag){
 	
-	var nomeProduto = $("#nomeDoProduto").val();
+	var id;
+	if(flag==1){id = "#nomeProduto" }else{id="#nomeDoProduto"}
+	
+	var nomeProduto = $(id).val();
 	$.ajax({
         type: 'POST'
         , url: "http://localhost:52192/Servidor/Produto.asmx/autocomplete"
@@ -34,10 +40,10 @@ function autoComplete(){
         , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeProduto:'"+nomeProduto+"'}"
 		, success: function (data, status){                    
 			var produtos = $.parseJSON(data.d); //salvando o nome dos produtos em um array
-			$("#nomeDoProduto").autocomplete({ source: produtos }); 
+			$(id).autocomplete({ source: produtos }); 
         }
         , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
+           alert('Ocorreu um erro');
         }
     });	
 }
@@ -166,8 +172,15 @@ function adicionarProdutoNaLista(){
 			var produtos = $.parseJSON(data.d);
 			if(produtos=="OK"){
 				alert("Produto cadastrado com sucesso!");
-				window.location = "visualizar-lista.html?id="+idLista;
-				return;	
+				
+				if(window.localStorage.flag == 1){
+					window.location = "checkinProdutos.html";
+					return;
+				}else{
+					window.location = "visualizar-lista.html?id="+idLista;
+					return;		
+				}
+			
 			}else{
 				alert(itens.erro + "\n" + itens.Message);
 				return;
@@ -262,7 +275,7 @@ function listaEstilo(produto)
 		h4.setAttribute("class","panel-title");
 		a.setAttribute("style","color: #ffb503;");
 		
-		img.setAttribute("src","assets/img/detalhes.png");
+		img.setAttribute("src","assets/img/setaFechada.png");
 		img.setAttribute("width","30px");
 		img.setAttribute("style","color: #ffb503;");
 		

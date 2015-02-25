@@ -42,6 +42,26 @@ function autoCompleteProduto(){
     });	
 }
 
+//____________________________________________________________//
+
+function mostrarPesquisa(){
+	var newFields = document.getElementById('botaoLoucao');
+    newFields.style.display = 'block';
+	var newFields = document.getElementById('nomeDoProduto');
+    newFields.style.display = 'block';
+}
+
+function procurarProduto(flag){	
+	var nome = $("#nomeDoProduto").val().trim();
+	if(flag==1){
+	window.localStorage.idListaClicada = window.localStorage.listaClicadaCheckin;
+	window.localStorage.flag = 1;
+	}
+		
+	window.localStorage.ProdutoProcurado=nome;
+	window.location = "procurarProdutosLista.html";
+}
+
 //_____________________ CONTROLE CHECKIN _____________________//
 function controleCheckin(flag){
 	if(flag == "index"){		//checkin na index

@@ -17,7 +17,6 @@
 		<!-- SCRIPTS DO COMUNICACAO WEB SERVICE -->
 		<script src="assets/js/WS/usuarioWS.js"></script> 
 		<script src="assets/js/WS/checkInWS.js"></script>	
-		<script src="assets/js/WS/listaWS.js"></script>	
 		<!-- FUNCOES PRE-REALIZADAS -->
 		<script type="text/javascript">
 			window.onload = function(){
@@ -75,9 +74,13 @@
 							<h3 id="total_lista" style="margin: -34px 70px;position: absolute;">R$ 0</h3>
 							</div>
 							
-							<button type="button" class="btn btn-primary" style="float: right;margin-top: 15px;" data-toggle="modal" data-target="#cadastrar_prduto_lista" >
-								Cadastrar produto à lista
-							</button>	
+							<button type="button" class="btn btn-primary" style="float: right;margin-top: 15px;" onclick="mostrarPesquisa();">
+								Q
+							</button>						
+							<button id="botaoLoucao" type="button" class="btn btn-primary" style="float: right; display: none; margin-top: 15px;" onclick="procurarProduto('1');">
+								Procurar Produto
+							</button>
+							<input type="text" class="form-control" placeholder="Ex: Arroz" id="nomeDoProduto" name="nomeDoProduto" style="display: none;" onkeyup="autoCompleteProduto()" />						
 						</div>             
 					</div>           
 				</div>	

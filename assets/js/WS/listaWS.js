@@ -109,13 +109,15 @@ function retornarListas(){
 
 //_____________________________________ ADICIONAR PRODUTOS À LISTA _____________________________________//
 function criarProduto(){
-	var nomeDoProduto = $("#nomeDoProduto").val();
+	var nomeDoProduto = $("#nomeProduto").val();
 	var codigoDeBarras = $("#cod_barra").val();
 	var marca = $("#marcaDoProduto").val();
 	var embalagem = parseInt($("#embalagemDoProduto").val());
 	var quantidade = parseInt($("#quantidadeDoProduto").val());
 	var unidade = parseInt($("#unidadeDoProduto").val());
 	var idLista = parseInt(window.localStorage.idListaClicada);
+	
+	if(nomeDoProduto=="" || marca==""){alert("Preencha todos os campos!");return;}
 	
 	var url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/criarProduto";
 	var data="{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',marca:'"+marca+"',nome:'"+nomeDoProduto+"',unidade:'"+unidade+"',embalagem:'"+embalagem+"',quantidade:'"+quantidade+"'}";
@@ -137,8 +139,14 @@ function criarProduto(){
 				var retorno=$.parseJSON(data.d);
 				if(retorno=="OK"){
 					alert("Produto cadastrado com sucesso!");
-					window.location = "visualizar-lista.html?id="+idLista;
-					return;					
+					
+					if(window.localStorage.flag == 1){
+						window.location = "checkinProdutos.html";
+						return;	
+					}else{
+						window.location = "visualizar-lista.html?id="+idLista;
+						return;						
+					}
 				}else{
 					alert(retorno.erro + "\n" + retorno.mensagem);
 					return;
@@ -441,17 +449,23 @@ function controleModal(idModal)
 function mostrarPesquisa(){
 	var newFields = document.getElementById('botaoLoucao');
     newFields.style.display = 'block';
-	var newFields = document.getElementById('teste');
+	var newFields = document.getElementById('nomeDoProduto');
     newFields.style.display = 'block';
 }
 
 function procurarProduto(){	
-	var nome = $("#teste").val().trim();
+	var nome = $("#nomeDoProduto").val().trim();
 	window.localStorage.ProdutoProcurado=nome;
+	window.localStorage.flag = 0;
 	window.location = "procurarProdutosLista.html";
 }
 
 function voltarParaAListaAnterior(){
 	var idLista = window.localStorage.idListaClicada;
-	window.location = "visualizar-lista.html?id="+idLista;
+	var flag = window.localStorage.flag;
+	if(flag==1){
+		window.location = "checkinProdutos.html"
+	}else{
+		window.location = "visualizar-lista.html?id="+idLista;	
+	}
 }
