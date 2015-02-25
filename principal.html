@@ -17,6 +17,7 @@
 		<link href='assets/css/googleapis.css' rel='stylesheet' type='text/css' />
 		<!-- SCRIPTS DO COMUNICACAO WEB SERVICE -->
 		<script src="assets/js/WS/usuarioWS.js"></script> 
+		<script src="assets/js/WS/checkinWS.js"></script> 
 		<!-- FUNCOES PRE-REALIZADAS -->
 		<script type="text/javascript">
 			window.onload = function(){
@@ -85,7 +86,7 @@
 						<div class="col-md-3 col-sm-6 col-xs-6">           
 							<div class="panel panel-back noti-box">
 								<div>
-									<a href="checkinEstabelecimento.html"><img src="assets/img/checkin.png" width="60px" height="90px"></a>
+									<a onclick="controleCheckin('index')" ><img src="assets/img/checkin.png" width="60px" height="90px"></a>
 								</div>
 									<p class="main-text">CheckIn</p>
 									<p class="text-muted">Realize seu checkin</p>

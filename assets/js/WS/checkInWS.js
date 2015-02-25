@@ -1,19 +1,41 @@
 var ID_USUARIO = window.localStorage.UsuarioId;
 var TOKEN = window.localStorage.UsuarioToken;
 
+function controleCheckin(flag){
+	if(flag == "index"){		//checkin na index
+		window.location = "checkinEstabelecimento.html";
+		window.localStorage.idListaClicada = "";	
+		window.localStorage.idEstabelecimentoClicado = "";	
+		
+	}else if(flag == "lista"){  //checkin na lista
+		window.location = "checkinEstabelecimento.html";
+		
+	}else{ 	//checkin no estabelecimento
+		var idEstabelecimento = window.localStorage.idEstabelecimentoClicado;
+		escolherListas(idEstabelecimento);
+	}
+}
+
 //_____________________ LISTA OS ESTABELECIMENTOS PARA O CHECKIN _____________________//
 function listarEstabelecimento(){	
+var idListaClicada = window.localStorage.idListaClicada;
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.0.34/Servidor/Estabelecimento.asmx/listarEstabelecimento"
+        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
 		, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nome:'',bairro:'',cidade:''}"
         , success: function (data, status){                    
-			var estabelecimentos = $.parseJSON(data.d);			
-				for(var i=0; i<estabelecimentos.length ;i++)
-				htmlListarEstabelecimentos(estabelecimentos[i]);	
+			var estabelecimentos = $.parseJSON(data.d);		
+			
+				if(idListaClicada != ""){
+					for(var i=0; i<estabelecimentos.length ;i++)
+					htmlListarEstabelecimentos(estabelecimentos[i],"lista");		
+				}else{
+					for(var i=0; i<estabelecimentos.length ;i++)
+					htmlListarEstabelecimentos(estabelecimentos[i],"index");
+				}		
         }
         , error: function (xmlHttpRequest, status, err) {
             $('.resultado').html('Ocorreu um erro');
@@ -23,10 +45,9 @@ function listarEstabelecimento(){
 
 //_________________ LISTA AS LISTAS PARA SER REALIZADO O CHECKIN _________________//
 function escolherListas(idEstabelecimento){	
-	var idListaClicada = window.localStorage.idListaClicada;
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'		
@@ -35,16 +56,12 @@ function escolherListas(idEstabelecimento){
 			var lista = $.parseJSON(data.d);
 			if(typeof(lista.erro)=== 'undefined'){
 				if(lista.length != 0){
-					// if(idListaClicada != ""){
-						// retornarProdutosCheckIn(idListaClicada,idEstabelecimento);
-					// }else{
-						var confirme = confirm("Você não está em nenhuma lista\n deseja escolher uma lista?");
-						if(confirme){
-							document.getElementById("nomeLista").innerHTML = "";
-							for(var i=0; i<lista.length ;i++)
-							htmlListarListas(lista[i],idEstabelecimento);							
-						}	
-					// }
+					var confirme = confirm("Você não está em nenhuma lista\n deseja escolher uma lista?");
+					if(confirme){
+						document.getElementById("nomeLista").innerHTML = "";
+						for(var i=0; i<lista.length ;i++)
+						htmlListarListas(lista[i],idEstabelecimento);							
+					}
 				}else{
 					var alerta = document.createElement("p");
 					alerta.innerHTML = "Você não possui nenhuma lista cadastrada";
@@ -72,7 +89,7 @@ function retornarProdutosCheckIn(){
 
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.0.34/Servidor/ListaDeProdutos.asmx/retornarItens"
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarItens"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -124,7 +141,7 @@ function guardarItens(idProduto,preco){
     GENERAL HTML AND STYLES    
     =============================================*/
 /*listar estabelecimentos*/	
-function htmlListarEstabelecimentos(estabelecimentos){
+function htmlListarEstabelecimentos(estabelecimentos,flag){
 	if(estabelecimentos != undefined){
 		var divPrincipal = document.createElement("div");
 		var divRole = document.createElement("div");
@@ -151,11 +168,20 @@ function htmlListarEstabelecimentos(estabelecimentos){
 		img.setAttribute("style","color: #ffb503;");
 
 		/* tag do nome */
-		nomeEstab.setAttribute("data-toggle","modal");
-		nomeEstab.setAttribute("data-target","#escolher_lista");			
-		nomeEstab.setAttribute("onclick","escolherListas('"+estabelecimentos.id_estabelecimento+"');");			
-		nomeEstab.setAttribute('class',"titulos");
-		nomeEstab.innerHTML = estabelecimentos.nome;
+		if(flag == "index"){
+			nomeEstab.setAttribute("data-toggle","modal");
+			nomeEstab.setAttribute("data-target","#escolher_lista");			
+			nomeEstab.setAttribute("onclick","escolherListas('"+estabelecimentos.id_estabelecimento+"');");			
+			nomeEstab.setAttribute('class',"titulos");
+			nomeEstab.innerHTML = estabelecimentos.nome;
+		}
+		else if(flag == "lista"){
+			var listaClick = window.localStorage.idListaClicada;
+			nomeEstab.setAttribute('onclick',"localStorageCheckin('"+listaClick+"','"+estabelecimentos.id_estabelecimento+"')");
+			nomeEstab.setAttribute("href","checkinProdutos.html");		
+			nomeEstab.setAttribute('class',"titulos");
+			nomeEstab.innerHTML = estabelecimentos.nome;		
+		}
 		
 		modal.setAttribute("id",estabelecimentos.id_estabelecimento);
 					modal.setAttribute("class","modal-fechado");

@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	
-		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Compras Digital</title>
 		<!-- BOOTSTRAP STYLES-->
@@ -18,6 +17,7 @@
 		<!--SCRIPTS DO COMUNICACAO WEB SERVICE-->
 		<script src="assets/js/WS/usuarioWS.js"></script>
 		<script src="assets/js/WS/estabelecimentoWS.js"></script>
+		<script src="assets/js/WS/checkinWS.js"></script>
 		<!--FUNCOES PRE-REALIZADAS-->
 		<script type="text/javascript">
 			window.onload = function(){
@@ -75,11 +75,34 @@
 						<p id="cidade" style="padding: 0px 0px 12px 15px;"></p>
 						<h3 style="color: #000; font-size: 18px; padding: 0px 0px 12px 15px;">Unidade:</h3>
 						<p id="numero" style="padding: 0px 0px 12px 15px;"></p>						
-						<p id="nomeLista" style="margin-left:15px">
 						</p>
+						
+						<button type="button" class="btn btn-primary" style="float: right;" data-toggle="modal" data-target="#escolher_lista" onclick="controleCheckin('estabelecimento');">
+							Checkin
+						</button>
+						
 					</div> 					 	
 				</div>
-			</div>           
+			</div> 
+
+			<!-- modal para escolher a lista -->
+			<div class="modal fade" id="escolher_lista" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+							<h4 class="modal-title" id="myModalLabel">Escolha uma lista</h4>
+						</div>
+						
+						<p id="nomeLista"></p>
+			
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Modal final -->			
 		</div>
 		<!-- /. WRAPPER  -->
 		<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
