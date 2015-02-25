@@ -1,6 +1,48 @@
 var ID_USUARIO = window.localStorage.UsuarioId;
 var TOKEN = window.localStorage.UsuarioToken;
 
+//______________________________ AUTO COMPLETE MARCA _______________________________________// 
+function autoCompleteMarca(){
+	
+	var nomeMarca = $("#marcaDoProduto").val();
+	$.ajax({
+        type: 'POST'
+        , url: "http://localhost:52192/Servidor/Produto.asmx/autocompleteMarca"
+		, crossDomain:true
+        , contentType: 'application/json; charset=utf-8'
+        , dataType: 'json'
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeMarca:'"+nomeMarca+"'}"
+		, success: function (data, status){                    
+			var marcas = $.parseJSON(data.d); //salvando o nome das marcas em um array
+			$("#marcaDoProduto").autocomplete({ source: marcas }); 
+        }
+        , error: function (xmlHttpRequest, status, err) {
+            $('.resultado').html('Ocorreu um erro');
+        }
+    });	
+}
+//______________________________ AUTO COMPLETE PRODUTO _______________________________________// 
+function autoCompleteProduto(){
+	
+	var nomeProduto = $("#nomeDoProduto").val();
+	$.ajax({
+        type: 'POST'
+        , url: "http://localhost:52192/Servidor/Produto.asmx/autocomplete"
+		, crossDomain:true
+        , contentType: 'application/json; charset=utf-8'
+        , dataType: 'json'
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeProduto:'"+nomeProduto+"'}"
+		, success: function (data, status){                    
+			var produtos = $.parseJSON(data.d); //salvando o nome dos produtos em um array
+			$("#nomeDoProduto").autocomplete({ source: produtos }); 
+        }
+        , error: function (xmlHttpRequest, status, err) {
+            $('.resultado').html('Ocorreu um erro');
+        }
+    });	
+}
+
+//_____________________ CONTROLE CHECKIN _____________________//
 function controleCheckin(flag){
 	if(flag == "index"){		//checkin na index
 		window.location = "checkinEstabelecimento.html";
@@ -113,14 +155,18 @@ var aux = 0; 		//variavel para acessar o array de itens
 function guardarItens(idProduto,preco){
 	var aChk = document.getElementsByName("produtos"); //atribui o checkbox a variavel
 	var verificarCheckMarcado = 0; //variavel para zerar o total quando nao tiver nenhum checkbox marcado
+	console.log(preco);
 	
 	for (var i=0;i<aChk.length;i++){ 
-		if(aChk[i].id == idProduto && preco != 0){
+		if(aChk[i].id == idProduto){
 			if (aChk[i].checked == true){
 				var confirme = confirm("Você confirma o preço desse produto?\n"+preco) //Menssagem para confirma o preço
 				if(confirme){
 					document.getElementById(aChk[i].id+"prod").className = "produto-escolhido"; //style para riscar o nome do produto
-					itens[aux] = {"id_lista":aChk[i].id,"nomeProduto":aChk[i].value}; //criando o objeto item para retornar ao servidor	
+					
+					var idProduto = aChk[i].id
+					// if(preco == 0.00)idProduto = "-"+aChk[i].id;	
+					itens[aux] = {"id_lista":idProduto,"nomeProduto":aChk[i].value}; //criando o objeto item para retornar ao servidor	
 					console.log(itens);
 					aux++;
 					valorTotal += parseFloat(preco);	
@@ -278,8 +324,7 @@ function htmlListarProdutos(produtos)
 		preco.setAttribute("id","preco"+produtos.id_produto);
 		
 		if(produtos.preco != 0){	
-			var precoTotal = (produtos.preco * produtos.quantidade);
-			preco.innerHTML = "R$ "+ precoTotal.toFixed(2);
+			preco.innerHTML = "R$ "+ produtos.preco.toFixed(2);
 		}else{
 			preco.innerHTML = "-";
 		}

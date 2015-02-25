@@ -17,6 +17,7 @@
 		<!-- SCRIPTS DO COMUNICACAO WEB SERVICE -->
 		<script src="assets/js/WS/usuarioWS.js"></script> 
 		<script src="assets/js/WS/checkInWS.js"></script>	
+		<script src="assets/js/WS/listaWS.js"></script>	
 		<!-- FUNCOES PRE-REALIZADAS -->
 		<script type="text/javascript">
 			window.onload = function(){
@@ -73,14 +74,85 @@
 							<h3>Total:</h3>
 							<h3 id="total_lista" style="margin: -34px 70px;position: absolute;">R$ 0</h3>
 							</div>
+							
+							<button type="button" class="btn btn-primary" style="float: right;margin-top: 15px;" data-toggle="modal" data-target="#cadastrar_prduto_lista" >
+								Cadastrar produto à lista
+							</button>	
 						</div>             
 					</div>           
-				</div>					
+				</div>	
+
+				<div class="modal fade" id="cadastrar_prduto_lista" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<h4 class="modal-title" id="myModalLabel">Adicionar produto à lista</h4>
+							</div>
+							<div class="modal-body">			
+								<form class="form-horizontal" role="form">
+									<div class="form-group" style="margin-bottom: 0px;">
+										<label for="inputEmail3" class="col-sm-2 control-label">Código de barras:</label>
+										<div class="col-sm-10">
+											<input class="form-control" type="text" placeholder="Código de barras" id="cod_barra" name="cod_barra" value='' readonly />
+											<p style="margin: 0px; padding: 0px;"><a href="#" id="scan"><img src="assets/img/codigo_barras.png" width="30px" style="float: right; position: relative;bottom: 70px;"></a></p>
+										</div>
+									</div>				  
+									<!-- <div class="form-group" style="margin-bottom: 20px;">
+										<label for="inputPassword3"  class="col-sm-2 control-label">Formato:</label>
+										<div class="col-sm-10">
+											<input class="form-control" type="text" placeholder="Formato" id="formato" name="formato" value='' readonly>
+										</div>
+									</div>
+									-->
+									<div class="form-group">
+										<label for="nomeDoProduto" class="col-sm-2 control-label">Nome do produto:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" placeholder="Nome do produto" id="nomeDoProduto" name="nomeDoProduto" onkeyup="autoCompleteProduto()" />
+										</div>
+									</div>				  
+									<div class="form-group">
+										<label for="marcaDoProduto" class="col-sm-2 control-label">Marca do produto:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" placeholder="Marca do produto" id="marcaDoProduto" name="marcaDoProduto" onkeyup="autoCompleteMarca()" />
+										</div>
+									</div>				  
+									<div class="form-group">
+										<label for="embalagemDoProduto" class="col-sm-2 control-label">Embalagem do produto:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" placeholder="1" id="embalagemDoProduto" name="embalagemDoProduto" />
+										</div>
+									</div>				  
+									<div class="form-group">
+										<label for="unidadeDoProduto" class="col-sm-2 control-label">Unidade do produto:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" placeholder="1" id="unidadeDoProduto" name="unidadeDoProduto" />
+										</div>
+									</div>				  
+									<div class="form-group">
+										<label for="quantidadeDoProduto" class="col-sm-2 control-label">Quantidade:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" placeholder="1" id="quantidadeDoProduto" name="quantidadeDoProduto" />
+										</div>
+									</div>			  
+								</form>			
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+								<button type="button" class="btn btn-primary" onclick="criarProduto();">Cadastrar produto</button>
+							</div>
+						</div>
+					</div>
+				</div>   
+				<!-- Modal final para inserir uma nova produto-->				
 			<!--  -->
 		<!-- /. WRAPPER  -->
 		<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
 		<!-- JQUERY SCRIPTS -->
 		<script src="assets/js/jquery-1.10.2.js"></script>
+		<script src="assets/js/jquery-1.9.1.js"></script> 
+		<script src="assets/js/jquery-ui-1.10.3.js"></script>
+		<link rel="stylesheet" href="assets/css/jquery-ui.css" />
 		<!-- BOOTSTRAP SCRIPTS -->
 		<script src="assets/js/bootstrap.min.js"></script>
 		<!-- METISMENU SCRIPTS -->
