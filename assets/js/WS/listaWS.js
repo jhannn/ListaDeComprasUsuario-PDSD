@@ -142,6 +142,7 @@ function criarProduto(){
 					alert("Produto cadastrado com sucesso!");
 					
 					if(window.localStorage.flag == 1){
+						window.localStorage.produtoRecemAdicionado += ","+window.localStorage.listaClicadaCheckin+"-"+nomeDoProduto;
 						window.location = "checkinProdutos.html";
 						return;	
 					}else{

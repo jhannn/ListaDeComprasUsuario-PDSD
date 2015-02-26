@@ -364,7 +364,8 @@ function htmlListarProdutos(produtos)
 					break;
 				}
 			}
-			if(id_produto == produtos.id_produto && window.localStorage.listaClicadaCheckin == idLista){	//se for algum produto recem adicionado na lista respectiva
+			if(id_produto == produtos.id_produto && window.localStorage.listaClicadaCheckin == idLista ||	//se for algum produto recem adicionado na lista respectiva
+			(id_produto == produtos.nome && window.localStorage.listaClicadaCheckin == idLista) ){			//se for algum produto recem adicionado na lista respectiva
 				var idProduto = 0;																			//o id desse produto será 0
 				break;
 			}else{																							//se nao for
