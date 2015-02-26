@@ -156,7 +156,7 @@ function pesquisarProduto()
     });	
 }
 
-//______________________________ Adicionar Produto Na Lista _______________________________________// 
+//______________________________ ADICIONAR PRODUTO NA LISTA _______________________________________// 
 function adicionarProdutoNaLista(){	
 	var quantidade = parseInt($("#quantidadeDeProdutosParaAdicionarNaLista").val());
 	var idLista = parseInt(window.localStorage.idListaClicada);
@@ -173,11 +173,12 @@ function adicionarProdutoNaLista(){
 			if(produtos=="OK"){
 				alert("Produto cadastrado com sucesso!");
 				
-				if(window.localStorage.flag == 1){
-					window.location = "checkinProdutos.html";
+				if(window.localStorage.flag == 1){								//indica que essa função foi chamada do checkin
+					window.localStorage.produtoRecemAdicionado += ","+idProduto;
+					window.location = "checkinProdutos.html";					//vai para tela de checkin
 					return;
-				}else{
-					window.location = "visualizar-lista.html?id="+idLista;
+				}else{															//função chamada da lista
+					window.location = "visualizar-lista.html?id="+idLista;      
 					return;		
 				}
 			

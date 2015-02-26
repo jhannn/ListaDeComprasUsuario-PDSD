@@ -1,4 +1,5 @@
 var TOKEN = "124576453875";
+// window.localStorage.produtoRecemAdicionado = "";
 
 //____________________________________ FAZER LOGIN ______________________________________________//
 function fazerLogin(){

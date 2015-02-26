@@ -1,5 +1,6 @@
 var ID_USUARIO = window.localStorage.UsuarioId;
 var TOKEN = window.localStorage.UsuarioToken;
+// window.localStorage.produtoRecemAdicionado = "";
 
 //______________________ CADASTRAR ESTABELECIMENTO _________________________//
 function cadastrarEstabelecimento(){

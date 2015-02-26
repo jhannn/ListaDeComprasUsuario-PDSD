@@ -1,5 +1,7 @@
 var ID_USUARIO = window.localStorage.UsuarioId;
 var TOKEN = window.localStorage.UsuarioToken;
+var string = window.localStorage.produtoRecemAdicionado;
+var produtosRecemAdicionado = string.split(",");
 
 //______________________________ AUTO COMPLETE MARCA _______________________________________// 
 function autoCompleteMarca(){
@@ -170,34 +172,44 @@ function retornarProdutosCheckIn(){
 
 //___________________________ FUNÇÃO GUARDAR ITENS ________________________________//
 var valorTotal = 0; 
-var itens = [];	//variavel itens
-var aux = 0; 		//variavel para acessar o array de itens
+var itens = [];																							//variavel itens
+var aux = 0; 																							//variavel para acessar o array de itens
 function guardarItens(idProduto,preco){
-	var aChk = document.getElementsByName("produtos"); //atribui o checkbox a variavel
-	var verificarCheckMarcado = 0; //variavel para zerar o total quando nao tiver nenhum checkbox marcado
-	console.log(preco);
+	var aChk = document.getElementsByName("produtos"); 													//atribui o checkbox a variavel
+	var verificarCheckMarcado = 0; 																		//variavel para zerar o total
 	
 	for (var i=0;i<aChk.length;i++){ 
 		if(aChk[i].id == idProduto){
-			if (aChk[i].checked == true){
-				var confirme = confirm("Você confirma o preço desse produto?\n"+preco) //Menssagem para confirma o preço
+			if (aChk[i].checked == true){ 																//se check estiver marcado
+				var confirme = confirm("Você confirma o preço desse produto?\n"+preco) 					//Menssagem para confirma o preço
 				if(confirme){
-					document.getElementById(aChk[i].id+"prod").className = "produto-escolhido"; //style para riscar o nome do produto
+					document.getElementById(aChk[i].id+"prod").className = "produto-escolhido"; 		//style para riscar o nome do produto
+					var produtoAdicionado = document.getElementById("preco"+idProduto).title;			//verificar se o produto foi recem adicionado
 					
-					var idProduto = aChk[i].id
-					// if(preco == 0.00)idProduto = "-"+aChk[i].id;	
-					itens[aux] = {"id_lista":idProduto,"nomeProduto":aChk[i].value}; //criando o objeto item para retornar ao servidor	
-					console.log(itens);
-					aux++;
-					valorTotal += parseFloat(preco);	
-					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2);				
+					if(produtoAdicionado == 0)
+						var idProduto = 0;
+					else
+						var idProduto = aChk[i].id
+					
+					/*-- adicionar produto no array --*/
+					itens[aux] = {"id_Produto":idProduto,"nomeProduto":aChk[i].value}; 					//criando o objeto item para retornar ao servidor	
+					aux++;																				//incrementa variavel aux
+					valorTotal += parseFloat(preco);													//aumenta o preço do produto do valor total	
+					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2);	//atualiza o preço na tela
+					console.log(itens);					
 				}
-			}else{
-				document.getElementById(aChk[i].id+"prod").className = "nome-produto-checkin";  
+			}else{ 																						//se check estiver desmarcado
+			
+				document.getElementById(aChk[i].id+"prod").className = "nome-produto-checkin";  		//desriscar o nome do produto
 				verificarCheckMarcado++;
-				if(verificarCheckMarcado==2)
-				valorTotal -= parseFloat(preco);
-				document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2);				
+				/*-- remover produto do array --*/
+				if(verificarCheckMarcado==2){
+					valorTotal -= parseFloat(preco); 													//retira o preço do produto do valor total
+					itens.splice((aux-1),1);         													//retira o objeto do array
+					aux--;																				//desincrementa variavel aux
+					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2); 	//	atualiza o preço na tela
+					console.log(itens);										
+				}
 			}
 		}
 	}	
@@ -319,19 +331,33 @@ function localStorageCheckin(idLista,idEstabelecimento){
 	window.localStorage.estabelecimentoClicadoCheckin = idEstabelecimento;
 }
 
-/*--listar produtos pro checkin --*/
+/*_______ LISTAR PRODUTOS PRO CHECKIN _______*/
 function htmlListarProdutos(produtos)
 {
 	if(produtos != undefined){
+		/*-- criando elementos --*/
 		var inp = document.createElement("div");
 		var nomeProduto = document.createElement('a');
 		var checkbox = document.createElement('INPUT');
 		var preco = document.createElement('div');
-				
-		nomeProduto.innerHTML = produtos.nome +" Qtd. "+produtos.quantidade;
+		
+		/*-- nome --*/		
+		nomeProduto.innerHTML = produtos.nome +" Qtd. "+produtos.quantidade;	
 		nomeProduto.setAttribute("class","nome-produto-checkin");
 		nomeProduto.setAttribute("id",produtos.id_produto+"prod");
 		
+		
+		for(var j=0 ;j<produtosRecemAdicionado.length;j++){
+			if(produtosRecemAdicionado[j] == produtos.id_produto){
+				var idProduto = 0;
+				break;
+			}
+			else{
+				var idProduto = produtos.id_produto;			
+			}
+		}
+			
+		/*-- checkbox --*/
 		checkbox.setAttribute("id",produtos.id_produto);
 		checkbox.setAttribute("value",produtos.nome);
 		checkbox.setAttribute("type","checkbox");
@@ -339,15 +365,17 @@ function htmlListarProdutos(produtos)
 		checkbox.setAttribute("onclick","guardarItens('"+produtos.id_produto+"','"+(produtos.preco * produtos.quantidade).toFixed(2)+"')");
 		checkbox.setAttribute("class","checkbox");
 		
+		/*-- preço --*/
 		preco.setAttribute("class","preco-checkin");
-		preco.setAttribute("value",2);
+		preco.setAttribute("title",idProduto);
 		preco.setAttribute("id","preco"+produtos.id_produto);
 		
-		if(produtos.preco != 0){	
-			preco.innerHTML = "R$ "+ produtos.preco.toFixed(2);
-		}else{
-			preco.innerHTML = "-";
-		}
+		if(produtos.preco != 0)													//se o produto tiver nenhum preço
+			preco.innerHTML = "R$ "+ produtos.preco.toFixed(2);					//escreve esse preço na tela, formatado com duas casas decimais(to fixed(2))
+		else																//se nao tiver preço
+			preco.innerHTML = "-";												//escreve um traço na tela
+		
+		/*-- definindo tags filhos --*/
 		inp.setAttribute("id",produtos.id_produto);
 		inp.setAttribute("class", "alert alert-warning");
 		inp.setAttribute("name", "produtos");
