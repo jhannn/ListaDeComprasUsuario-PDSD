@@ -174,7 +174,7 @@ function adicionarProdutoNaLista(){
 				alert("Produto cadastrado com sucesso!");
 				
 				if(window.localStorage.flag == 1){								//indica que essa função foi chamada do checkin
-					window.localStorage.produtoRecemAdicionado += ","+idProduto;
+					window.localStorage.produtoRecemAdicionado += ","+window.localStorage.listaClicadaCheckin+"-"+idProduto;
 					window.location = "checkinProdutos.html";					//vai para tela de checkin
 					return;
 				}else{															//função chamada da lista

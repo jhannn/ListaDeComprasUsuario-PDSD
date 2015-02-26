@@ -1,53 +1,57 @@
-var ID_USUARIO = window.localStorage.UsuarioId;
-var TOKEN = window.localStorage.UsuarioToken;
-var string = window.localStorage.produtoRecemAdicionado;
-var produtosRecemAdicionado = string.split(",");
+var ID_USUARIO = window.localStorage.UsuarioId;						//id do usuario
+var TOKEN = window.localStorage.UsuarioToken;						//token do usuario
+var string = window.localStorage.produtoRecemAdicionado;			//string do localstorage com os id das listas e dos produtos recem adicionados no checkin
+if(string == undefined){											//se string for indefinida
+	window.localStorage.produtoRecemAdicionado = "";				//crie a variavel no localStoragee
+	string = window.localStorage.produtoRecemAdicionado;			//salve na variavel string
+}
+var produtosRecemAdicionado = string.split(",");					//converter string em array
 
 //______________________________ AUTO COMPLETE MARCA _______________________________________// 
 function autoCompleteMarca(){
 	
-	var nomeMarca = $("#marcaDoProduto").val();
-	$.ajax({
+	var nomeMarca = $("#marcaDoProduto").val();													//salva valor do campo na variavel
+	$.ajax({																					//chama a função do servidor
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Produto.asmx/autocompleteMarca"
+        , url: "http://localhost:52192/Servidor/Produto.asmx/autocompleteMarca"					
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeMarca:'"+nomeMarca+"'}"
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeMarca:'"+nomeMarca+"'}"		//passa os dados para o servidor
 		, success: function (data, status){                    
-			var marcas = $.parseJSON(data.d); //salvando o nome das marcas em um array
-			$("#marcaDoProduto").autocomplete({ source: marcas }); 
+			var marcas = $.parseJSON(data.d); 													//salva o retorno do servidor em marcas
+			$("#marcaDoProduto").autocomplete({ source: marcas }); 								//autoComplete 
         }
-        , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
+        , error: function (xmlHttpRequest, status, err) {										//erro no servidor
+            alert('Ocorreu um erro no servidor');												//alerta de erro
         }
     });	
 }
 //______________________________ AUTO COMPLETE PRODUTO _______________________________________// 
 function autoCompleteProduto(){
 	
-	var nomeProduto = $("#nomeDoProduto").val();
-	$.ajax({
+	var nomeProduto = $("#nomeDoProduto").val();												//salva valor do campo na variavel
+	$.ajax({																					//chama a função do servidor
         type: 'POST'
         , url: "http://localhost:52192/Servidor/Produto.asmx/autocomplete"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeProduto:'"+nomeProduto+"'}"
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeProduto:'"+nomeProduto+"'}"  //passa os dados para o servidor
 		, success: function (data, status){                    
 			var produtos = $.parseJSON(data.d); //salvando o nome dos produtos em um array
 			$("#nomeDoProduto").autocomplete({ source: produtos }); 
         }
-        , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
+        , error: function (xmlHttpRequest, status, err) {										//erro no servidor
+            alert('Ocorreu um erro no servidor');												//alerta de erro
         }
     });	
 }
 
-//____________________________________________________________//
+//_____________________ PESQUISA _______________________//
 
 function mostrarPesquisa(){
-	var newFields = document.getElementById('botaoLoucao');
+	var newFields = document.getElementById('botaoLoucao');			
     newFields.style.display = 'block';
 	var newFields = document.getElementById('nomeDoProduto');
     newFields.style.display = 'block';
@@ -66,43 +70,44 @@ function procurarProduto(flag){
 
 //_____________________ CONTROLE CHECKIN _____________________//
 function controleCheckin(flag){
-	if(flag == "index"){		//checkin na index
-		window.location = "checkinEstabelecimento.html";
-		window.localStorage.idListaClicada = "";	
-		window.localStorage.idEstabelecimentoClicado = "";	
+	if(flag == "index"){																//checkin na index
+		window.location = "checkinEstabelecimento.html";								//ir para a página de checkin
+		window.localStorage.idListaClicada = "";										//zerar idListaClicada do servidor
+		window.localStorage.idEstabelecimentoClicado = "";								//zerar idEstabelecimento do servidor
 		
-	}else if(flag == "lista"){  //checkin na lista
-		window.location = "checkinEstabelecimento.html";
+	}else if(flag == "lista"){  														//checkin na lista
+		window.localStorage.listaClicadaCheckin = window.localStorage.idListaClicada;	//atualiza listaclicadoCheckin com listaClicada
+		window.location = "checkinEstabelecimento.html";								//ir para a página de checkin
 		
-	}else{ 	//checkin no estabelecimento
+	}else{ 																				//checkin no estabelecimento
 		var idEstabelecimento = window.localStorage.idEstabelecimentoClicado;
-		escolherListas(idEstabelecimento);
+		escolherListas(idEstabelecimento);												//chama função de escolher listas
 	}
 }
 
 //_____________________ LISTA OS ESTABELECIMENTOS PARA O CHECKIN _____________________//
 function listarEstabelecimento(){	
-var idListaClicada = window.localStorage.idListaClicada;
-	$.ajax({
+var idListaClicada = window.localStorage.idListaClicada;										//salva lista clicada do localStorage
+	$.ajax({																					//chamando função do servidor
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimento"
+        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimento"		//url
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-		, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nome:'',bairro:'',cidade:''}"
+		, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nome:'',bairro:'',cidade:''}" 	//dados da função
         , success: function (data, status){                    
-			var estabelecimentos = $.parseJSON(data.d);		
+			var estabelecimentos = $.parseJSON(data.d);											//salvando o retorno do servidor em estabelecimentos
 			
-				if(idListaClicada != ""){
-					for(var i=0; i<estabelecimentos.length ;i++)
-					htmlListarEstabelecimentos(estabelecimentos[i],"lista");		
-				}else{
-					for(var i=0; i<estabelecimentos.length ;i++)
-					htmlListarEstabelecimentos(estabelecimentos[i],"index");
+				if(idListaClicada != ""){														//se estiver em uma lista
+					for(var i=0; i<estabelecimentos.length ;i++)								//for para listar estabelecimentos
+					htmlListarEstabelecimentos(estabelecimentos[i],"lista");					//chamando html para listar estabelecimentos
+				}else{																			//se nao estiver em nenhuma lista
+					for(var i=0; i<estabelecimentos.length ;i++)								//for para listar estabelecimentos
+					htmlListarEstabelecimentos(estabelecimentos[i],"index");					//chamando html para listar estabelecimentos
 				}		
         }
-        , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
+        , error: function (xmlHttpRequest, status, err) {										//erro no servidor
+            alert('Ocorreu um erro no servidor');												//alerta de erro
         }
     });
 }
@@ -141,31 +146,31 @@ function escolherListas(idEstabelecimento){
 			}
         }
         , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
+            alert('Ocorreu um erro no servidor');
         }
     });
 }
 
 //_________________ LISTA PRODUTOS PARA SER REALIZADO O CHECKIN _________________//
 function retornarProdutosCheckIn(){	
-	var idLista = window.localStorage.listaClicadaCheckin;
-	var idEstabelecimento =	window.localStorage.estabelecimentoClicadoCheckin; 
+	var idLista = window.localStorage.listaClicadaCheckin;							//pegando id da listaClicadaCheckin do localStorage
+	var idEstabelecimento =	window.localStorage.estabelecimentoClicadoCheckin; 		//pegando id do estabelecimentoClicadoCheckin do localStorage
 
-	$.ajax({
+	$.ajax({																		//chamando servidor
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarItens"
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarItens" //url
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
-        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',idEstabelecimento:'"+idEstabelecimento+"'}"
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',idEstabelecimento:'"+idEstabelecimento+"'}" //dados 
         , success: function (data, status){                    
-			var produtos = $.parseJSON(data.d);	
-			document.getElementById("produtos_checkIn").innerHTML = "";
-				for(var i=0; i<produtos.length ;i++)
-				htmlListarProdutos(produtos[i]);
+			var produtos = $.parseJSON(data.d);								//salvando retorno do servidor na variavel produtos
+			document.getElementById("produtos_checkIn").innerHTML = "";		//zerando o html;
+				for(var i=0; i<produtos.length ;i++)						//for para listar produtos
+				htmlListarProdutos(produtos[i]);							//chamando html para listar produtos
         }
-        , error: function (xmlHttpRequest, status, err) {
-            $('.resultado').html('Ocorreu um erro');
+        , error: function (xmlHttpRequest, status, err) {					//erro do servidor
+            alert('Ocorreu um erro no servidor');							//alerta de erro
         }
     });
 }
@@ -326,7 +331,7 @@ function htmlListarListas(lista,idEstabelecimento){
 	pai.appendChild(inp);
 }
 
-function localStorageCheckin(idLista,idEstabelecimento){
+function localStorageCheckin(idLista,idEstabelecimento){  						
 	window.localStorage.listaClicadaCheckin = idLista;
 	window.localStorage.estabelecimentoClicadoCheckin = idEstabelecimento;
 }
@@ -346,14 +351,24 @@ function htmlListarProdutos(produtos)
 		nomeProduto.setAttribute("class","nome-produto-checkin");
 		nomeProduto.setAttribute("id",produtos.id_produto+"prod");
 		
-		
-		for(var j=0 ;j<produtosRecemAdicionado.length;j++){
-			if(produtosRecemAdicionado[j] == produtos.id_produto){
-				var idProduto = 0;
-				break;
+		/*--- Controle de proutos pré cadastrados no checkin ---*/
+		for(var j=0 ;j<produtosRecemAdicionado.length;j++){													//pecorrer string de idLista e idProdutos 
+			var stringListaProduto = produtosRecemAdicionado[j];											//id da lista e do produto
+			var idLista = "";																				//variavel id da lista
+			var id_produto = "";																			//variavel id do produto
+			for(var u=0;u<stringListaProduto.length;u++){													//for para repartir a string
+				if(stringListaProduto[u] != "-"){															//enquanto nao encontra a barra(-)
+					idLista+= stringListaProduto[u];														//salva o id da lista
+				}else{																						//se encontrou a barra(-)
+					id_produto = stringListaProduto.substring((u+1),stringListaProduto.length);				//salva o id do produto
+					break;
+				}
 			}
-			else{
-				var idProduto = produtos.id_produto;			
+			if(id_produto == produtos.id_produto && window.localStorage.listaClicadaCheckin == idLista){	//se for algum produto recem adicionado na lista respectiva
+				var idProduto = 0;																			//o id desse produto será 0
+				break;
+			}else{																							//se nao for
+				var idProduto = produtos.id_produto;														//o id do produto será seu id de origem
 			}
 		}
 			
@@ -367,12 +382,12 @@ function htmlListarProdutos(produtos)
 		
 		/*-- preço --*/
 		preco.setAttribute("class","preco-checkin");
-		preco.setAttribute("title",idProduto);
+		preco.setAttribute("title",idProduto);									//preço recebe o id para ser adicionado ao objeto produto(idOrigem ou 0 ou -idOrigem)
 		preco.setAttribute("id","preco"+produtos.id_produto);
 		
 		if(produtos.preco != 0)													//se o produto tiver nenhum preço
 			preco.innerHTML = "R$ "+ produtos.preco.toFixed(2);					//escreve esse preço na tela, formatado com duas casas decimais(to fixed(2))
-		else																//se nao tiver preço
+		else																	//se nao tiver preço
 			preco.innerHTML = "-";												//escreve um traço na tela
 		
 		/*-- definindo tags filhos --*/
