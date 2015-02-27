@@ -179,9 +179,11 @@ function retornarProdutosCheckIn(){
 var valorTotal = 0; 
 var itens = [];																							//variavel itens
 var aux = 0; 																							//variavel para acessar o array de itens
-function guardarItens(idProduto,preco){
+function guardarItens(prod){
 	var aChk = document.getElementsByName("produtos"); 													//atribui o checkbox a variavel
 	var verificarCheckMarcado = 0; 																		//variavel para zerar o total
+	var idProduto = prod.id_produto;
+	var preco = (prod.preco * prod.quantidade).toFixed(2);
 	
 	for (var i=0;i<aChk.length;i++){ 
 		if(aChk[i].id == idProduto){
@@ -197,7 +199,7 @@ function guardarItens(idProduto,preco){
 						var idProduto = aChk[i].id
 					
 					/*-- adicionar produto no array --*/
-					itens[aux] = {"id_Produto":idProduto,"nomeProduto":aChk[i].value}; 					//criando o objeto item para retornar ao servidor	
+					itens[aux] = {"id_Produto":idProduto,"idEstabelecimento":prod.id_estabelecimento}; 	//criando o objeto item para retornar ao servidor	
 					aux++;																				//incrementa variavel aux
 					valorTotal += parseFloat(preco);													//aumenta o preço do produto do valor total	
 					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2);	//atualiza o preço na tela
@@ -377,8 +379,8 @@ function htmlListarProdutos(produtos)
 		checkbox.setAttribute("id",produtos.id_produto);
 		checkbox.setAttribute("value",produtos.nome);
 		checkbox.setAttribute("type","checkbox");
-		checkbox.setAttribute("name","produtos");
-		checkbox.setAttribute("onclick","guardarItens('"+produtos.id_produto+"','"+(produtos.preco * produtos.quantidade).toFixed(2)+"')");
+		console.log(produtos);
+		checkbox.setAttribute("onclick",guardarItens(produtos));
 		checkbox.setAttribute("class","checkbox");
 		
 		/*-- preço --*/
