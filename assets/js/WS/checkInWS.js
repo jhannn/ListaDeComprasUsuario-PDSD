@@ -179,9 +179,14 @@ function retornarProdutosCheckIn(){
 var valorTotal = 0; 
 var itens = [];																							//variavel itens
 var aux = 0; 																							//variavel para acessar o array de itens
-function guardarItens(idProduto,preco){
+function guardarItens(id_produto,nome,marca,id_estabelecimento,
+					  nomeEstabelecimento,preco,quantidade,unidade,
+					  embalagem,dataAtual,codigoDeBarras,tipoCodigoDeBarras)
+{
 	var aChk = document.getElementsByName("produtos"); 													//atribui o checkbox a variavel
 	var verificarCheckMarcado = 0; 																		//variavel para zerar o total
+	var idProduto = id_produto;
+	var preco = (preco * quantidade).toFixed(2);
 	
 	for (var i=0;i<aChk.length;i++){ 
 		if(aChk[i].id == idProduto){
@@ -197,7 +202,9 @@ function guardarItens(idProduto,preco){
 						var idProduto = aChk[i].id
 					
 					/*-- adicionar produto no array --*/
-					itens[aux] = {"id_Produto":idProduto,"nomeProduto":aChk[i].value}; 					//criando o objeto item para retornar ao servidor	
+					itens[aux] = {"id_produto":idProduto,"nomeProduto":nome,"marca":marca,"id_estabelecimento":id_estabelecimento,		//criando o objeto item para retornar ao servidor	
+								  "nomeEstabelecimento":nomeEstabelecimento,"preco":preco,"quantidade":quantidade,"unidade":unidade,
+								  "embalagem":embalagem,"dataAtual":dataAtual,"codigoDeBarras":codigoDeBarras,"tipoCodigoDeBarras":tipoCodigoDeBarras}; 
 					aux++;																				//incrementa variavel aux
 					valorTotal += parseFloat(preco);													//aumenta o preço do produto do valor total	
 					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2);	//atualiza o preço na tela
@@ -372,13 +379,22 @@ function htmlListarProdutos(produtos)
 				var idProduto = produtos.id_produto;														//o id do produto será seu id de origem
 			}
 		}
+		
+		//--- dados para formar o prouto
+		var id_produto = produtos.id_produto;  /**/	var nome = produtos.nome;  /**/	var marca = produtos.marca;
+		var id_estabelecimento = produtos.id_estabelecimento;  /**/	var nomeEstabelecimento = produtos.nomeEstabelecimento;	 /**/  var precoProd = produtos.preco;
+		var quantidade = produtos.quantidade;  /**/	var unidade = produtos.unidade;	 /**/  var embalagem = produtos.embalagem;
+		var dataAtual =produtos.dataAtual;  /**/  var codigoDeBarras = produtos.codigoDeBarras;  /**/	var tipoCodigoDeBarras = produtos.tipoCodigoDeBarras;
+		//---- ----//
 			
 		/*-- checkbox --*/
 		checkbox.setAttribute("id",produtos.id_produto);
+		checkbox.setAttribute("onclick","guardarItens('"+id_produto+"','"+nome+"','"+marca+"','"+id_estabelecimento+"','"+
+														nomeEstabelecimento+"','"+precoProd+"','"+quantidade+"','"+unidade+"','"+
+														embalagem+"','"+dataAtual+"','"+codigoDeBarras+"','"+tipoCodigoDeBarras+"')");
 		checkbox.setAttribute("value",produtos.nome);
 		checkbox.setAttribute("type","checkbox");
 		checkbox.setAttribute("name","produtos");
-		checkbox.setAttribute("onclick","guardarItens('"+produtos.id_produto+"','"+(produtos.preco * produtos.quantidade).toFixed(2)+"')");
 		checkbox.setAttribute("class","checkbox");
 		
 		/*-- preço --*/
