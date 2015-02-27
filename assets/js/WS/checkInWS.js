@@ -186,40 +186,42 @@ function guardarItens(id_produto,nome,marca,id_estabelecimento,
 	var aChk = document.getElementsByName("produtos"); 													//atribui o checkbox a variavel
 	var verificarCheckMarcado = 0; 																		//variavel para zerar o total
 	var idProduto = id_produto;
-	var preco = (preco * quantidade).toFixed(2);
-	
+	var precoQuant = (preco * quantidade).toFixed(2);
+
 	for (var i=0;i<aChk.length;i++){ 
 		if(aChk[i].id == idProduto){
 			if (aChk[i].checked == true){ 																//se check estiver marcado
-				var confirme = confirm("Você confirma o preço desse produto?\n"+preco) 					//Menssagem para confirma o preço
-				if(confirme){
+				
+					document.getElementById("precoProd").placeholder = "R$ "+precoQuant;				//modal para editar o preço
+					modalEditarPreco(idProduto,aux);
+	
 					document.getElementById(aChk[i].id+"prod").className = "produto-escolhido"; 		//style para riscar o nome do produto
 					var produtoAdicionado = document.getElementById("preco"+idProduto).title;			//verificar se o produto foi recem adicionado
 					
+					//verificar se o produto foi cadastrado no checkin
 					if(produtoAdicionado == 0)
 						var idProduto = 0;
 					else
 						var idProduto = aChk[i].id
-					
+				
 					/*-- adicionar produto no array --*/
 					itens[aux] = {"id_produto":idProduto,"nomeProduto":nome,"marca":marca,"id_estabelecimento":id_estabelecimento,		//criando o objeto item para retornar ao servidor	
-								  "nomeEstabelecimento":nomeEstabelecimento,"preco":preco,"quantidade":quantidade,"unidade":unidade,
+								  "nomeEstabelecimento":nomeEstabelecimento,"preco":precoQuant,"quantidade":quantidade,"unidade":unidade,
 								  "embalagem":embalagem,"dataAtual":dataAtual,"codigoDeBarras":codigoDeBarras,"tipoCodigoDeBarras":tipoCodigoDeBarras}; 
 					aux++;																				//incrementa variavel aux
-					valorTotal += parseFloat(preco);													//aumenta o preço do produto do valor total	
+					valorTotal += parseFloat(precoQuant);													//aumenta o preço do produto do valor total	
 					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2);	//atualiza o preço na tela
 					console.log(itens);					
-				}
 			}else{ 																						//se check estiver desmarcado
 			
 				document.getElementById(aChk[i].id+"prod").className = "nome-produto-checkin";  		//desriscar o nome do produto
 				verificarCheckMarcado++;
 				/*-- remover produto do array --*/
 				if(verificarCheckMarcado==2){
-					valorTotal -= parseFloat(preco); 													//retira o preço do produto do valor total
+					valorTotal -= parseFloat(precoQuant); 												//retira o preço do produto do valor total
 					itens.splice((aux-1),1);         													//retira o objeto do array
 					aux--;																				//desincrementa variavel aux
-					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2); 	//	atualiza o preço na tela
+					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2); 	//atualiza o preço na tela
 					console.log(itens);										
 				}
 			}
@@ -227,6 +229,30 @@ function guardarItens(id_produto,nome,marca,id_estabelecimento,
 	}	
 }
 
+function modalEditarPreco(idProduto,posicaoProdutoArray){
+	//exibir Modal
+	$('#confirmar_preco').modal('show');
+	window.localStorage.modalAberto = idProduto;
+	window.localStorage.posicaoProdutoArray = posicaoProdutoArray;
+}
+
+function editarPreco(){
+	var preco = $("#precoProd").val();
+	if(preco.match(/^-?\d*\.?\d+$/)){
+		var quantidade;
+		var posicaoProdutoArray = window.localStorage.posicaoProdutoArray;
+		var modalAberto = window.localStorage.modalAberto;
+		
+		itens[posicaoProdutoArray].id_produto = "-"+itens[posicaoProdutoArray].id_produto;
+		itens[posicaoProdutoArray].preco = preco;
+		quantidade = itens[posicaoProdutoArray].quantidade;
+		document.getElementById("preco"+modalAberto).innerHTML = "R$ "+ (preco*quantidade).toFixed(2);	
+		document.getElementById("precoProd").value = "";
+	}else{
+		alert("Coloque um preço em um formato válido!");
+		document.getElementById("precoProd").value = "";
+	}
+}	
 /*==============================================
     GENERAL HTML AND STYLES    
     =============================================*/
@@ -371,8 +397,7 @@ function htmlListarProdutos(produtos)
 					break;
 				}
 			}
-			if(id_produto == produtos.id_produto && window.localStorage.listaClicadaCheckin == idLista ||	//se for algum produto recem adicionado na lista respectiva
-			(id_produto == produtos.nome && window.localStorage.listaClicadaCheckin == idLista) ){			//se for algum produto recem adicionado na lista respectiva
+			if(id_produto == produtos.nome && window.localStorage.listaClicadaCheckin == idLista ){			//se for algum produto recem adicionado na lista respectiva
 				var idProduto = 0;																			//o id desse produto será 0
 				break;
 			}else{																							//se nao for
