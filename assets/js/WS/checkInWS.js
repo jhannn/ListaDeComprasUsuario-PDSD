@@ -177,23 +177,31 @@ function retornarProdutosCheckIn(){
 
 //___________________________ FUNÇÃO GUARDAR ITENS ________________________________//
 var valorTotal = 0; 
-var itens = [];																							//variavel itens
+var itens = [];	
+var guardarReferencia = [];
+var ref = 0;																						//variavel itens
 var aux = 0; 																							//variavel para acessar o array de itens
+var adicionado = 0;
 function guardarItens(id_produto,nome,marca,id_estabelecimento,
 					  nomeEstabelecimento,preco,quantidade,unidade,
 					  embalagem,dataAtual,codigoDeBarras,tipoCodigoDeBarras)
-{
+{							
 	var aChk = document.getElementsByName("produtos"); 													//atribui o checkbox a variavel
 	var verificarCheckMarcado = 0; 																		//variavel para zerar o total
 	var idProduto = id_produto;
 	var precoQuant = (preco * quantidade).toFixed(2);
+	var posicao = aux;
 
 	for (var i=0;i<aChk.length;i++){ 
 		if(aChk[i].id == idProduto){
 			if (aChk[i].checked == true){ 																//se check estiver marcado
 				
-					document.getElementById("precoProd").placeholder = "R$ "+precoQuant;				//modal para editar o preço
-					modalEditarPreco(idProduto,aux);
+					document.getElementById("precoProd").placeholder = "R$ "+ (preco*1).toFixed(2);				//modal para editar o preço
+					for(var bru=0;bru<itens.length;bru++){
+						if(itens[bru].nomeProduto == nome)
+						posicao = bru;
+					}
+					modalEditarPreco(idProduto,posicao);
 	
 					document.getElementById(aChk[i].id+"prod").className = "produto-escolhido"; 		//style para riscar o nome do produto
 					var produtoAdicionado = document.getElementById("preco"+idProduto).title;			//verificar se o produto foi recem adicionado
@@ -203,51 +211,101 @@ function guardarItens(id_produto,nome,marca,id_estabelecimento,
 						var idProduto = 0;
 					else
 						var idProduto = aChk[i].id
+						
+						
+					for(var gav=0;gav<prodsEditados.length;gav++){
+						if(prodsEditados[gav] == idProduto){
+							var preco = document.getElementById("preco"+id_produto).innerText;
+							var precoFormatado = (preco.substring(3,preco.length) * quantidade).toFixed(2);
+							
+							for(var tav=0;tav<itens.length;tav++){
+								if(itens[tav].id_produto[0] == "-" && itens[tav].id_produto.substring(1,itens[tav].id_produto.length) == idProduto){
+									itens[tav] = {"id_produto":"-"+idProduto,"nomeProduto":nome,"marca":marca,"id_estabelecimento":id_estabelecimento,		//criando o objeto item para retornar ao servidor	
+												"nomeEstabelecimento":nomeEstabelecimento,"preco":precoFormatado,"quantidade":quantidade,"unidade":unidade,
+												"embalagem":embalagem,"dataAtual":dataAtual,"codigoDeBarras":codigoDeBarras,"tipoCodigoDeBarras":tipoCodigoDeBarras}; 
+									document.getElementById("precoProd").placeholder = "R$ "+ (preco.substring(3,preco.length)*1).toFixed(2);
+									adicionado++;							
+									valorTotal += parseFloat(precoFormatado);
+									return;
+								}	
+							}			
+							itens[aux++] = {"id_produto":"-"+idProduto,"nomeProduto":nome,"marca":marca,"id_estabelecimento":id_estabelecimento,		//criando o objeto item para retornar ao servidor	
+											"nomeEstabelecimento":nomeEstabelecimento,"preco":precoFormatado,"quantidade":quantidade,"unidade":unidade,
+											"embalagem":embalagem,"dataAtual":dataAtual,"codigoDeBarras":codigoDeBarras,"tipoCodigoDeBarras":tipoCodigoDeBarras}; 
+							
+							adicionado++;							
+							valorTotal += parseFloat(precoFormatado);
+							document.getElementById("precoProd").placeholder = "R$ "+ (preco.substring(3,preco.length)*1).toFixed(2);
+							document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2);	
+							return;
+						}
+					}	
+					
 				
 					/*-- adicionar produto no array --*/
-					itens[aux] = {"id_produto":idProduto,"nomeProduto":nome,"marca":marca,"id_estabelecimento":id_estabelecimento,		//criando o objeto item para retornar ao servidor	
+					itens[aux++] = {"id_produto":idProduto,"nomeProduto":nome,"marca":marca,"id_estabelecimento":id_estabelecimento,		//criando o objeto item para retornar ao servidor	
 								  "nomeEstabelecimento":nomeEstabelecimento,"preco":precoQuant,"quantidade":quantidade,"unidade":unidade,
 								  "embalagem":embalagem,"dataAtual":dataAtual,"codigoDeBarras":codigoDeBarras,"tipoCodigoDeBarras":tipoCodigoDeBarras}; 
-					aux++;																				//incrementa variavel aux
-					valorTotal += parseFloat(precoQuant);													//aumenta o preço do produto do valor total	
-					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2);	//atualiza o preço na tela
+
+					valorTotal += parseFloat(precoQuant);												//aumenta o preço do produto do valor total	
+					adicionado++;
+					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2);													//atualiza o preço na tela
 					console.log(itens);					
 			}else{ 																						//se check estiver desmarcado
-			
-				document.getElementById(aChk[i].id+"prod").className = "nome-produto-checkin";  		//desriscar o nome do produto
+				document.getElementById(id_produto+"prod").className = "nome-produto-checkin";  		//desriscar o nome do produto
 				verificarCheckMarcado++;
-				/*-- remover produto do array --*/
-				if(verificarCheckMarcado==2){
-					valorTotal -= parseFloat(precoQuant); 												//retira o preço do produto do valor total
-					itens.splice((aux-1),1);         													//retira o objeto do array
-					aux--;																				//desincrementa variavel aux
+				if(verificarCheckMarcado==2 && adicionado>0){
+					adicionado--;
+					var precoAtual = document.getElementById("preco"+id_produto).innerText;
+					var precoFormatadoAtual = precoAtual.substring(3,precoAtual.length);
+					if(precoAtual != "-")
+					valorTotal -= parseFloat(precoFormatadoAtual*quantidade); 												//retira o preço do produto do valor total
+					itens.splice(((aux--)-1),1);         												//retira o objeto do array
 					document.getElementById("total_lista").innerHTML = "R$ "+ valorTotal.toFixed(2); 	//atualiza o preço na tela
-					console.log(itens);										
 				}
 			}
 		}
 	}	
 }
 
+function removerItem(id_produto,verificarCheckMarcado,adicionado){
+
+
+}
+
+//___________________ MODAL EDITAR PRODUTOS__________________________//
 function modalEditarPreco(idProduto,posicaoProdutoArray){
 	//exibir Modal
 	$('#confirmar_preco').modal('show');
 	window.localStorage.modalAberto = idProduto;
 	window.localStorage.posicaoProdutoArray = posicaoProdutoArray;
+	console.log(posicaoProdutoArray);
 }
 
+//___________________________ EDITAR PRODUTOS ___________________________//
+var prodsEditados = [];
+var prodAux = 0;
 function editarPreco(){
 	var preco = $("#precoProd").val();
+	var precoAnterior;
+	var quantidade;
 	if(preco.match(/^-?\d*\.?\d+$/)){
-		var quantidade;
 		var posicaoProdutoArray = window.localStorage.posicaoProdutoArray;
 		var modalAberto = window.localStorage.modalAberto;
 		
+		if(itens[posicaoProdutoArray].id_produto[0] == "-")
+		itens[posicaoProdutoArray].id_produto = itens[posicaoProdutoArray].id_produto.substring(1,itens[posicaoProdutoArray].id_produto.length);
 		itens[posicaoProdutoArray].id_produto = "-"+itens[posicaoProdutoArray].id_produto;
-		itens[posicaoProdutoArray].preco = preco;
 		quantidade = itens[posicaoProdutoArray].quantidade;
-		document.getElementById("preco"+modalAberto).innerHTML = "R$ "+ (preco*quantidade).toFixed(2);	
+		precoAnterior = itens[posicaoProdutoArray].preco;
+		itens[posicaoProdutoArray].preco = preco;
+		document.getElementById("preco"+modalAberto).innerHTML = "R$ "+ preco;	
 		document.getElementById("precoProd").value = "";
+		prodsEditados[prodAux++] = document.getElementById("preco"+modalAberto).title;
+		
+		valorTotal -= precoAnterior;
+		valorTotal += parseFloat(preco*quantidade);
+		document.getElementById("total_lista").innerHTML = "R$ "+ (valorTotal).toFixed(2);
 	}else{
 		alert("Coloque um preço em um formato válido!");
 		document.getElementById("precoProd").value = "";
