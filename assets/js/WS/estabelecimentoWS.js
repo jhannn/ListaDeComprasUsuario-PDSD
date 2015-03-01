@@ -1,47 +1,56 @@
 var ID_USUARIO = window.localStorage.UsuarioId;
 var TOKEN = window.localStorage.UsuarioToken;
-// window.localStorage.produtoRecemAdicionado = "";
 
 //______________________ CADASTRAR ESTABELECIMENTO _________________________//
 function cadastrarEstabelecimento(){
-	var nomeEstabelecimento = $("#nome").val();
-	var bairroEstabelecimento = $("#bairroEstabelecimento").val();
-	var cidadeEstabelecimento = $("#cidadeEstabelecimento").val();
-	var unidadeEstabelecimento = $("#unidadeEstabelecimento").val();
-	var idUsuario = ID_USUARIO;
-	var token = TOKEN;	
+	confirme = confirm("O cadastro so podera ser realizado se voce estiver em um estabelecimento!\n Voce esta em um estabelecimento?");
+	if(confirme){
+		var nomeEstabelecimento = $("#nome").val();
+		var bairroEstabelecimento = $("#bairroEstabelecimento").val();
+		var cidadeEstabelecimento = $("#cidadeEstabelecimento").val();
+		var unidadeEstabelecimento = $("#unidadeEstabelecimento").val();
+		var idUsuario = ID_USUARIO;
+		var token = TOKEN;	
+		var latitude = window.localStorage.lat;
+		var longitude = window.localStorage.lon;
 		
-	var nonNumbers = /\D/;
-	if(nonNumbers.test(unidadeEstabelecimento)){
-		alert("Unidade so recebe digitos!");
-	}else{
-		if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
-			$.ajax({
-				type: 'POST'
-				, url: "http://localhost:52192/Servidor/Estabelecimento.asmx/cadastrarEstabelecimento"
-				, crossDomain:true
-				, contentType: 'application/json; charset=utf-8'
-				, dataType: 'json'
-				, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nome:'"+nomeEstabelecimento+"',bairro:'"+bairroEstabelecimento+"',cidade:'"+cidadeEstabelecimento+"',numero:'"+parseInt(unidadeEstabelecimento)+"'}"
-				, success: function (data, status){                    
-					var estabelecimento	= $.parseJSON(data.d);
-					if(typeof(estabelecimento.erro) === 'undefined'){
-						alert("Estabelecimento criado com sucesso!");
-						window.location = "estabelecimento.html";
-						return;						
-					}else{					
-						alert(estabelecimento.erro + "\n" + estabelecimento.Message);
-						return;
-					}
-				}
-				, error: function (xmlHttpRequest, status, err) {
-					alert("Ocorreu um erro");
-				}
-			});
+		if(latitude == undefined && longitude == undefined){
+			alert("Erro no geocalizador!");
+			return;
+		}
+		
+		var nonNumbers = /\D/;
+		if(nonNumbers.test(unidadeEstabelecimento)){
+			alert("Unidade so recebe digitos!");
 		}else{
-			alert("Campo vazio.");
-			window.location = "estabelecimento.html#criar-estabelecimento";
-			return false;
+			if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
+				$.ajax({
+					type: 'POST'
+					, url: "http://192.168.1.99/Servidor/Estabelecimento.asmx/cadastrarEstabelecimento"
+					, crossDomain:true
+					, contentType: 'application/json; charset=utf-8'
+					, dataType: 'json'
+					, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nome:'"+nomeEstabelecimento+"',bairro:'"+bairroEstabelecimento+"',cidade:'"+cidadeEstabelecimento+"',numero:'"+parseInt(unidadeEstabelecimento)+"',latitude:'"+latitude+"',longitude:'"+longitude+"'}"
+					, success: function (data, status){                    
+						var estabelecimento	= $.parseJSON(data.d);
+						if(typeof(estabelecimento.erro) === 'undefined'){
+							alert("Estabelecimento criado com sucesso!");
+							window.location = "estabelecimento.html";
+							return;						
+						}else{					
+							alert(estabelecimento.erro + "\n" + estabelecimento.Message);
+							return;
+						}
+					}
+					, error: function (xmlHttpRequest, status, err) {
+						alert("Ocorreu um erro");
+					}
+				});
+			}else{
+				alert("Campo vazio.");
+				window.location = "estabelecimento.html#criar-estabelecimento";
+				return false;
+			}
 		}
 	}
 }
@@ -51,7 +60,7 @@ function listarEstabelecimento(){
 
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimento"
+        , url: "http://192.168.1.99/Servidor/Estabelecimento.asmx/listarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -85,7 +94,7 @@ function editarEstabelecimento(){
 		if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
 			$.ajax({
 				type: 'POST'
-				, url: "http://localhost:52192/Servidor/Estabelecimento.asmx/editarEstabelecimento"
+				, url: "http://192.168.1.99/Servidor/Estabelecimento.asmx/editarEstabelecimento"
 				, crossDomain:true
 				, contentType: 'application/json; charset=utf-8'
 				, dataType: 'json'
@@ -123,7 +132,7 @@ function autoCompleteEstabelecimento(){
 	var nomeEstabelecimento = $("#nomeEstabelecimento").val();
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/autoCompleteEstabelecimento"
+        , url: "http://192.168.1.99/Servidor/Estabelecimento.asmx/autoCompleteEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -149,7 +158,7 @@ function visualizarEstabelecimento(){
 	window.localStorage.idEstabelecimentoClicado= idEstabelecimento;
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/visualizarEstabelecimento"
+        , url: "http://192.168.1.99/Servidor/Estabelecimento.asmx/visualizarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -223,7 +232,7 @@ function htmlListarEstabelecimentos(estabelecimentos){
 		/* icone do google maps */
 		imgMap.setAttribute("src","assets/img/icone-mapa.png");
 		imgMap.setAttribute("class","icone-mapa");		
-		imgMap.setAttribute("onclick","googleMaps()");
+		imgMap.setAttribute("onclick","googleMaps('"+estabelecimentos.latitude+"','"+estabelecimentos.longitude+"')");
 
 		/* modal */
 		modal.setAttribute("id",estabelecimentos.id_estabelecimento);
@@ -272,5 +281,13 @@ function controleModal(idModal)
 	}
 }
 
-function googleMaps(){window.location = "googleMaps.html";}
+function googleMaps(latitude,longitude){
+	if(latitude == 0 && longitude == 0){
+		alert("Estabelecimento nao possui localizacao cadastrada!");
+	}else{
+		window.location = "googleMaps.html";
+		window.localStorage.latitude = latitude;
+		window.localStorage.longitude = longitude;
+	}
+}
 
