@@ -85,9 +85,30 @@ function controleCheckin(flag){
 	}
 }
 
+//_____________________ ACHAR ESTABELECIMENTO MAIS PRÓXIMO ____________________//
+function distLatLong(lat1,lon1,lat2,lon2) {
+  var R = 6371; // raio da terra
+  var Lati = Math.PI/180*(lat2-lat1);  //Graus  - > Radianos
+  var Long = Math.PI/180*(lon2-lon1); 
+  var a = 
+	Math.sin(Lati/2) * Math.sin(Lati/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(Long/2) * Math.sin(Long/2); 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // distância en km
+  return((d*1).toFixed(4));
+}
+
+function deg2rad(degree) {
+    return degree * (Math.PI / 180);
+}
+
 //_____________________ LISTA OS ESTABELECIMENTOS PARA O CHECKIN _____________________//
 function listarEstabelecimento(){	
 var idListaClicada = window.localStorage.idListaClicada;										//salva lista clicada do localStorage
+var latitudeGeolocation = window.localStorage.lat;												//pegando latitude usuario
+var longitudeGeolocation = window.localStorage.lon;												//pegando longitude usuario
+
 	$.ajax({																					//chamando função do servidor
         type: 'POST'
         , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimento"		//url
@@ -97,6 +118,21 @@ var idListaClicada = window.localStorage.idListaClicada;										//salva lista 
 		, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nome:'',bairro:'',cidade:''}" 	//dados da função
         , success: function (data, status){                    
 			var estabelecimentos = $.parseJSON(data.d);											//salvando o retorno do servidor em estabelecimentos
+			
+				var menorDistancia = 0;
+				var estabelecimentoMenorDistancia;
+				for(var pos=0; pos<estabelecimentos.length; pos++){
+					var distancia = distLatLong(latitudeGeolocation,longitudeGeolocation,estabelecimentos[pos].latitude,estabelecimentos[pos].longitude);
+					if(menorDistancia == 0){
+						menorDistancia = distancia;
+						estabelecimentoMenorDistancia = estabelecimentos[pos];
+					}else if(distancia<menorDistancia){
+						menorDistancia = distancia;
+						estabelecimentoMenorDistancia = estabelecimentos[pos];
+					}
+				}
+				
+				alert(estabelecimentoMenorDistancia.nome +"\n"+ estabelecimentoMenorDistancia.bairro);
 			
 				if(idListaClicada != ""){														//se estiver em uma lista
 					for(var i=0; i<estabelecimentos.length ;i++)								//for para listar estabelecimentos

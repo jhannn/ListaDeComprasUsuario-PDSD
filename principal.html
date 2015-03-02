@@ -127,6 +127,8 @@
 						
 						<script>
 						function getLocation() {
+							window.localStorage.lat = -5.8121413;
+							window.localStorage.lon = -35.2036399;
 							if (navigator.geolocation) {
 								navigator.geolocation.getCurrentPosition(showPosition);
 							} else { 
@@ -135,8 +137,8 @@
 						}
 
 						function showPosition(position) {
-							window.localStorage.lat = position.coords.latitude;
-							window.localStorage.lon = position.coords.longitude;
+							/*window.localStorage.lat = position.coords.latitude;
+							window.localStorage.lon = position.coords.longitude;*/
 						}
 						</script>
 
