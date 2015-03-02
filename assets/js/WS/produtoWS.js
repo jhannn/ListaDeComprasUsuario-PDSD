@@ -203,11 +203,11 @@ function editarProduto(){
 	var idLista = parseInt(window.localStorage.idListaClicada);
 	var idProduto = parseInt(window.localStorage.idProdutoEditar);
 	
-	var url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/editarProduto";
+	var url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/criarProduto";
 	var data="{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',idProduto:'"+idProduto+"',marca:'"+marca+"',nome:'"+nomeDoProduto+"',unidade:'"+unidade+"',embalagem:'"+embalagem+"',quantidade:'"+quantidade+"'}";
 	
 	if(codigoDeBarras.trim() !=''){
-		url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/editarProdutoComCodigo";
+		url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/criarProdutoComCodigo";
 		data="{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',idProduto:'"+idProduto+"',marca:'"+marca+"',nome:'"+nomeDoProduto+"',unidade:'"+unidade+"',embalagem:'"+embalagem+"',codigo:'"+codigoDeBarras+"'tipoCod:'"+tipoCod+"',quantidade:'"+quantidade+"'}";
 	}	
 	
