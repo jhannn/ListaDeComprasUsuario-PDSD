@@ -13,7 +13,7 @@ function autoCompleteMarca(){
 	var nomeMarca = $("#marcaDoProduto").val();													//salva valor do campo na variavel
 	$.ajax({																					//chama a função do servidor
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Produto.asmx/autocompleteMarca"					
+        , url: "http://192.168.56.1/Servidor/Produto.asmx/autocompleteMarca"					
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -33,7 +33,7 @@ function autoCompleteProduto(){
 	var nomeProduto = $("#nomeDoProduto").val();												//salva valor do campo na variavel
 	$.ajax({																					//chama a função do servidor
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Produto.asmx/autocomplete"
+        , url: "http://192.168.56.1/Servidor/Produto.asmx/autocomplete"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -111,7 +111,7 @@ var longitudeGeolocation = window.localStorage.lon;												//pegando longitu
 
 	$.ajax({																					//chamando função do servidor
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimento"		//url
+        , url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/listarEstabelecimento"		//url
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -152,7 +152,7 @@ var longitudeGeolocation = window.localStorage.lon;												//pegando longitu
 function escolherListas(idEstabelecimento){	
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
+        , url: "http://192.168.56.1/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'		
@@ -194,7 +194,7 @@ function retornarProdutosCheckIn(){
 
 	$.ajax({																		//chamando servidor
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarItens" //url
+        , url: "http://192.168.56.1/Servidor/ListaDeProdutos.asmx/retornarItens" //url
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'

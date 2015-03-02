@@ -10,7 +10,7 @@ function autoCompleteMarca(flag){
 	var nomeMarca = $(id).val();
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Produto.asmx/autocompleteMarca"
+        , url: "http://192.168.56.1/Servidor/Produto.asmx/autocompleteMarca"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -33,7 +33,7 @@ function autoComplete(flag){
 	var nomeProduto = $(id).val();
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/Produto.asmx/autocomplete"
+        , url: "http://192.168.56.1/Servidor/Produto.asmx/autocomplete"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -70,21 +70,21 @@ function pesquisarProduto()
 	//------ Pesquisar por embalagem ----//
 	if(nome != "" && embalagem != 0){
 		dados =  "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"',nome:'"+nome+"',embalagem:'"+embalagem+"'}"
-		url = "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosEmbalagem"
+		url = "http://192.168.56.1/Servidor/Produto.asmx/pesquisarProdutosEmbalagem"
 		passou=true;
 	}
 	
 	//------ Pesquisar por nome -----//
 	else if(nome != ""){
 		dados = "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"',nome:'"+nome+"'}"
-		url   = "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosNome";
+		url   = "http://192.168.56.1/Servidor/Produto.asmx/pesquisarProdutosNome";
 		passou=true;
 	}
 	
 	//------ Pesquisar por marca -----//
 	else if(marca != ""){
 		dados = "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',marca:'"+marca+"'}"
-		url = "http://localhost:52192/Servidor/Produto.asmx/pesquisarProdutosMarca"	
+		url = "http://192.168.56.1/Servidor/Produto.asmx/pesquisarProdutosMarca"	
 		passou=true;
 	}
 	
@@ -163,7 +163,7 @@ function adicionarProdutoNaLista(){
 	var idProduto=parseInt(window.localStorage.idProdutoAdicionarLista);
 	$.ajax({
         type: 'POST'
-        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/cadastrarProduto"
+        , url: "http://192.168.56.1/Servidor/ListaDeProdutos.asmx/cadastrarProduto"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -203,11 +203,11 @@ function editarProduto(){
 	var idLista = parseInt(window.localStorage.idListaClicada);
 	var idProduto = parseInt(window.localStorage.idProdutoEditar);
 	
-	var url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/criarProduto";
+	var url="http://192.168.56.1/Servidor/ListaDeProdutos.asmx/criarProduto";
 	var data="{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',idProduto:'"+idProduto+"',marca:'"+marca+"',nome:'"+nomeDoProduto+"',unidade:'"+unidade+"',embalagem:'"+embalagem+"',quantidade:'"+quantidade+"'}";
 	
 	if(codigoDeBarras.trim() !=''){
-		url="http://localhost:52192/Servidor/ListaDeProdutos.asmx/criarProdutoComCodigo";
+		url="http://192.168.56.1/Servidor/ListaDeProdutos.asmx/criarProdutoComCodigo";
 		data="{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idLista:'"+idLista+"',idProduto:'"+idProduto+"',marca:'"+marca+"',nome:'"+nomeDoProduto+"',unidade:'"+unidade+"',embalagem:'"+embalagem+"',codigo:'"+codigoDeBarras+"'tipoCod:'"+tipoCod+"',quantidade:'"+quantidade+"'}";
 	}	
 	
