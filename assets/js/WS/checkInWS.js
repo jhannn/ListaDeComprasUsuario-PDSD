@@ -81,7 +81,8 @@ function controleCheckin(flag){
 		
 	}else{ 																				//checkin no estabelecimento
 		var idEstabelecimento = window.localStorage.idEstabelecimentoClicado;
-		escolherListas(idEstabelecimento);												//chama função de escolher listas
+		window.localStorage.estabelecimentoClicadoCheckin = idEstabelecimento;
+		window.localStorage.estab = "estab";											//local storage para ser acessado em lista
 	}
 }
 
@@ -118,9 +119,11 @@ var longitudeGeolocation = window.localStorage.lon;												//pegando longitu
 		, data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nome:'',bairro:'',cidade:''}" 	//dados da função
         , success: function (data, status){                    
 			var estabelecimentos = $.parseJSON(data.d);											//salvando o retorno do servidor em estabelecimentos
-			
+				
+				//---- calculo da menor distancia ---//
 				var menorDistancia = 0;
 				var estabelecimentoMenorDistancia;
+				var indice = 0;
 				for(var pos=0; pos<estabelecimentos.length; pos++){
 					var distancia = distLatLong(latitudeGeolocation,longitudeGeolocation,estabelecimentos[pos].latitude,estabelecimentos[pos].longitude);
 					if(menorDistancia == 0){
@@ -129,10 +132,16 @@ var longitudeGeolocation = window.localStorage.lon;												//pegando longitu
 					}else if(distancia<menorDistancia){
 						menorDistancia = distancia;
 						estabelecimentoMenorDistancia = estabelecimentos[pos];
+						indice = pos;
 					}
 				}
 				
-				alert(estabelecimentoMenorDistancia.nome +"\n"+ estabelecimentoMenorDistancia.bairro);
+				//----- estabelecimento mais barato no inicio da lista ----//
+				var guardarPrimeiroElemento = estabelecimentos[0];
+				estabelecimentos[0] = estabelecimentoMenorDistancia;
+				estabelecimentos[indice] = guardarPrimeiroElemento;
+						
+				alert("O estabelecimeto mais próximo é o "+estabelecimentoMenorDistancia.nome +"\n"+ estabelecimentoMenorDistancia.bairro);
 			
 				if(idListaClicada != ""){														//se estiver em uma lista
 					for(var i=0; i<estabelecimentos.length ;i++)								//for para listar estabelecimentos
@@ -302,11 +311,6 @@ function guardarItens(id_produto,nome,marca,id_estabelecimento,
 			}
 		}
 	}	
-}
-
-function removerItem(id_produto,verificarCheckMarcado,adicionado){
-
-
 }
 
 //___________________ MODAL EDITAR PRODUTOS__________________________//

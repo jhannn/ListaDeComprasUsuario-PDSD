@@ -17,6 +17,7 @@
 		<link href='assets/css/googleapis.css' rel='stylesheet' type='text/css' />
 		<!-- SCRIPTS DO COMUNICACAO WEB SERVICE -->
 		<script src="assets/js/WS/usuarioWS.js"></script>   
+		<script src="assets/js/WS/listaWS.js"></script>   
 		<!-- FUNCOES PRE-REALIZADAS -->
 		<script type="text/javascript">
 			window.onload = function(){
@@ -51,7 +52,7 @@
 							<a href="estabelecimento.html"><img src="assets/img/estabelecimentoBranco.png" width="40px" style="margin-right: 15px;">Estabelecimentos</a>
 						</li>
 						<li>
-							<a  href="listas.html"><img src="assets/img/listaBranco.png" width="40px" style="margin-right: 15px;"> Listas</a>
+							<a  href="listas.html" onclick="zerarChekinEstabelecimento()"><img src="assets/img/listaBranco.png" width="40px" style="margin-right: 15px;"> Listas</a>
 						</li>
 						<li>
 							<a  href="produtos.html"><img src="assets/img/produtosBranco.png" width="40px" style="margin-right: 15px;"> Produtos</a>
@@ -75,7 +76,7 @@
 								<div class="panel-heading" role="tab" id="headingOne">
 									<h4 class="panel-title">
 										<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="color: #ffb503;">
-											<img src="assets/img/detalhes.png" width="30px" style="margin-bottom: 3px;color: #ffb503;">Dados Pessoais
+											<img src="assets/img/setaFechada.png" width="30px" style="margin-bottom: 3px;color: #ffb503;">Dados Pessoais
 										</a>
 									</h4>
 								</div>
