@@ -81,6 +81,7 @@ function retornarListas(){
 						iconEdit.setAttribute("onclick", "listaClicadaEditar('"+lista[i].id_listaDeProdutos+"')");
 						iconEdit.setAttribute("data-target", "#editar_lista");
 						iconEdit.setAttribute("data-toggle", "modal");
+						iconEdit.setAttribute("style", "right: 10px;");
 						
 						iconRemove.setAttribute("class", "iconRemove");
 						iconRemove.setAttribute("onclick", "excluirLista('"+lista[i].id_listaDeProdutos+"')");
@@ -401,6 +402,7 @@ function listaEstiloEstab(estabelecimentos)
 
 	//--estilos--
 	divPrincipal.setAttribute("class","panel panel-default");
+	divPrincipal.setAttribute("style","margin-left: 0px;");
 	divPrincipal.setAttribute("id","divEstab"+estabelecimentos.idEstabelecimento); //passando id do estabelecimento para a div principal
 	divRole.setAttribute("class","panel-heading");
 	h4.setAttribute("class","panel-title");
@@ -409,7 +411,7 @@ function listaEstiloEstab(estabelecimentos)
 	img.setAttribute("src","assets/img/setaFechada.png");
 	img.setAttribute("id","seta"+estabelecimentos.idEstabelecimento);
 	img.setAttribute("width","30px");
-	img.setAttribute("style","color: #ffb503;");
+	img.setAttribute("style","color: #ffb503;margin: -10px;");
 		
 	nomeProduto.setAttribute("class","ajustes-lista");		
 	nomeProduto.innerHTML = estabelecimentos.nomeEstabelecimento; //nome do estabelecimento
@@ -418,9 +420,9 @@ function listaEstiloEstab(estabelecimentos)
 	oferta.innerHTML = estabelecimentos.itensEncontrados+"/"+estabelecimentos.itensTotal; //oferta
 		
 	valor.setAttribute("class","ajustes-valor");		
-	valor.innerHTML = "R$"+estabelecimentos.precoDaLista;//valor
+	valor.innerHTML = "R$ "+(estabelecimentos.precoDaLista).toFixed(2);//valor
 		
-	modal.setAttribute("id",estabelecimentos.idEstabelecimento);
+	modal.setAttribute("id","mod"+estabelecimentos.idEstabelecimento);
 	modal.setAttribute("class","modal-fechado");
 	conteudo.innerHTML = "<p>Foram encontrados nesse supermercado "+estabelecimentos.itensEncontrados+" produtos,"+
 							 " no total de "+estabelecimentos.itensTotal+" produtos cadastrados na sua lista de compras</br></p>"; 
@@ -450,7 +452,7 @@ var idAberto = "0";
 function controleModal(idModal)
 {
 	if(aberto == "nao" && idAberto==0){ //abra modal
-		document.getElementById(idModal).className = "modal-aberto";
+		document.getElementById("mod"+idModal).className = "modal-aberto";
 		document.getElementById("seta"+idModal).src = "assets/img/setaAberta.png";
 		aberto="sim";
 		idAberto = idModal;
@@ -458,7 +460,7 @@ function controleModal(idModal)
 	}
 	
 	if(aberto == "sim" && idAberto==idModal){//feche modal
-		document.getElementById(idModal).className = "modal-fechado";
+		document.getElementById("mod"+idModal).className = "modal-fechado";
 		document.getElementById("seta"+idModal).src = "assets/img/setaFechada.png";
 		aberto="nao";
 		idAberto="0";

@@ -237,9 +237,9 @@ function htmlListarEstabelecimentos(estabelecimentos){
 		/* modal */
 		modal.setAttribute("id",estabelecimentos.id_estabelecimento);
 		modal.setAttribute("class","modal-fechado");
-		conteudo.innerHTML = "<p class='conteudo-estab'>Cidade: "+estabelecimentos.cidade+"</br>"+
-							 "Bairro: "+estabelecimentos.bairro+"</br>"+
-							 "Unidade: "+estabelecimentos.numero+"</br></p>";
+		conteudo.innerHTML = "<p class='conteudo-estab'>Cidade:</p> " + "<p class='informacao-modal'>"+estabelecimentos.cidade+"</p>" +
+							 "<p class='conteudo-estab'>Bairro:</p> " + "<p class='informacao-modal'> "+estabelecimentos.bairro+"</p>" +
+							 "<p class='conteudo-estab'>Unidade:</p>" + "<p class='informacao-modal'> "+estabelecimentos.numero+"</p>";
 
 		divPrincipal.appendChild(divRole);
 		divPrincipal.appendChild(h4);
@@ -256,13 +256,13 @@ function htmlListarEstabelecimentos(estabelecimentos){
 	}	
 	var pai = document.getElementById("nomeEstabelecimento");
 	pai.appendChild(divPrincipal);	
-	img.setAttribute("onclick","controleModal("+estabelecimentos.id_estabelecimento+")");
+	img.setAttribute("onclick","controleModalEstab("+estabelecimentos.id_estabelecimento+")");
 }
 
 //______________________ CONTROLE MODAL __________________________//
 var aberto = "nao";
 var idAberto = "0";
-function controleModal(idModal)
+function controleModalEstab(idModal)
 {
 	if(aberto == "nao" && idAberto==0){ //abra modal
 		document.getElementById(idModal).className = "modal-aberto";
