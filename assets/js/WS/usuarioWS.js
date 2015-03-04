@@ -1,11 +1,6 @@
 var TOKEN = "124576453875";
 // window.localStorage.produtoRecemAdicionado = "";
 
-function pagina(){
-	window.location = "position.html";
-}
-
-
 //____________________________________ FAZER LOGIN ______________________________________________//
 function fazerLogin(){
     var email = $("#email_logar").val();

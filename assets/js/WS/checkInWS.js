@@ -78,12 +78,13 @@ function controleCheckin(flag){
 	}else if(flag == "lista"){  														//checkin na lista
 		window.localStorage.listaClicadaCheckin = window.localStorage.idListaClicada;	//atualiza listaclicadoCheckin com listaClicada
 		window.location = "checkinEstabelecimento.html";								//ir para a página de checkin
-		
-	}else{ 																				//checkin no estabelecimento
-		var idEstabelecimento = window.localStorage.idEstabelecimentoClicado;
-		window.localStorage.estabelecimentoClicadoCheckin = idEstabelecimento;
-		window.localStorage.estab = "estab";											//local storage para ser acessado em lista
 	}
+}
+
+function checkinEstab(){
+	var idEstabelecimento = window.localStorage.idEstabelecimentoClicado;
+	window.localStorage.estabelecimentoClicadoCheckin = idEstabelecimento;
+	window.localStorage.estab = "estab";											//local storage para ser acessado em lista
 }
 
 //_____________________ ACHAR ESTABELECIMENTO MAIS PRÓXIMO ____________________//
