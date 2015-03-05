@@ -198,16 +198,33 @@ function retornarItens(){
 	
 	$.ajax({
             type: 'POST'
-            , url: "http://localhost:52192/Servidor/Item.asmx/retornarItem"
+            , url: "http://192.168.56.1/Servidor/Item.asmx/retornarItem"
 			, crossDomain:true
             , contentType: 'application/json; charset=utf-8'
             , dataType: 'json'
             , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idProduto:'"+idProduto+"'}"
             , success: function (data, status){
 				var itens = $.parseJSON(data.d);
+				
+				//------------ ordenar -----------------//
+				var i, j, preco,qualificacao,guardar;
+				for (i = 1; i < itens.length; i++) {
+				   qualificacao = itens[i].qualificacao;
+				   guardar = itens[i];
+				   preco = itens[i].preco;
+				   j = i;
+				   while((j>0) && 
+				   (preco<itens[j-1].preco  || (qualificacao>itens[j-1].qualificacao && preco==itens[j-1].preco)))
+				   {
+						itens[j] = itens[j-1];
+						j = j-1;
+				   }
+				   itens[j] = guardar;
+				}	
+				
 				document.getElementById("iten_nome").innerHTML = itens[0].nomeProduto;
-				for(var i=0; i<itens.length; i++)	
-				listaItens(itens[i]);					
+				for(var t=0; t<itens.length; t++)	
+				listaItens(itens[t]);					
             }
             , error: function (xmlHttpRequest, status, err) {
                 alert('Ocorreu um erro no servidor');
