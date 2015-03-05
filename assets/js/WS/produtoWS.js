@@ -204,7 +204,10 @@ function retornarItens(){
             , dataType: 'json'
             , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idProduto:'"+idProduto+"'}"
             , success: function (data, status){
-				var itens = $.parseJSON(data.d);	
+				var itens = $.parseJSON(data.d);
+				document.getElementById("iten_nome").innerHTML = itens[0].nomeProduto;
+				for(var i=0; i<itens.length; i++)	
+				listaItens(itens[i]);					
             }
             , error: function (xmlHttpRequest, status, err) {
                 alert('Ocorreu um erro no servidor');
@@ -319,6 +322,67 @@ function listaEstilo(produto)
 		divRole.appendChild(h4);
 		h4.appendChild(a);
 		h4.appendChild(nomeProduto);
+		a.appendChild(img);
+		
+		var pai = document.getElementById("referencia");
+		pai.appendChild(divPrincipal);	
+}
+
+//______ listar itens ________//
+function listaItens(produto)
+{
+	var divPrincipal = document.createElement("div");
+		var divProduto = document.createElement("div");
+		var divRole = document.createElement("div");
+		var iconEdit = document.createElement('div');
+		var h4 = document.createElement("h4");
+		var a = document.createElement("a");
+		var img = document.createElement("img");
+		var estrela = document.createElement("img");
+		var nomeEstabelecimento = document.createElement("p");
+		var preco = document.createElement("p");
+		var qualificacao = document.createElement("p");
+		
+		//--estilos--
+		divPrincipal.setAttribute("class","panel panel-default");
+		divProduto.setAttribute("class","panel-heading");
+		divProduto.setAttribute("id",produto.id_item);
+		divRole.setAttribute("style", "display: block;");
+		divRole.setAttribute("style", "width: 93% !important;");
+		
+		h4.setAttribute("class","panel-title");
+		a.setAttribute("style","color: #ffb503;");
+		
+		img.setAttribute("src","assets/img/setaFechada.png");
+		img.setAttribute("width","30px");
+		img.setAttribute("style","color: #ffb503;");
+		
+		nomeEstabelecimento.innerHTML = produto.nomeEstabelecimento;
+		nomeEstabelecimento.setAttribute("class","estab-nome-item");
+		
+		preco.innerHTML = "R$ " +(produto.preco).toFixed(2);
+		preco.setAttribute("class","preco-item");
+		
+		qualificacao.innerHTML = produto.qualificacao;
+		qualificacao.setAttribute("class","qualificacao");
+		
+		estrela.setAttribute("src","assets/img/estrela.png");
+		estrela.setAttribute("style","height: 20px; margin-top: -4px;");
+		
+		//--------//
+		divPrincipal.appendChild(divProduto);
+		divPrincipal.appendChild(divRole);
+		divPrincipal.appendChild(h4);
+		divPrincipal.appendChild(a);
+		divPrincipal.appendChild(img);
+		divProduto.appendChild(divRole);
+		divProduto.appendChild(iconEdit);
+		divRole.appendChild(h4);
+		h4.appendChild(a);
+		h4.appendChild(nomeEstabelecimento);
+		h4.appendChild(preco);
+		h4.appendChild(qualificacao);
+		qualificacao.appendChild(estrela);
 		a.appendChild(img);
 		
 		var pai = document.getElementById("referencia");
