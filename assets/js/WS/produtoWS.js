@@ -192,6 +192,28 @@ function adicionarProdutoNaLista(){
     });	
 }
 
+//____________________________ RETORNAR ITENS ___________________________//
+function retornarItens(){
+	var idProduto = window.localStorage.itemVisializar;
+	
+	$.ajax({
+            type: 'POST'
+            , url: "http://localhost:52192/Servidor/Item.asmx/retornarItem"
+			, crossDomain:true
+            , contentType: 'application/json; charset=utf-8'
+            , dataType: 'json'
+            , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',idProduto:'"+idProduto+"'}"
+            , success: function (data, status){
+				var itens = $.parseJSON(data.d);	
+            }
+            , error: function (xmlHttpRequest, status, err) {
+                alert('Ocorreu um erro no servidor');
+            }
+        });
+	
+}
+
+
 ////________________________Editar Produto_____________________////
 function editarProduto(){
 	var nomeDoProduto = $("#nomeDoProdutoEditado").val();
@@ -257,7 +279,7 @@ function listaEstilo(produto)
 		var h4 = document.createElement("h4");
 		var a = document.createElement("a");
 		var img = document.createElement("img");
-		var nomeProduto = document.createElement("p");
+		var nomeProduto = document.createElement("a");
 		
 		//--estilos--
 		divPrincipal.setAttribute("class","panel panel-default");
@@ -267,11 +289,13 @@ function listaEstilo(produto)
 		divRole.setAttribute("onclick", "adicionarIdProdutoLocalStorage('"+produto.id_produto+"')");
 		divRole.setAttribute("data-target", "#adicionar_quantidade_de_produto_na_lista");
 		divRole.setAttribute("data-toggle", "modal");	
+		
 		iconEdit.setAttribute("class", "iconEdit");
 		iconEdit.setAttribute("style", "bottom: 32px;");
 		iconEdit.setAttribute("onclick", "pegarIdProdutoEditar('"+produto.id_produto+"')");
 		iconEdit.setAttribute("data-target", "#editar_produto");
 		iconEdit.setAttribute("data-toggle", "modal");
+		
 		h4.setAttribute("class","panel-title");
 		a.setAttribute("style","color: #ffb503;");
 		
@@ -279,7 +303,9 @@ function listaEstilo(produto)
 		img.setAttribute("width","30px");
 		img.setAttribute("style","color: #ffb503;");
 		
-		nomeProduto.setAttribute("class","ajustes-lista");		
+		nomeProduto.setAttribute("class","lista-pesquisa");		
+		nomeProduto.setAttribute("href","visualizar-itens.html");		
+		nomeProduto.setAttribute("onclick","itemVisializar('"+produto.id_produto+"');");		
 		nomeProduto.innerHTML = produto.nome;
 		
 		//--------//
@@ -297,4 +323,8 @@ function listaEstilo(produto)
 		
 		var pai = document.getElementById("referencia");
 		pai.appendChild(divPrincipal);	
+}
+
+function itemVisializar(idProduto){
+	window.localStorage.itemVisializar = idProduto;
 }

@@ -363,6 +363,14 @@ background-color: #B94A00;
 color: #fff;
 }
 
+a.lista-pesquisa {
+font-size: 20px;
+color: #ffb503;
+position: absolute;
+float: right;
+margin: 2px;
+}
+
 
  .icon-box-right {
 display: block;
