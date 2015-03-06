@@ -87,7 +87,14 @@ function retornarListas(){
 						iconRemove.setAttribute("onclick", "excluirLista('"+lista[i].id_listaDeProdutos+"')");
 						
 						aTag.setAttribute('class','titulos');
-						aTag.setAttribute('href',"visualizar-lista.html?id="+lista[i].id_listaDeProdutos);					
+						
+						if(window.localStorage.estab == "estab"){ //se a página lista foi chamada para o checkin de estabelecimeto
+							aTag.setAttribute("href","checkinProdutos.html"); //se o nome for clicado vai pra checkin
+							aTag.setAttribute("onclick","guardarIdListaCheckin('"+lista[i].id_listaDeProdutos+"')"); //salva o id da lista
+						}else{
+							aTag.setAttribute('href',"visualizar-lista.html?id="+lista[i].id_listaDeProdutos);					
+						}
+						
 						aTag.innerHTML = lista[i].nome;
 						
 						inp.setAttribute("id",lista[i].id_listaDeProdutos);
@@ -111,6 +118,16 @@ function retornarListas(){
             $('.resultado').html('Ocorreu um erro');
         }
     });
+}
+
+//Função para guardar o id da lista clicada no local Storage 
+//se ela tiver sido clicada para um checkin
+function guardarIdListaCheckin(idLista){
+	window.localStorage.listaClicadaCheckin = idLista;
+}
+
+function zerarChekinEstabelecimento(){
+	localStorage.removeItem("estab");
 }
 
 //_____________________________________ ADICIONAR PRODUTOS À LISTA _____________________________________//

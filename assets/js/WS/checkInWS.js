@@ -84,6 +84,7 @@ function controleCheckin(flag){
 function checkinEstab(){
 	var idEstabelecimento = window.localStorage.idEstabelecimentoClicado;
 	window.localStorage.estabelecimentoClicadoCheckin = idEstabelecimento;
+	window.localStorage.estab = "estab";											//local storage para ser acessado em lista
 }
 
 //_____________________ ACHAR ESTABELECIMENTO MAIS PRÓXIMO ____________________//
@@ -386,9 +387,10 @@ function htmlListarEstabelecimentos(estabelecimentos,flag){
 
 		/* tag do nome */
 		if(flag == "index"){
+			nomeEstab.setAttribute("data-toggle","modal");
+			nomeEstab.setAttribute("data-target","#escolher_lista");			
 			nomeEstab.setAttribute("onclick","escolherListas('"+estabelecimentos.id_estabelecimento+"');");			
 			nomeEstab.setAttribute('class',"titulos");
-			nomeEstab.setAttribute('href',"checkinLista.html");
 			nomeEstab.innerHTML = estabelecimentos.nome;
 		}
 		else if(flag == "lista"){
@@ -460,7 +462,7 @@ function htmlListarListas(lista,idEstabelecimento){
 		inp.setAttribute("role", "alert");
 		inp.appendChild(nomeLista);
 	}							
-	var pai = document.getElementById("nomeListaCheck");
+	var pai = document.getElementById("nomeLista");
 	pai.appendChild(inp);
 }
 
