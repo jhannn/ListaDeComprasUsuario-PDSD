@@ -26,7 +26,7 @@ function cadastrarEstabelecimento(){
 			if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
 				$.ajax({
 					type: 'POST'
-					, url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/cadastrarEstabelecimento"
+					, url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/cadastrarEstabelecimento"
 					, crossDomain:true
 					, contentType: 'application/json; charset=utf-8'
 					, dataType: 'json'
@@ -60,7 +60,7 @@ function listarEstabelecimento(){
 
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/listarEstabelecimento"
+        , url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/listarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -94,7 +94,7 @@ function editarEstabelecimento(){
 		if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
 			$.ajax({
 				type: 'POST'
-				, url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/editarEstabelecimento"
+				, url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/editarEstabelecimento"
 				, crossDomain:true
 				, contentType: 'application/json; charset=utf-8'
 				, dataType: 'json'
@@ -132,7 +132,7 @@ function autoCompleteEstabelecimento(){
 	var nomeEstabelecimento = $("#nomeEstabelecimento").val();
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/autoCompleteEstabelecimento"
+        , url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/autoCompleteEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -158,7 +158,7 @@ function visualizarEstabelecimento(){
 	window.localStorage.idEstabelecimentoClicado= idEstabelecimento;
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/visualizarEstabelecimento"
+        , url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/visualizarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -215,6 +215,7 @@ function htmlListarEstabelecimentos(estabelecimentos){
 		/* icone seta */					
 		img.setAttribute("src","assets/img/setaFechada.png");
 		img.setAttribute("width","30px");
+		img.setAttribute("class","seta-estabe");
 		img.setAttribute("id","seta"+estabelecimentos.id_estabelecimento);
 		img.setAttribute("style","color: #ffb503;");
 

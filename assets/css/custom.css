@@ -218,6 +218,40 @@ font-size:25px;
 font-weight: bold;
 }
 
+@media screen and (max-width:517px){
+	a.titulos{
+		color: #428bca;
+		text-decoration: none;
+		font-size:20px;	
+		font-weight: bold;
+	}
+	
+	.icone-mapa{
+		width: 35px;
+		height: 24px;
+		float: right;
+		margin-top: 1px;
+		margin-right: 10px;
+	}
+}
+
+@media screen and (max-width:470px){
+	a.titulos{
+		color: #428bca;
+		text-decoration: none;
+		font-size:15px;	
+		font-weight: bold;
+	}
+}
+
+@media screen and (max-width:380px){
+	.seta-estabe{
+		width:25px;
+		height:25px;
+	}
+}
+
+
 .panel.panel-default {
 margin-left: 15px;
 margin-top: 30px;
@@ -271,12 +305,12 @@ margin-top: -16px;
 	
 .ajustes-lista
 {
-font-size: 20px;
-color: #ffb503;
-position: absolute;
-float: right;
-margin: -32px;
-margin-left: 15px;
+  font-size: 20px;
+  color: #ffb503;
+  position: absolute;
+  float: right;
+  margin: -40px;
+  margin-left: 27px;
 }
 
 .modal-fechado
@@ -337,9 +371,17 @@ font-size: 40px;
     margin: 0 0 3px;
 }
 .main-text {
-    font-size: 15x;
+    font-size: 15px;
     font-weight:600;
 }
+
+@media screen and (max-width: 370px) {
+   .main-text {
+    font-size: 12px;
+    font-weight:600;
+	}
+}
+
 .set-icon {
     -webkit-border-radius: 50px;
 -moz-border-radius: 50px;
