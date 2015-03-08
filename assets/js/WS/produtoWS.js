@@ -198,7 +198,7 @@ function retornarItens(){
 	
 	$.ajax({
             type: 'POST'
-            , url: "http://192.168.56.1/Servidor/Item.asmx/retornarItem"
+            , url: "http://192.168.1.95/Servidor/Item.asmx/retornarItem"
 			, crossDomain:true
             , contentType: 'application/json; charset=utf-8'
             , dataType: 'json'
@@ -324,7 +324,9 @@ function listaEstilo(produto)
 		img.setAttribute("style","color: #ffb503;");
 		
 		nomeProduto.setAttribute("class","lista-pesquisa");		
-		nomeProduto.setAttribute("href","visualizar-itens.html");		
+			if(window.localStorage.pesquisarPrincipal == "pesquisar")
+			nomeProduto.setAttribute("href","visualizar-itens.html");
+		
 		nomeProduto.setAttribute("onclick","itemVisializar('"+produto.id_produto+"');");		
 		nomeProduto.innerHTML = produto.nome;
 		
@@ -372,6 +374,7 @@ function listaItens(produto)
 		
 		img.setAttribute("src","assets/img/setaFechada.png");
 		img.setAttribute("width","30px");
+		img.setAttribute("class","seta-listar-itens");
 		img.setAttribute("style","color: #ffb503;");
 		
 		nomeEstabelecimento.innerHTML = produto.nomeEstabelecimento;
@@ -408,4 +411,8 @@ function listaItens(produto)
 
 function itemVisializar(idProduto){
 	window.localStorage.itemVisializar = idProduto;
+}
+
+function pesquisarPrincipal(){
+	window.localStorage.pesquisarPrincipal = "pesquisar";
 }

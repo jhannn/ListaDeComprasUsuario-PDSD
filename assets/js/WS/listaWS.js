@@ -60,6 +60,7 @@ function retornarNomeLista(){
 
 //_____________________________________ RETORNAR LISTA _____________________________________//
 function retornarListas(){	
+	window.localStorage.flag = 0;
 	$.ajax({
         type: 'POST'
         , url: "http://192.168.1.95/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
@@ -481,7 +482,7 @@ function mostrarPesquisa(){
 function procurarProduto(){	
 	var nome = $("#nomeDoProduto").val().trim();
 	window.localStorage.ProdutoProcurado=nome;
-	window.localStorage.flag = 0;
+	localStorage.removeItem("pesquisarPrincipal");
 	window.location = "procurarProdutosLista.html";
 }
 

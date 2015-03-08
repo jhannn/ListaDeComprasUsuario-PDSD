@@ -202,6 +202,7 @@ function escolherListas(idEstabelecimento){
 
 //_________________ LISTA PRODUTOS PARA SER REALIZADO O CHECKIN _________________//
 function retornarProdutosCheckIn(){	
+	window.localStorage.flag = 1;
 	var idLista = window.localStorage.listaClicadaCheckin;							//pegando id da listaClicadaCheckin do localStorage
 	var idEstabelecimento =	window.localStorage.estabelecimentoClicadoCheckin; 		//pegando id do estabelecimentoClicadoCheckin do localStorage
 
@@ -466,7 +467,8 @@ function htmlListarListas(lista,idEstabelecimento){
 	pai.appendChild(inp);
 }
 
-function localStorageCheckin(idLista,idEstabelecimento){  						
+function localStorageCheckin(idLista,idEstabelecimento){  
+	window.localStorage.idListaClicada = idLista;
 	window.localStorage.listaClicadaCheckin = idLista;
 	window.localStorage.estabelecimentoClicadoCheckin = idEstabelecimento;
 }
@@ -536,7 +538,7 @@ function htmlListarProdutos(produtos)
 		
 		/*-- definindo tags filhos --*/
 		inp.setAttribute("id",produtos.id_produto);
-		inp.setAttribute("class", "alert alert-warning");
+		inp.setAttribute("class", "alerta alerta-warning");
 		inp.setAttribute("name", "produtos");
 		inp.setAttribute("role", "alert");
 		inp.appendChild(nomeProduto);	
