@@ -7,13 +7,52 @@ if(string == undefined){											//se string for indefinida
 }
 var produtosRecemAdicionado = string.split(",");					//converter string em array
 
+
+//______________________________ Finalizar Checkin _______________________________________// 
+function finalizarChekin(id_produto,nome,marca,id_estabelecimento,
+					  nomeEstabelecimento,preco,quantidade,unidade,
+					  embalagem,dataAtual,codigoDeBarras,tipoCodigoDeBarras){
+	
+    var jsonFinalizarCheckin = {
+        "id_produto": "-" + idProduto,
+        "nomeProduto": nome,
+        "marca": marca,
+        "id_estabelecimento": id_estabelecimento,	
+        "nomeEstabelecimento": nomeEstabelecimento,
+        "preco": precoFormatado,
+        "quantidade": quantidade,
+        "unidade": unidade,
+        "embalagem": embalagem,
+        "dataAtual": dataAtual,
+        "codigoDeBarras": codigoDeBarras,
+        "tipoCodigoDeBarras": tipoCodigoDeBarras
+    };
+	$.ajax({																					
+        type: 'POST'
+        , url: "http://localhost:52192/Servidor/Produto.asmx/autocompleteMarca"					
+		, crossDomain:true
+        , contentType: 'application/json; charset=utf-8'
+        , dataType: 'json'
+        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeMarca:'"+nomeMarca+"'}"		//passa os dados para o servidor
+		, success: function (data, status){                    
+			var marcas = $.parseJSON(data.d); 													//salva o retorno do servidor em marcas
+			$("#marcaDoProduto").autocomplete({ source: marcas }); 								//autoComplete 
+        }
+        , error: function (xmlHttpRequest, status, err) {										//erro no servidor
+            alert('Ocorreu um erro no servidor');												//alerta de erro
+        }
+    });	
+}
+
+
+
 //______________________________ AUTO COMPLETE MARCA _______________________________________// 
 function autoCompleteMarca(){
 	
 	var nomeMarca = $("#marcaDoProduto").val();													//salva valor do campo na variavel
 	$.ajax({																					//chama a função do servidor
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/Produto.asmx/autocompleteMarca"					
+        , url: "http://localhost:52192/Servidor/Produto.asmx/autocompleteMarca"					
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -33,7 +72,7 @@ function autoCompleteProduto(){
 	var nomeProduto = $("#nomeDoProduto").val();												//salva valor do campo na variavel
 	$.ajax({																					//chama a função do servidor
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/Produto.asmx/autocomplete"
+        , url: "http://localhost:52192/Servidor/Produto.asmx/autocomplete"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -113,7 +152,7 @@ var longitudeGeolocation = window.localStorage.lon;												//pegando longitu
 
 	$.ajax({																					//chamando função do servidor
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/listarEstabelecimento"		//url
+        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimento"		//url
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -165,7 +204,7 @@ var longitudeGeolocation = window.localStorage.lon;												//pegando longitu
 function escolherListas(idEstabelecimento){	
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/listarListas" //chamando a função
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'		
@@ -208,7 +247,7 @@ function retornarProdutosCheckIn(){
 
 	$.ajax({																		//chamando servidor
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/ListaDeProdutos.asmx/retornarItens" //url
+        , url: "http://localhost:52192/Servidor/ListaDeProdutos.asmx/retornarItens" //url
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -520,7 +559,41 @@ function htmlListarProdutos(produtos)
 		checkbox.setAttribute("id",produtos.id_produto);
 		checkbox.setAttribute("onclick","guardarItens('"+id_produto+"','"+nome+"','"+marca+"','"+id_estabelecimento+"','"+
 														nomeEstabelecimento+"','"+precoProd+"','"+quantidade+"','"+unidade+"','"+
-														embalagem+"','"+dataAtual+"','"+codigoDeBarras+"','"+tipoCodigoDeBarras+"')");
+														embalagem + "','" + dataAtual + "','" + codigoDeBarras + "','" + tipoCodigoDeBarras + "')");
+
+        //Para finalizar checkin
+		$("#finalizarCheckin").click(function () {
+
+		    var jsonFinalizarCheckin = {
+		        "idProduto": "-" + idProduto,
+		        "nome": nome,
+		        "marca": marca,
+		        "codigoDeBarras": codigoDeBarras,
+		        "tipoCodigoDeBarras": tipoCodigoDeBarras,
+		        "embalagem": embalagem,
+		        "unidade": unidade,
+		        "quantidade": quantidade,
+		        "preco": precoProd
+		    };
+
+		    $.ajax({
+		        type: 'POST'
+                , url: "http://localhost:52192/Servidor/ListaDeItens.asmx/finalizarCheckin"
+                , crossDomain: true
+                , contentType: 'application/json; charset=utf-8'
+                , dataType: 'json'
+                , data: jsonFinalizarCheckin		//passa os dados para o servidor
+                , success: function (data, status) {
+                    var marcas = $.parseJSON(data.d); 													//salva o retorno do servidor em marcas
+                    $("#marcaDoProduto").autocomplete({ source: marcas }); 								//autoComplete 
+                }
+                , error: function (xmlHttpRequest, status, err) {										//erro no servidor
+                    alert('Ocorreu um erro no servidor');												//alerta de erro
+                }
+		    });
+
+		});
+
 		checkbox.setAttribute("value",produtos.nome);
 		checkbox.setAttribute("type","checkbox");
 		checkbox.setAttribute("name","produtos");

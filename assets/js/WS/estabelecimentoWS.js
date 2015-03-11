@@ -26,7 +26,7 @@ function cadastrarEstabelecimento(){
 			if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
 				$.ajax({
 					type: 'POST'
-					, url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/cadastrarEstabelecimento"
+					, url: "http://localhost:52192/Servidor/Estabelecimento.asmx/cadastrarEstabelecimento"
 					, crossDomain:true
 					, contentType: 'application/json; charset=utf-8'
 					, dataType: 'json'
@@ -60,7 +60,7 @@ function listarEstabelecimento(){
 
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/listarEstabelecimento"
+        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/listarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -94,7 +94,7 @@ function editarEstabelecimento(){
 		if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
 			$.ajax({
 				type: 'POST'
-				, url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/editarEstabelecimento"
+				, url: "http://localhost:52192/Servidor/Estabelecimento.asmx/editarEstabelecimento"
 				, crossDomain:true
 				, contentType: 'application/json; charset=utf-8'
 				, dataType: 'json'
@@ -132,7 +132,7 @@ function autoCompleteEstabelecimento(){
 	var nomeEstabelecimento = $("#nomeEstabelecimento").val();
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/autoCompleteEstabelecimento"
+        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/autoCompleteEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -158,7 +158,7 @@ function visualizarEstabelecimento(){
 	window.localStorage.idEstabelecimentoClicado= idEstabelecimento;
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/visualizarEstabelecimento"
+        , url: "http://localhost:52192/Servidor/Estabelecimento.asmx/visualizarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
