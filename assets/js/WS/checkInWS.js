@@ -7,45 +7,6 @@ if(string == undefined){											//se string for indefinida
 }
 var produtosRecemAdicionado = string.split(",");					//converter string em array
 
-
-//______________________________ Finalizar Checkin _______________________________________// 
-function finalizarChekin(id_produto,nome,marca,id_estabelecimento,
-					  nomeEstabelecimento,preco,quantidade,unidade,
-					  embalagem,dataAtual,codigoDeBarras,tipoCodigoDeBarras){
-	
-    var jsonFinalizarCheckin = {
-        "id_produto": "-" + idProduto,
-        "nomeProduto": nome,
-        "marca": marca,
-        "id_estabelecimento": id_estabelecimento,	
-        "nomeEstabelecimento": nomeEstabelecimento,
-        "preco": precoFormatado,
-        "quantidade": quantidade,
-        "unidade": unidade,
-        "embalagem": embalagem,
-        "dataAtual": dataAtual,
-        "codigoDeBarras": codigoDeBarras,
-        "tipoCodigoDeBarras": tipoCodigoDeBarras
-    };
-	$.ajax({																					
-        type: 'POST'
-        , url: "http://localhost:52192/Servidor/Produto.asmx/autocompleteMarca"					
-		, crossDomain:true
-        , contentType: 'application/json; charset=utf-8'
-        , dataType: 'json'
-        , data: "{idUsuario:'"+ID_USUARIO+"',token:'"+TOKEN+"',nomeMarca:'"+nomeMarca+"'}"		//passa os dados para o servidor
-		, success: function (data, status){                    
-			var marcas = $.parseJSON(data.d); 													//salva o retorno do servidor em marcas
-			$("#marcaDoProduto").autocomplete({ source: marcas }); 								//autoComplete 
-        }
-        , error: function (xmlHttpRequest, status, err) {										//erro no servidor
-            alert('Ocorreu um erro no servidor');												//alerta de erro
-        }
-    });	
-}
-
-
-
 //______________________________ AUTO COMPLETE MARCA _______________________________________// 
 function autoCompleteMarca(){
 	
@@ -562,27 +523,42 @@ function htmlListarProdutos(produtos)
 														embalagem + "','" + dataAtual + "','" + codigoDeBarras + "','" + tipoCodigoDeBarras + "')");
 
         //Para finalizar checkin
-		$("#finalizarCheckin").click(function () {
-
-		    var jsonFinalizarCheckin = {
-		        "idProduto": "-" + idProduto,
-		        "nome": nome,
-		        "marca": marca,
-		        "codigoDeBarras": codigoDeBarras,
-		        "tipoCodigoDeBarras": tipoCodigoDeBarras,
-		        "embalagem": embalagem,
-		        "unidade": unidade,
-		        "quantidade": quantidade,
-		        "preco": precoProd
-		    };
-
+	$("#finalizarCheckin").click(function () {
+		var idUsuario = window.localStorage.UsuarioId;
+		var token = window.localStorage.UsuarioToken;
+		if(typeof(idUsuario)===undefined || typeof(idUsuario)!=='string' || typeof(token)===undefined || typeof(token)!=='string'){
+			idUsuario=-1;
+			token='';
+		}
+	var jsonFinalizarCheckin = {
+		"idEstabelecimento":1,
+		"dataDeCompras": '1425524400000',
+		"idUsuario":1,
+		"itensComprados": [
+			{
+				"id_produto": "-" + idProduto,
+				"nomeProduto": nome,
+				"marca": marca,
+				"id_estabelecimento": id_estabelecimento,	
+				"nomeEstabelecimento": nomeEstabelecimento,
+				"preco": precoProd,
+				"quantidade": quantidade,
+				"unidade": unidade,
+				"embalagem": embalagem,
+				"codigoDeBarras": codigoDeBarras,
+				"tipoCodigoDeBarras": tipoCodigoDeBarras
+			}
+		]
+	}
+	console.log(JSON.stringify(jsonFinalizarCheckin));
 		    $.ajax({
 		        type: 'POST'
                 , url: "http://localhost:52192/Servidor/ListaDeItens.asmx/finalizarCheckin"
                 , crossDomain: true
                 , contentType: 'application/json; charset=utf-8'
                 , dataType: 'json'
-                , data: jsonFinalizarCheckin		//passa os dados para o servidor
+                //, data: "{idEstabelecimento:'"+1+"', dataDeCompras:'"+data+"',idUsuario:'"+1+"',itensComprados:[{id_produto:-'"+idProduto+"', nomeDoProduto:'"+nome+"',marca:'"+marca+"',idEstabelecimento:'"+id_estabelecimento+"',preco:'"+precoProd+"',quantidade:'"+quantidade+"',unidade:'"+unidade+"',embalagem:'"+embalagem+"}',codigoDeBarras:'"+codigoDeBarras+"',tipoCodigoDeBarras:'"+tipoCodigoDeBarras+"']"
+				, data: JSON.stringify(jsonFinalizarCheckin)
                 , success: function (data, status) {
                     var marcas = $.parseJSON(data.d); 													//salva o retorno do servidor em marcas
                     $("#marcaDoProduto").autocomplete({ source: marcas }); 								//autoComplete 
