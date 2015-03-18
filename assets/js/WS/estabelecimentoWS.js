@@ -26,7 +26,7 @@ function cadastrarEstabelecimento(){
 			if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
 				$.ajax({
 					type: 'POST'
-					, url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/cadastrarEstabelecimento"
+					, url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/cadastrarEstabelecimento"
 					, crossDomain:true
 					, contentType: 'application/json; charset=utf-8'
 					, dataType: 'json'
@@ -60,7 +60,7 @@ function listarEstabelecimento(){
 
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/listarEstabelecimento"
+        , url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/listarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -94,7 +94,7 @@ function editarEstabelecimento(){
 		if (nomeEstabelecimento != '' || bairroEstabelecimento!= '' || cidadeEstabelecimento!= '' || unidadeEstabelecimento!= ''){ 	
 			$.ajax({
 				type: 'POST'
-				, url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/editarEstabelecimento"
+				, url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/editarEstabelecimento"
 				, crossDomain:true
 				, contentType: 'application/json; charset=utf-8'
 				, dataType: 'json'
@@ -132,7 +132,7 @@ function autoCompleteEstabelecimento(){
 	var nomeEstabelecimento = $("#nomeEstabelecimento").val();
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/autoCompleteEstabelecimento"
+        , url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/autoCompleteEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -158,7 +158,7 @@ function visualizarEstabelecimento(){
 	window.localStorage.idEstabelecimentoClicado= idEstabelecimento;
 	$.ajax({
         type: 'POST'
-        , url: "http://192.168.1.95/Servidor/Estabelecimento.asmx/visualizarEstabelecimento"
+        , url: "http://192.168.56.1/Servidor/Estabelecimento.asmx/visualizarEstabelecimento"
 		, crossDomain:true
         , contentType: 'application/json; charset=utf-8'
         , dataType: 'json'
@@ -182,106 +182,6 @@ function visualizarEstabelecimento(){
     });
 }
 
-/*==============================================
-    GENERAL HTML AND STYLES    
-    =============================================*/
-/*listar estabelecimentos*/	
-function htmlListarEstabelecimentos(estabelecimentos){
-	if(estabelecimentos != undefined){
-		var divPrincipal = document.createElement("div");
-		var divRole = document.createElement("div");
-		var h4 = document.createElement("h4");
-		var a = document.createElement("a");
-		var img = document.createElement("img");
-		var nomeEstab = document.createElement('a');
-		var pCidade = document.createElement('p');
-		var pBairro = document.createElement('p');
-		var pUnidade = document.createElement('p');
-		var iconEdit = document.createElement('div');
-		var imgMap = document.createElement('img');
-		var modal = document.createElement("div");
-		var conteudo = document.createElement("div");
-
-		//--estilos--
-		divPrincipal.setAttribute("class","panel panel-default");
-		divPrincipal.setAttribute("id","divEstab"+estabelecimentos.id_estabelecimento);
-		divPrincipal.setAttribute("name", "estabelecimentos");
-		divPrincipal.setAttribute("role", "alert");
-
-		divRole.setAttribute("class","panel-heading");
-		h4.setAttribute("class","panel-title");
-		a.setAttribute("style","color: #ffb503;");
-		
-		/* icone seta */					
-		img.setAttribute("src","assets/img/setaFechada.png");
-		img.setAttribute("width","30px");
-		img.setAttribute("class","seta-estabe");
-		img.setAttribute("id","seta"+estabelecimentos.id_estabelecimento);
-		img.setAttribute("style","color: #ffb503;");
-
-		/* icone de editar */
-		iconEdit.setAttribute("class", "iconEdit");
-		iconEdit.setAttribute("onclick", "estabelecimentoClicadoId('"+estabelecimentos.id_estabelecimento+"')");
-		iconEdit.setAttribute("data-target", "#editar_estabelecimento");
-		iconEdit.setAttribute("data-toggle", "modal");
-
-		/* tag do nome */
-		nomeEstab.setAttribute('href',"visualizar-estabelecimento.html?id="+estabelecimentos.id_estabelecimento);
-		nomeEstab.setAttribute('class',"titulos");
-		nomeEstab.innerHTML = estabelecimentos.nome;
-
-		/* icone do google maps */
-		imgMap.setAttribute("src","assets/img/icone-mapa.png");
-		imgMap.setAttribute("class","icone-mapa");		
-		imgMap.setAttribute("onclick","googleMaps('"+estabelecimentos.latitude+"','"+estabelecimentos.longitude+"')");
-
-		/* modal */
-		modal.setAttribute("id",estabelecimentos.id_estabelecimento);
-		modal.setAttribute("class","modal-fechado");
-		conteudo.innerHTML = "<p class='conteudo-estab'>Cidade:</p> " + "<p class='informacao-modal'>"+estabelecimentos.cidade+"</p>" +
-							 "<p class='conteudo-estab'>Bairro:</p> " + "<p class='informacao-modal'> "+estabelecimentos.bairro+"</p>" +
-							 "<p class='conteudo-estab'>Unidade:</p>" + "<p class='informacao-modal'> "+estabelecimentos.numero+"</p>";
-
-		divPrincipal.appendChild(divRole);
-		divPrincipal.appendChild(h4);
-		divPrincipal.appendChild(a);
-		divPrincipal.appendChild(img);
-		divRole.appendChild(h4);
-		h4.appendChild(a);
-		h4.appendChild(iconEdit);
-		h4.appendChild(imgMap)
-		h4.appendChild(nomeEstab);
-		a.appendChild(img);
-		divPrincipal.appendChild(modal);
-		modal.appendChild(conteudo);
-	}	
-	var pai = document.getElementById("nomeEstabelecimento");
-	pai.appendChild(divPrincipal);	
-	img.setAttribute("onclick","controleModalEstab("+estabelecimentos.id_estabelecimento+")");
-}
-
-//______________________ CONTROLE MODAL __________________________//
-var aberto = "nao";
-var idAberto = "0";
-function controleModalEstab(idModal)
-{
-	if(aberto == "nao" && idAberto==0){ //abra modal
-		document.getElementById(idModal).className = "modal-aberto";
-		document.getElementById("seta"+idModal).src = "assets/img/setaAberta.png";
-		aberto="sim";
-		idAberto = idModal;
-		return;
-	}
-	
-	if(aberto == "sim" && idAberto==idModal){//feche modal
-		document.getElementById(idModal).className = "modal-fechado";
-		document.getElementById("seta"+idModal).src = "assets/img/setaFechada.png";
-		aberto="nao";
-		idAberto="0";
-		return;
-	}
-}
-
 function googleMaps(latitude,longitude){
 	if(latitude == 0 && longitude == 0){
 		alert("Estabelecimento nao possui localizacao cadastrada!");
@@ -292,3 +192,29 @@ function googleMaps(latitude,longitude){
 	}
 }
 
+
+/*==============================================
+    GENERAL HTML AND STYLES    
+    =============================================*/
+/*listar estabelecimentos*/	
+function htmlListarEstabelecimentos(estabelecimentos){
+	
+	var conteudo = document.createElement("div");
+	
+	conteudo.innerHTML =	
+		"<div class='panel panel-default' id='divEstab"+estabelecimentos.id_estabelecimento+"' name='estabelecimentos' role='alert'>"
+	+		"<div class='panel-heading'>" 
+	+			"<h4 class='panel-title'>" 
+	+				"<a style='color: #ffb503;'>"
+	+					"<img src='assets/img/setaFechada.png' width='30px' id='seta"+estabelecimentos.id_estabelecimento+"' style='color: #ffb503;'>"
+	+				"</a>"
+	+				"<div class='iconEdit' onclick='estabelecimentoClicadoId("+estabelecimentos.id_estabelecimento+")' data-target='#editar_estabelecimento' data-toggle='modal'></div>"
+	+				"<img src='assets/img/icone-mapa.png' class='icone-mapa' onclick='googleMaps("+estabelecimentos.latitude+","+estabelecimentos.longitude+")'>"
+	+				"<a href='visualizar-estabelecimento.html?id="+estabelecimentos.id_estabelecimento+"' class='titulos'>"+estabelecimentos.nome+"</a>"
+	+			"</h4>"
+	+ 		"</div>"
+	+	"</div>";
+	
+	var pai = document.getElementById("nomeEstabelecimento");
+	pai.appendChild(conteudo);
+}
